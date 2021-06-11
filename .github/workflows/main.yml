@@ -3,9 +3,9 @@ name: Tests wrappers
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
-    branches_ignore: []
+    branches-ignore: []
   schedule:
     - cron: '0 0 * * 0'
 
