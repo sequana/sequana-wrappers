@@ -93,3 +93,17 @@ def run(wrapper, cmd, check_log=None):
             )
             # go back to original directory
             os.chdir(origdir)
+
+
+@skip_if_not_modified
+def test_canu():
+    run(
+        "wrappers/canu",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F"
+        ]
+    )
