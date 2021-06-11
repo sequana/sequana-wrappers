@@ -1,0 +1,11 @@
+rule canu:
+    input:
+        "ccs.fq"
+    output:
+        "canu/css.contigs.fasta"
+    params:
+        genome_size = "1000",
+        options= "maxMemory=6G corThreads=2 corMemory=6G redMemory=6G oeaMemory=6G"
+    threads: 2
+    wrapper:
+        "main/wrappers/canu"
