@@ -18,6 +18,8 @@ suffix_dict = {
 options = snakemake.params.get('options', '')
 use_grid = snakemake.params.get('use_grid', False)
 step = snakemake.params.get('step', '')
+# canu keeps maxThreads even with use_grid=True ( ͠° ͟ʖ ͡°)
+max_threads = "" if use_grid else f"maxThreads={snakemake.threads}"
 
 # Get directory name
 output_file = snakemake.output[0]
@@ -35,7 +37,7 @@ shell(
     f" -p {prefix}"
     f" -d {output_dir}"
     " genomeSize={snakemake.params.genome_size}"
-    " maxThreads={snakemake.threads}"
+    f" {max_threads}"
     f" useGrid={use_grid}"
     f" {options}"
     f" onSuccess='touch canu{step}.done'"
