@@ -1,11 +1,44 @@
 rule canu:
     input:
+        "canu/css.contigs.fasta"
+
+rule canu_correction:
+    input:
         "ccs.fq"
     output:
-        "canu/css.contigs.fasta"
+        reads = "canu/ccs.correctedReads.fasta.gz",
+        done = "canu/canu-correct.done"
     params:
+        step = "-correct",
         genome_size = "1000",
         options= "maxMemory=6G corThreads=2 corMemory=6G redMemory=6G oeaMemory=6G"
+    threads: 2
+    wrapper:
+        "main/wrappers/canu"
+        
+rule canu_trim:
+    input:
+        "canu/ccs.correctedReads.fasta.gz"
+    output:
+        reads = "canu/ccs.trimmedReads.fasta.gz",
+        done = "canu/canu-trim.done"
+    params:
+        step = "-trim",
+        genome_size = "1000",
+        options= "-corrected maxMemory=6G corThreads=2 corMemory=6G redMemory=6G oeaMemory=6G"
+    threads: 2
+    wrapper:
+        "main/wrappers/canu"
+
+rule canu_assembly:
+    input:
+        "canu/ccs.trimmedReads.fasta.gz"
+    output:
+        contig = "canu/css.contigs.fasta",
+        done = "canu/canu.done"
+    params:
+        genome_size = "1000",
+        options= "-trimmed -corrected maxMemory=6G corThreads=2 corMemory=6G redMemory=6G oeaMemory=6G"
     threads: 2
     wrapper:
         "main/wrappers/canu"
