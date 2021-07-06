@@ -1,0 +1,14 @@
+rule run_busco:
+    input:
+        "transcripts.fasta"
+    output:
+        directory("txome_busco")
+    log:
+        "logs/quality/transcriptome_busco.log"
+    threads: 2
+    params:
+        mode="transcriptome",
+        lineage="stramenopiles_odb10",
+        downloads_path="resources/busco_downloads"
+    wrapper:
+        "main/wrappers/busco"
