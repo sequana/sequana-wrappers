@@ -33,15 +33,15 @@ shell(f"rm -f {output_dir}/canu{step}.done {output_dir}/canu{step}.failed")
 
 # run canu
 shell(
-    f"canu {step}"
-    f" -p {prefix}"
-    f" -d {output_dir}"
+    "canu {step}"
+    " -p {prefix}"
+    " -d {output_dir}"
     " genomeSize={snakemake.params.genome_size}"
-    f" {max_threads}"
-    f" useGrid={use_grid}"
-    f" {options}"
-    f" onSuccess='touch canu{step}.done'"
-    f" onFailure='touch canu{step}.failed'"
+    " {max_threads}"
+    " useGrid={use_grid}"
+    " {options}"
+    " onSuccess='touch canu{step}.done'"
+    " onFailure='touch canu{step}.failed'"
     " -pacbio {snakemake.input[0]}"
 )
 

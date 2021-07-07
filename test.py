@@ -107,3 +107,18 @@ def test_canu():
             "-F"
         ]
     )
+
+
+@skip_if_not_modified
+def test_busco():
+    run(
+        "wrappers/busco",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "txome_busco",
+            "--use-conda",
+            "-F",
+        ],
+    )
