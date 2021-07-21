@@ -3,6 +3,7 @@ __copyright__ = "Copyright 2021, Sequana Team"
 __email__ = "thomas.cokelaer@pasteur.fr"
 __license__ = "BSD-3"
 
+import os
 
 from snakemake.shell import shell
 
@@ -25,11 +26,17 @@ log = snakemake.log[0]
 
 # Note that if the input file is empty, fastqc creates a HTML file
 
-# ( ͠° ͟ʖ ͡°) isinstance
-if isinstance(input_fastq, str):
+# ( ͠° ͟ʖ ͡°) isinstance replaced by hasattr
+if hasattr(a, 'capitalize'): # this is a string
     input_fastq = [input_fastq]
+elif hasattr(a, 'append'): # this is a list
+    pass
 else:
-    input_fastq = input_fastq
+    raise Exception("input fastq must be a list of filenames or a filename")
+
+for fastq_file in input_fastq:
+    if os.path.exists(fastq_file) is False:
+        raise IOError(f"{fastq_file} does not exists. Please check your input files")
 
 for fastq_file in input_fastq:
     if fastq_file.endswith((".bam", "sam")):
