@@ -1,14 +1,34 @@
 
-rule fastqc:
+rule all:
+    input: 
+        "fastqc_SE/fastqc.done", "fastqc_PE/fastqc.done"
+
+rule fastqc_PE:
     input:
         "test_R1_.fastq", "test_R2_.fastq"
     output:
-        done = touch("fastqc/fastqc.done")
+        done = touch("fastqc_PE/fastqc.done")
     params:
-        wkdir = "fastqc",
+        wkdir = "fastqc_PE",
         kargs= " -nogroup "
     threads: 4
     log:
-        "fastqc/fastqc.log"
+        "fastqc_PE/fastqc.log"
     wrapper:
         "main/wrappers/fastqc"
+
+rule fastqc_SE:
+    input:
+        "test_R1_.fastq"
+    output:
+        done = touch("fastqc_SE/fastqc.done")
+    params:
+        wkdir = "fastqc_SE",
+        kargs= " -nogroup "
+    threads: 4
+    log:
+        "fastqc_SE/fastqc.log"
+    wrapper:
+        "main/wrappers/fastqc"
+
+
