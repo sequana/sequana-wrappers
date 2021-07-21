@@ -1,0 +1,14 @@
+
+rule fastqc:
+    input:
+        "test_R1_.fastq", "test_R2_.fastq"
+    output:
+        done = touch("fastqc/fastqc.done")
+    params:
+        wkdir = "fastqc",
+        kargs= " -nogroup "
+    threads: 4
+    log:
+        "fastqc/fastqc.log"
+    wrapper:
+        "main/wrappers/fastqc"
