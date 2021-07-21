@@ -14,7 +14,7 @@ rule fastqc_PE:
     log:
         "fastqc_PE/fastqc.log"
     wrapper:
-        "fastqc/wrappers/fastqc"
+        "main/wrappers/fastqc"
 
 rule fastqc_SE:
     input:
@@ -27,6 +27,6 @@ rule fastqc_SE:
     log:
         "fastqc_SE/fastqc.log"
     wrapper:
-        "fastqc/wrappers/fastqc"
+        "main/wrappers/fastqc"
 
 
