@@ -27,9 +27,9 @@ log = snakemake.log[0]
 # Note that if the input file is empty, fastqc creates a HTML file
 
 # ( ͠° ͟ʖ ͡°) isinstance replaced by hasattr
-if hasattr(a, 'capitalize'): # this is a string
+if hasattr(input_fastq, 'capitalize'): # this is a string
     input_fastq = [input_fastq]
-elif hasattr(a, 'append'): # this is a list
+elif hasattr(input_fastq, 'append'): # this is a list
     pass
 else:
     raise Exception("input fastq must be a list of filenames or a filename")
