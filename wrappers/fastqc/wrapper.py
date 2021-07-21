@@ -3,6 +3,7 @@ __copyright__ = "Copyright 2021, Sequana Team"
 __email__ = "thomas.cokelaer@pasteur.fr"
 __license__ = "BSD-3"
 
+
 from snakemake.shell import shell
 
 
@@ -11,9 +12,10 @@ input_fastq = snakemake.input
 params = snakemake.params
 log = snakemake.log[0]
 
-# if the content of the file is empty, this will fail. We need to
-# touch  a file in such case. 
-newinput = []
+# Note that if the input file is empty, fastqc will fail. 
+# We need to touch  a file in such case and your Snakefile
+# should define as output a "done" file.
+
 if isinstance(input_fastq, str):
     input_fastq = [input_fastq]
 else:
@@ -29,14 +31,4 @@ if len(input_fastq) != 0:
             shell(
                 " fastqc -t {snakemake.threads} --outdir {params.wkdir} -f fastq "
                 " {input_fastq} {params.kargs} &> {log}")
-
-
-
-
-
-
-
-
-
-
 
