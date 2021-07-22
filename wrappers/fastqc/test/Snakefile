@@ -1,0 +1,32 @@
+
+rule all:
+    input: 
+        "fastqc_SE/fastqc.done", "fastqc_PE/fastqc.done"
+
+rule fastqc_PE:
+    input:
+        "test_R1_.fastq", "test_R2_.fastq"
+    output:
+        done = "fastqc_PE/fastqc.done"
+    params:
+        options= " -nogroup "
+    threads: 2
+    log:
+        "fastqc_PE/fastqc.log"
+    wrapper:
+        "main/wrappers/fastqc"
+
+rule fastqc_SE:
+    input:
+        "test_R1_.fastq"
+    output:
+        done = "fastqc_SE/fastqc.done"
+    params:
+        options= " -nogroup "
+    threads: 2
+    log:
+        "fastqc_SE/fastqc.log"
+    wrapper:
+        "main/wrappers/fastqc"
+
+
