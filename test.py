@@ -131,7 +131,7 @@ def test_fastqc():
         [
             "snakemake",
             "--cores",
-            "4",
+            "2",
             "--use-conda",
             "-F",
         ],
