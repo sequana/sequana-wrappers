@@ -122,3 +122,17 @@ def test_busco():
             "-F",
         ],
     )
+
+
+@skip_if_not_modified
+def test_fastqc():
+    run(
+        "wrappers/fastqc",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F",
+        ],
+    )
