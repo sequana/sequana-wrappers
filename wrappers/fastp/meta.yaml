@@ -14,5 +14,5 @@ output:
   - html file containing trimming statistics
 notes: |
   * The `adapters` param allows to specify adapter sequences
-  * The `extra` param allows for additional program arguments.
+  * The `option` param allows for additional program arguments.
   * For more inforamtion see, https://github.com/OpenGene/fastp

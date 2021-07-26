@@ -7,7 +7,7 @@ rule bowtie2:
         "logs/bowtie2/{sample}.log"
     params:
         index="index/genome",  # prefix of reference genome index (built with bowtie2-build)
-        extra=""  # optional parameters
+        option=""  # optional parameters
     threads: 8  # Use at least two threads
     wrapper:
         "main/wrappers/bowtie2/align"

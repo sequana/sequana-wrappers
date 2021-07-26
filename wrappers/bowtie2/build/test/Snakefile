@@ -9,7 +9,7 @@ rule bowtie2_build:
     log:
         "logs/bowtie2_build/build.log"
     params:
-        extra=""  # optional parameters
+        option=""  # optional parameters
     threads: 8
     wrapper:
         "main/wrappers/bowtie2/build"

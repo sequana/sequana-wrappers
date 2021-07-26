@@ -6,7 +6,7 @@ __license__ = "MIT"
 from snakemake.shell import shell
 import re
 
-extra = snakemake.params.get("extra", "")
+option = snakemake.params.get("option", "")
 adapters = snakemake.params.get("adapters", "")
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
@@ -48,9 +48,9 @@ if trimmed_paths:
         # Output merged PE reads
         merged = snakemake.output.get("merged", None)
         if merged:
-            if not re.search(r"--merge\b", extra):
+            if not re.search(r"--merge\b", option):
                 raise ValueError(
-                    "output.merged specified but '--merge' option missing from params.extra"
+                    "output.merged specified but '--merge' option missing from params.option"
                 )
             trimmed += f" --merged_out {merged}"
 else:
@@ -70,7 +70,7 @@ json = "--json {}".format(snakemake.output.json)
 
 shell(
     "(fastp --thread {snakemake.threads} "
-    "{extra} "
+    "{option} "
     "{adapters} "
     "{reads} "
     "{trimmed} "

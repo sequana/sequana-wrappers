@@ -19,7 +19,7 @@ shell(
     "{blast_type}"
     " -query {snakemake.input.query}"
     " {out_format}"
-    " {snakemake.params.extra}"
+    " {snakemake.params.option}"
     " -db {blastdb}"
     " -num_threads {snakemake.threads}"
     " -out {snakemake.output[0]} {log}"

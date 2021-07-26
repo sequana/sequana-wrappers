@@ -8,7 +8,7 @@ __license__ = "MIT"
 from os import path
 from snakemake.shell import shell
 
-extra = snakemake.params.get("extra", "")
+option = snakemake.params.get("option", "")
 
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
@@ -29,4 +29,4 @@ if input_fasta.endswith("gz"):
 else:
     input_fa = input_fasta
 
-shell("TransDecoder.LongOrfs -t {input_fa} -O {output_dir} {gtm_cmd} {log}")
+shell("TransDecoder.LongOrfs -t {input_fa} -O {output_dir} {gtm_cmd} {option} {log}")

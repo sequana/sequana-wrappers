@@ -6,7 +6,7 @@ __license__ = "MIT"
 
 from snakemake.shell import shell
 
-extra = snakemake.params.get("extra", "")
+option = snakemake.params.get("option", "")
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 n = len(snakemake.input.sample)
@@ -20,7 +20,7 @@ else:
     reads = "-1 {} -2 {}".format(*snakemake.input.sample)
 
 shell(
-    "(bowtie2 --threads {snakemake.threads} {extra} "
+    "(bowtie2 --threads {snakemake.threads} {option} "
     "-x {snakemake.params.index} {reads} "
     "| samtools view -Sbh -o {snakemake.output[0]} -) {log}"
 )

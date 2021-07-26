@@ -7,6 +7,6 @@ rule transdecoder_longorfs:
     log:
         "logs/transdecoder/test-longorfs.log"
     params:
-        extra=""
+        option=""
     wrapper:
         "main/wrappers/transdecoder/longorfs"

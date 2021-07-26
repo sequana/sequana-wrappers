@@ -8,7 +8,7 @@ __license__ = "MIT"
 from os import path
 from snakemake.shell import shell
 
-extra = snakemake.params.get("extra", "")
+option = snakemake.params.get("option", "")
 # Previous wrapper reserved 10 Gigabytes by default. This behaviour is
 # preserved below:
 max_memory = "10G"
@@ -72,6 +72,6 @@ log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 shell(
     "Trinity {input_cmd} --CPU {snakemake.threads} "
     " --max_memory {max_memory} --seqType {seqtype} "
-    " --output {outdir} {snakemake.params.extra} "
+    " --output {outdir} {snakemake.params.option} "
     " {log}"
 )
