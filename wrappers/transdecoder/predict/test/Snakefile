@@ -15,4 +15,4 @@ rule transdecoder_predict:
     params:
         extra=""
     wrapper:
-        "master/bio/transdecoder/predict"
+        "main/wrappers/transdecoder/predict"

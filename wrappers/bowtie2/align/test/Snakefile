@@ -10,4 +10,4 @@ rule bowtie2:
         extra=""  # optional parameters
     threads: 8  # Use at least two threads
     wrapper:
-        "master/bio/bowtie2/align"
+        "main/wrappers/bowtie2/align"

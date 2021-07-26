@@ -16,7 +16,7 @@ rule blast_makedatabase_nucleotide:
     params:
         "-input_type fasta -blastdb_version 5 -parse_seqids"
     wrapper:
-        "master/bio/blast/makeblastdb"
+        "main/wrappers/blast/makeblastdb"
 
 rule blast_makedatabase_protein:
     input:
@@ -36,4 +36,4 @@ rule blast_makedatabase_protein:
     params:
         "-input_type fasta -blastdb_version 5"
     wrapper:
-        "master/bio/blast/makeblastdb"
+        "main/wrappers/blast/makeblastdb"

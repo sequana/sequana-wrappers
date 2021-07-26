@@ -9,4 +9,4 @@ rule transdecoder_longorfs:
     params:
         extra=""
     wrapper:
-        "master/bio/transdecoder/longorfs"
+        "main/wrappers/transdecoder/longorfs"

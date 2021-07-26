@@ -8,4 +8,4 @@ rule multiqc:
     log:
         "logs/multiqc.log"
     wrapper:
-        "master/bio/multiqc"
+        "main/wrappers/multiqc"

@@ -24,7 +24,7 @@ shell("rm -rf {output_dir}")
 
 input_fasta = str(snakemake.input.fasta)
 if input_fasta.endswith("gz"):
-    input_fa = input_fasta.rsplit(".gz")[0]
+    input_fa = input_fasta.rstrip(".gz")
     shell("gunzip -c {input_fasta} > {input_fa}")
 else:
     input_fa = input_fasta
