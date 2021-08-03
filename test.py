@@ -52,7 +52,9 @@ def run(wrapper, cmd, check_log=None):
         assert success, "No wrapper script found for {}".format(wrapper)
         copy(wrapper, "environment.yaml")
 
-        if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(f.startswith(wrapper) for f in DIFF_FILES):
+        if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(
+            f.startswith(wrapper) for f in DIFF_FILES
+        ):
             raise Skipped("wrappers not modified")
 
         # copy wrapper test and run it
@@ -97,16 +99,7 @@ def run(wrapper, cmd, check_log=None):
 
 @skip_if_not_modified
 def test_canu():
-    run(
-        "wrappers/canu",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F"
-        ]
-    )
+    run("wrappers/canu", ["snakemake", "--cores", "2", "--use-conda", "-F"])
 
 
 @skip_if_not_modified
@@ -132,6 +125,161 @@ def test_fastqc():
             "snakemake",
             "--cores",
             "2",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_fastp_pe():
+    run(
+        "wrappers/fastp",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "trimmed/pe/a.1.fastq",
+            "trimmed/pe/a.2.fastq",
+            "report/pe/a.html",
+            "report/pe/a.json",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_fastp_pe_wo_trimming():
+    run(
+        "wrappers/fastp",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "report/pe_wo_trimming/a.html",
+            "report/pe_wo_trimming/a.json",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_fastp_se():
+    run(
+        "wrappers/fastp",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "trimmed/se/a.fastq",
+            "report/se/a.html",
+            "report/se/a.json",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_bowtie2_align():
+    run(
+        "wrappers/bowtie2/align",
+        ["snakemake", "--cores", "1", "mapped/a.bam", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_bowtie2_build():
+    run(
+        "wrappers/bowtie2/build",
+        ["snakemake", "--cores", "1", "genome.1.bt2", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_blast_makeblastdb_nucleotide():
+    run(
+        "wrappers/blast/makeblastdb",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "results/genome.fasta.ndb",
+            "results/genome.fasta.nhr",
+            "results/genome.fasta.nin",
+            "results/genome.fasta.not",
+            "results/genome.fasta.nsq",
+            "results/genome.fasta.ntf",
+            "results/genome.fasta.nto",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_blast_makeblastdb_protein():
+    run(
+        "wrappers/blast/makeblastdb",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "results/protein.fasta.pdb",
+            "results/protein.fasta.phr",
+            "results/protein.fasta.pin",
+            "results/protein.fasta.pot",
+            "results/protein.fasta.psq",
+            "results/protein.fasta.ptf",
+            "results/protein.fasta.pto",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_multiqc():
+    run(
+        "wrappers/multiqc",
+        ["snakemake", "--cores", "1", "qc/multiqc.html", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_transdecoder_longorfs():
+    run(
+        "wrappers/transdecoder/longorfs",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "test.fa.transdecoder_dir/longest_orfs.pep",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
+def test_transdecoder_predict():
+    run(
+        "wrappers/transdecoder/predict",
+        ["snakemake", "--cores", "1", "test.fa.transdecoder.gff3", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_trinity():
+    run(
+        "wrappers/trinity",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "trinity_out_dir/Trinity.fasta",
             "--use-conda",
             "-F",
         ],
