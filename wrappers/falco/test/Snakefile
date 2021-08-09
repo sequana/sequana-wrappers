@@ -1,0 +1,20 @@
+
+rule all:
+    input: 
+        "falco/summary.txt"
+
+rule falco:
+    input:
+        "test_R1_.fastq"
+    output:
+        done = "falco/summary.txt"
+    params:
+        working_directory = "falco",
+        options= " "
+    threads: 2
+    log:
+        "falco/falco.log"
+    wrapper:
+        "main/wrappers/falco"
+
+
