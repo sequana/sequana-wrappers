@@ -12,11 +12,12 @@ Sequana-wrapers documentation
 
 References for all wrappers
 ===========================
+.. toctree::
 
 
 .. sequana_wrapper:: multiqc
 .. sequana_wrapper:: falco
 .. sequana_wrapper:: fastqc
-.. sequana_wrapper:: canu
+.. sequana_wrapper:: rulegraph
 
 
