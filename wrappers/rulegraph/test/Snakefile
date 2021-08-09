@@ -1,0 +1,17 @@
+rule all:
+    input: 
+        "test.svg"
+
+rule rulegraph
+    input:
+        "Snakefile"  
+    output:
+        svg  = "test.svg"
+    params:
+        mapper = {'rulegraph': 'rulegraph.html}
+        configname="config.yaml"
+    wrapper:
+        "main/wrappers/rulegraph"
+
+
+
