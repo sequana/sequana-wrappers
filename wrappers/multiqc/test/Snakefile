@@ -4,7 +4,10 @@ rule multiqc:
     output:
         "qc/multiqc.html"
     params:
-        option=""
+        options="",
+        input_directory=".",
+        config_file="",
+        modules=""
     log:
         "logs/multiqc.log"
     wrapper:

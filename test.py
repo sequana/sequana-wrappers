@@ -284,3 +284,16 @@ def test_trinity():
             "-F",
         ],
     )
+
+#@skip_if_not_modified
+def test_falco():
+    run(
+        "wrappers/falco",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F",
+        ],
+    )

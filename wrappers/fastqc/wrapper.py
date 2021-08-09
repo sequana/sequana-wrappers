@@ -14,8 +14,8 @@ input_fastq = snakemake.input
 # figure out the expected output directory
 done = snakemake.output[0]
 
-# figure out the output directory (just removing the filename.done)
-outdir = done.rsplit("/", 1)[0]
+# figure out the output directory 
+outdir = snakemake.params['working_directory']
 
 params = snakemake.params
 # we do not use this alias because we will concatenate possibly 2 output of
@@ -25,8 +25,6 @@ log = snakemake.log[0]
 
 
 # Note that if the input file is empty, fastqc creates a HTML file
-
-# ( ͠° ͟ʖ ͡°) isinstance replaced by hasattr
 try:
     input_fastq = input_fastq.split()
 except AttributeError:

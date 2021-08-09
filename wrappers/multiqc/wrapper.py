@@ -1,9 +1,8 @@
-"""Snakemake wrapper for trimming paired-end reads using cutadapt."""
+"""Snakemake wrapper for multiqc."""
 
-__author__ = "Julian de Ruiter"
-__copyright__ = "Copyright 2017, Julian de Ruiter"
-__email__ = "julianderuiter@gmail.com"
-__license__ = "MIT"
+__author__ = "Etienne Kornobis, Thomas Cokelaer"
+__copyright__ = "Copyright 2021 Sequana Dev team"
+__license__ = "BSD"
 
 
 from os import path
@@ -11,20 +10,38 @@ from os import path
 from snakemake.shell import shell
 
 
-input_dirs = set(snakemake.input)
 output_dir = path.dirname(snakemake.output[0])
 output_name = path.basename(snakemake.output[0])
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
-print(output_dir)
-print(output_name)
+
+options = snakemake.params.options
+input_directory = snakemake.params.input_directory
+modules = snakemake.params.modules
+config_file = snakemake.params.config_file
+
+# if config file not provided, should be set to empty string
+if config_file.strip():
+    config_file = f" -c {config_file}"
+
+# if modules is not provided, should be set to empty string
+
+print(modules)
+module_options = ""
+if modules.strip():
+    modules = modules.split()
+    for module in modules:
+        module_options += f" -m {module}"
+
 
 shell(
     "multiqc"
-    " {snakemake.params}"
+    " {input_directory}"
     " --force"
+    " {options}"
+    " {module_options}"
     " -o {output_dir}"
     " -n {output_name}"
-    " {input_dirs}"
+    " {config_file}"
     " {log}"
 )
