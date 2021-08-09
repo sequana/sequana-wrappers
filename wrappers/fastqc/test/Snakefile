@@ -9,7 +9,8 @@ rule fastqc_PE:
     output:
         done = "fastqc_PE/fastqc.done"
     params:
-        options= " -nogroup "
+        options= " -nogroup ",
+        working_directory= "fastqc_PE" 
     threads: 2
     log:
         "fastqc_PE/fastqc.log"
@@ -22,7 +23,8 @@ rule fastqc_SE:
     output:
         done = "fastqc_SE/fastqc.done"
     params:
-        options= " -nogroup "
+        options= " -nogroup ",
+        working_directory= "fastqc_SE" 
     threads: 2
     log:
         "fastqc_SE/fastqc.log"
