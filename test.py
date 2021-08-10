@@ -285,7 +285,7 @@ def test_trinity():
         ],
     )
 
-#@skip_if_not_modified
+@skip_if_not_modified
 def test_falco():
     run(
         "wrappers/falco",
