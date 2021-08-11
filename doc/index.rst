@@ -19,5 +19,8 @@ References for all wrappers
 .. sequana_wrapper:: falco
 .. sequana_wrapper:: fastqc
 .. sequana_wrapper:: rulegraph
+.. sequana_wrapper:: gz_to_bz2
+.. sequana_wrapper:: bz2_to_gz
+.. sequana_wrapper:: dsrc_to_gz
 
 

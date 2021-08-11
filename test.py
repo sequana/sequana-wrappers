@@ -297,3 +297,44 @@ def test_falco():
             "-F",
         ],
     )
+
+
+
+@skip_if_not_modified
+def test_gz_to_bz2():
+    run(
+        "wrappers/falco",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+@skip_if_not_modified
+def test_bz2_to_gz():
+    run(
+        "wrappers/falco",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+@skip_if_not_modified
+def test_gz_to_dsrc():
+    run(
+        "wrappers/falco",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "--use-conda",
+            "-F",
+        ],
+    )

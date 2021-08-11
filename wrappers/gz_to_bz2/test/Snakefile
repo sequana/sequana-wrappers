@@ -1,0 +1,9 @@
+
+rule gz_to_bz2:
+    input:
+        "{sample}/test.fasta.gz"
+    output:
+        "{sample}/test.fasta.bz2"
+    threads: 2
+    wrapper:
+        "main/wrappers/gz_to_bz2"
