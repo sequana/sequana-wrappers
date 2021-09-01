@@ -28,6 +28,7 @@ class Skipped(Exception):
 
 
 skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
+skip_if_on_github = pytest.mark.xfail(raises=Skipped)
 
 
 def run(wrapper, cmd, check_log=None):
@@ -52,10 +53,15 @@ def run(wrapper, cmd, check_log=None):
         assert success, "No wrapper script found for {}".format(wrapper)
         copy(wrapper, "environment.yaml")
 
+        # if test did not changed, not need to be run on CI action
         if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(
             f.startswith(wrapper) for f in DIFF_FILES
         ):
             raise Skipped("wrappers not modified")
+
+        # if test modified but cannot be run on CI action, raise exception
+        if "GITHUB_ACTION" in os.environ:
+            raise Skipped("Test not runnable on GITHUB CI Action")
 
         # copy wrapper test and run it
         testdir = os.path.join(d, "test")
@@ -338,3 +344,17 @@ def test_gz_to_dsrc():
             "-F",
         ],
     )
+
+@skip_if_on_github
+@skip_if_not_modified
+def test_bcl2fastq():
+    run(
+        "wrappers/bcl2fastq",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "-F",
+        ],
+    )
+

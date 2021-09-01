@@ -48,7 +48,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
     'myst_parser',
-    'sequana_pipetools.sphinxext.wrapper',
+    'sequana_sphinxext.wrapper',
     ]
 # note that the numpy directives is buggy. Example: class and init are not recognised as two entities for the autoclass_content=both here below
 

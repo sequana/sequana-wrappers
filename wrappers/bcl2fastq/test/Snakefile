@@ -1,0 +1,21 @@
+
+
+# cannot be tested without bcl2fastq, which cannot be distributed.
+rule bcl2fastq:
+    input:
+        samplesheet="SampleSheet.csv"
+    output:
+        "Stats/Stats.json",
+    params:
+        indir="bcl",
+        barcode_mismatch=0,
+        ignore_missing_bcls=True,
+        no_bgzf_compression=True,
+        merge_all_lanes=True,
+        options=""
+    threads: 4
+    wrapper:
+        "main/wrappers/bcl2fastq"
+
+
+
