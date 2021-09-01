@@ -338,3 +338,18 @@ def test_gz_to_dsrc():
             "-F",
         ],
     )
+
+# This test can only be executed locally with bcl2fastq installed due to
+# copyright that do not allow distribution of bcl2fastq afaik
+"""@skip_if_not_modified
+def test_bcl2fastq():
+    run(
+        "wrappers/bcl2fastq",
+        [
+            "snakemake",
+            "--cores",
+            "2",
+            "-F",
+        ],
+    )
+"""
