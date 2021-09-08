@@ -1,0 +1,33 @@
+
+rule all:
+    input:"a/a.sorted.bam.bai"
+
+rule bowtie1_build:
+    input:
+        reference="genome.fasta"
+    output:
+        "reference/genome.1.ebwt",
+    log:
+        "reference/build.log"
+    params:
+        options="",
+    threads: 2
+    wrapper:
+        "main/wrappers/bowtie1/build"
+
+
+rule bowtie1_align:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        index="reference/genome.1.ebwt"
+    output:
+        bam="{sample}/{sample}.bam",
+        sort="{sample}/{sample}.sorted.bam",
+        index="{sample}/{sample}.sorted.bam.bai"
+    log:
+        "{sample}/{sample}.log"
+    params:
+        options=""
+    threads: 2
+    wrapper:
+        "main/wrappers/bowtie1/align"

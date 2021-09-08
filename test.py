@@ -31,27 +31,34 @@ skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
 skip_if_on_github = pytest.mark.xfail(raises=Skipped)
 
 
-def run(wrapper, cmd, check_log=None):
+def copy_wrapper(wrapper, dst):
+    copy = lambda pth, src: shutil.copy(
+        os.path.join(pth, src), os.path.join(dst, pth)
+    )
+    success = False
+    for ext in ("py", "R", "Rmd"):
+        script = "wrapper." + ext
+        if os.path.exists(os.path.join(wrapper, script)):
+            os.makedirs(os.path.join(dst, wrapper), exist_ok=True)
+            copy(wrapper, script)
+            success = True
+            break
+    assert success, "No wrapper script found for {}".format(wrapper)
+    if os.path.exists(wrapper +"/environment.yaml"):
+        copy(wrapper, "environment.yaml")
+    print(f"Copied {wrapper} into {dst}")
+
+
+def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
 
     origdir = os.getcwd()
     with tempfile.TemporaryDirectory() as d:
         dst = os.path.join(d, "main")
         os.makedirs(dst, exist_ok=True)
 
-        copy = lambda pth, src: shutil.copy(
-            os.path.join(pth, src), os.path.join(dst, pth)
-        )
-
-        success = False
-        for ext in ("py", "R", "Rmd"):
-            script = "wrapper." + ext
-            if os.path.exists(os.path.join(wrapper, script)):
-                os.makedirs(os.path.join(dst, wrapper), exist_ok=True)
-                copy(wrapper, script)
-                success = True
-                break
-        assert success, "No wrapper script found for {}".format(wrapper)
-        copy(wrapper, "environment.yaml")
+        copy_wrapper(wrapper, dst)
+        for extra_wrapper in extra_wrappers:
+            copy_wrapper(extra_wrapper, dst)
 
         # if test did not changed, not need to be run on CI action
         if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(
@@ -70,6 +77,7 @@ def run(wrapper, cmd, check_log=None):
         if os.path.exists(".snakemake"):
             shutil.rmtree(".snakemake")
         cmd = cmd + ["--wrapper-prefix", "file://{}/".format(d), "--conda-cleanup-pkgs"]
+
 
         try:
             subprocess.check_call(cmd)
@@ -345,6 +353,7 @@ def test_gz_to_dsrc():
         ],
     )
 
+# this wrapper test do not use conda but damona
 @skip_if_on_github
 @skip_if_not_modified
 def test_bcl2fastq():
@@ -356,5 +365,21 @@ def test_bcl2fastq():
             "2",
             "-F",
         ],
+    )
+
+@skip_if_not_modified
+def test_bowtie1_build():
+    run(
+        "wrappers/bowtie1/build",
+        ["snakemake", "--cores", "1", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_bowtie1_align():
+    run(
+        "wrappers/bowtie1/align",
+        ["snakemake", "--cores", "1", "--use-conda", "-F"],
+        extra_wrappers=["wrappers/bowtie1/build"]
     )
 
