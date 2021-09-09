@@ -23,7 +23,7 @@ The Sequana Wrapper Repository is a collection of reusable wrappers used in Sequ
 
 A wrappers contains these files:
 
-- environment.yml to tell what are the required package to be installed for the test (and wrapper) to work.
+- environment.yaml to tell what are the required packages to be installed for the test (and wrapper) to work.
 - wrappers.py the wrapper itself. There is no specific instructions here except to write good code as much as possible :-)
 - example.sml is used to document your wrapper. It is an example of a Snakefile using the wrapper. It is not intended to be tested for now. 
   Instead it is meant to have a docstring that will be used for documentation.
@@ -61,3 +61,29 @@ Consider this example::
             wkdir=config['falco']['working_directory']
         wrapper:
             "falco/wrappers/falco"
+
+
+## Faqs
+
+When adding new recipe / testing, you may face several issues. 
+
+Make sure you have added/commited the files you want to test.
+
+If you get this message::
+
+    Failed to open source file /tmp/tmpw9y6n0ju/main/wrappers/bowtie1/build/environment.yaml
+
+
+To test locally, create a branch, add the recipe. The wrapper must replace the
+'main' by your branch name and then you can test the wrapper locally as
+follows::
+
+   cd wrapper/your_recipe/test
+   snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p
+
+Then, once it works, do not forget to replace the branch name in the test.Snakefile with "main"
+
+
+
+
+

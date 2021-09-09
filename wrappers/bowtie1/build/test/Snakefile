@@ -1,0 +1,15 @@
+
+
+
+rule bowtie1_build:
+    input:
+        reference="genome.fasta"
+    output:
+        "reference/genome.1.ebwt",
+    log:
+        "logs/bowtie1_build/build.log"
+    params:
+        options="",
+    threads: 2
+    wrapper:
+        "main/wrappers/bowtie1/build"

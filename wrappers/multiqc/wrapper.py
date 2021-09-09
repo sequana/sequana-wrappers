@@ -26,7 +26,6 @@ if config_file.strip():
 
 # if modules is not provided, should be set to empty string
 
-print(modules)
 module_options = ""
 if modules.strip():
     modules = modules.split()
