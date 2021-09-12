@@ -1,0 +1,37 @@
+rule all:
+    input:"a/a.sorted.bam.bai"
+
+rule bwa_build:
+    input:
+        reference="index/genome.fasta"
+    output:
+        bwa_bwt="index/genome.fasta.bwt",
+        fai="index/genome.fasta.fai"
+    log:
+        "reference/build.log"
+    params:
+        options="",
+        index_algorithm='is'
+    threads: 2
+    wrapper:
+        "main/wrappers/bwa/build"
+
+
+rule bwa_align:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        bwa_bwt="index/genome.fasta.bwt",
+        fai="index/genome.fasta.fai",
+        reference="index/genome.fasta"
+    output:
+        sorted="{sample}/{sample}.sorted.bam",
+        indexed="{sample}/{sample}.sorted.bam.bai"
+    log:
+        "{sample}/{sample}.log"
+    params:
+        options="-T 30 -M",
+        tmp_directory="./tmp"
+    threads: 2
+    wrapper:
+        "main/wrappers/bwa/align"
+
