@@ -383,3 +383,12 @@ def test_bowtie1_align():
         extra_wrappers=["wrappers/bowtie1/build"]
     )
 
+
+@skip_if_not_modified
+def test_bwa_build():
+    run(
+        "wrappers/bwa/build",
+        ["snakemake", "--cores", "1", "--use-conda", "-F"],
+        extra_wrappers=["wrappers/bwa/build"]
+    )
+
