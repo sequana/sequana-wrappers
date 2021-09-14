@@ -10,7 +10,7 @@ rule fastp_se:
         "logs/fastp/se/{sample}.log"
     params:
         adapters="--adapter_sequence ACGGCTAGCTA",
-        option=""
+        options=""
     threads: 1
     wrapper:
         "main/wrappers/fastp"
@@ -34,7 +34,7 @@ rule fastp_pe:
         "logs/fastp/pe/{sample}.log"
     params:
         adapters="--adapter_sequence ACGGCTAGCTA --adapter_sequence_r2 AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
-        option="--merge"
+        options="--merge"
     threads: 2
     wrapper:
         "main/wrappers/fastp"
@@ -48,7 +48,7 @@ rule fastp_pe_wo_trimming:
     log:
         "logs/fastp/pe_wo_trimming/{sample}.log"
     params:
-        option=""
+        options=""
     threads: 2
     wrapper:
         "main/wrappers/fastp"
