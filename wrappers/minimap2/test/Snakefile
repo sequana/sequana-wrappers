@@ -1,6 +1,3 @@
-rule all:
-    input:["a/a.sorted.bam"]
-
 rule minimap2:
     input:
         fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
