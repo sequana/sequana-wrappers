@@ -8,7 +8,7 @@ __license__ = "MIT"
 from os import path
 from snakemake.shell import shell
 
-option = snakemake.params.get("option", "")
+options = snakemake.params.get("options", "")
 
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
