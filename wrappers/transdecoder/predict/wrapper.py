@@ -8,7 +8,7 @@ __license__ = "MIT"
 from os import path
 from snakemake.shell import shell
 
-option = snakemake.params.get("option", "")
+options= snakemake.params.get("options", "")
 
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
@@ -28,4 +28,4 @@ if input_fasta.endswith("gz"):
 else:
     input_fa = input_fasta
 
-shell("TransDecoder.Predict -t {input_fa} {addl_outputs} {option} {log}")
+shell("TransDecoder.Predict -t {input_fa} {addl_outputs} {options} {log}")
