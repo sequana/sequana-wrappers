@@ -1,5 +1,5 @@
 rule all:
-    input:"a/a.sorted.bam.bai"
+    input:"a/a.sorted.bam"
 
 rule bwa_build:
     input:
@@ -32,5 +32,5 @@ rule bwa_align:
         tmp_directory="./tmp"
     threads: 2
     wrapper:
-        "main/wrappers/bwa/align"
+        "add_minimap2_cnsistency_bowtie_bwa/wrappers/bwa/align"
 
