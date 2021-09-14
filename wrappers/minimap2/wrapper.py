@@ -13,6 +13,7 @@ input_fastq = snakemake.input['fastq']
 input_reference = snakemake.input['reference']
 output = snakemake.output
 params = snakemake.params
+threads = snakemake.threads
 
 
 shell("""
