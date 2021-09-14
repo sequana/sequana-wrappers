@@ -10,7 +10,7 @@ from os import path
 
 
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
-option = snakemake.params.get("option", "")
+options = snakemake.params.get("options", "")
 mode = snakemake.params.get("mode")
 assert mode is not None, "please input a run mode: genome, transcriptome or proteins"
 lineage = snakemake.params.get("lineage")
@@ -38,5 +38,5 @@ shell(
     "{out_path} "
     "--cpu {snakemake.threads} --mode {mode} --lineage {lineage} "
     "{download_path} "
-    "{option} {log} {move_file}"
+    "{options} {log} {move_file}"
 )

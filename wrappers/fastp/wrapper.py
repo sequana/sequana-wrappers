@@ -6,7 +6,7 @@ __license__ = "MIT"
 from snakemake.shell import shell
 import re
 
-option = snakemake.params.get("option", "")
+options = snakemake.params.get("options", "")
 adapters = snakemake.params.get("adapters", "")
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
@@ -70,7 +70,7 @@ json = "--json {}".format(snakemake.output.json)
 
 shell(
     "(fastp --thread {snakemake.threads} "
-    "{option} "
+    "{options} "
     "{adapters} "
     "{reads} "
     "{trimmed} "
