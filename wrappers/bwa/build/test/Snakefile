@@ -1,0 +1,14 @@
+rule bwa_index:
+    input:
+        reference="genome.fasta"
+    output:
+        "genome.fasta.bwt",
+        "genome.fasta.fai"
+    log:
+        "logs/bwa_build/build.log"
+    params:
+        options="",
+        index_algorithm="is"
+        # 'is' for short genome and bwtsw' for long genomes. No information form bwa about what is long or short
+    wrapper:
+        "main/wrappers/bwa/build"

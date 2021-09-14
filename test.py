@@ -31,6 +31,9 @@ skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
 skip_if_on_github = pytest.mark.xfail(raises=Skipped)
 
 
+command = ["snakemake", "--cores", "1",  "-F"] #, "--use-conda"] 
+
+
 def copy_wrapper(wrapper, dst):
     copy = lambda pth, src: shutil.copy(
         os.path.join(pth, src), os.path.join(dst, pth)
@@ -56,7 +59,9 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
         dst = os.path.join(d, "main")
         os.makedirs(dst, exist_ok=True)
 
+
         copy_wrapper(wrapper, dst)
+        # if a wrapper depends on other wrappers, we need to include them
         for extra_wrapper in extra_wrappers:
             copy_wrapper(extra_wrapper, dst)
 
@@ -381,5 +386,22 @@ def test_bowtie1_align():
         "wrappers/bowtie1/align",
         ["snakemake", "--cores", "1", "--use-conda", "-F"],
         extra_wrappers=["wrappers/bowtie1/build"]
+    )
+
+
+@skip_if_not_modified
+def test_bwa_build():
+    run(
+        "wrappers/bwa/build",
+        command,
+    )
+
+
+@skip_if_not_modified
+def test_bwa_align():
+    run(
+        "wrappers/bwa/align",
+        command,
+        extra_wrappers=["wrappers/bwa/build"]
     )
 

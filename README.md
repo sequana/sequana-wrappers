@@ -69,19 +69,14 @@ When adding new recipe / testing, you may face several issues.
 
 Make sure you have added/commited the files you want to test.
 
-If you get this message::
-
-    Failed to open source file /tmp/tmpw9y6n0ju/main/wrappers/bowtie1/build/environment.yaml
-
-
-To test locally, create a branch, add the recipe. The wrapper must replace the
-'main' by your branch name and then you can test the wrapper locally as
+Generally, you should create a branch, add the recipe. In the test file, when setting the wrapper
+you should replace the first 'main' by your branch name and then you can test the wrapper locally as
 follows::
 
    cd wrapper/your_recipe/test
    snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p
 
-Then, once it works, do not forget to replace the branch name in the test.Snakefile with "main"
+Once it works, do not forget to replace the branch name in the test.Snakefile with "main"
 
 
 
