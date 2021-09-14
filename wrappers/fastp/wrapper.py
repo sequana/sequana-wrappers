@@ -70,7 +70,7 @@ json = "--json {}".format(snakemake.output.json)
 
 shell(
     "(fastp --thread {snakemake.threads} "
-    "{option} "
+    "{options} "
     "{adapters} "
     "{reads} "
     "{trimmed} "
