@@ -22,12 +22,6 @@ else:
     bwa_exe = "bwa"
 
 
-# -N is important to sort like in samtools
-#if __pipeline_name__ == "quality_control":
-#    sambamba_sort = " -N "
-#else:
-#    sambamba_sort = ""
-
 sambamba_sort = ""
 
 shell("""
@@ -38,8 +32,5 @@ shell("""
         --tmpdir={params.tmp_directory} """ + sambamba_sort + """ )  {log}
 """
 )
-
-
-shell("""bamtools index -in {output_sorted_bam}""")
 
 
