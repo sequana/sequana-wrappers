@@ -408,7 +408,7 @@ def test_bwa_align():
 @skip_if_not_modified
 def test_minimap2():
     run(
-        "wrappers/bwa/minimap2",
+        "wrappers/minimap2",
         command,
     )
 
