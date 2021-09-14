@@ -31,7 +31,7 @@ skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
 skip_if_on_github = pytest.mark.xfail(raises=Skipped)
 
 
-command = ["snakemake", "--cores", "1",  "-F"] #, "--use-conda"] 
+command = ["snakemake", "--cores", "1",  "-F", "--use-conda"] 
 
 
 def copy_wrapper(wrapper, dst):
@@ -403,5 +403,12 @@ def test_bwa_align():
         "wrappers/bwa/align",
         command,
         extra_wrappers=["wrappers/bwa/build"]
+    )
+
+@skip_if_not_modified
+def test_minimap2():
+    run(
+        "wrappers/bwa/minimap2",
+        command,
     )
 

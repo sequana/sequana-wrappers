@@ -24,8 +24,7 @@ rule bwa_align:
         fai="index/genome.fasta.fai",
         reference="index/genome.fasta"
     output:
-        sorted="{sample}/{sample}.sorted.bam",
-        indexed="{sample}/{sample}.sorted.bam.bai"
+        sorted="{sample}/{sample}.sorted.bam"
     log:
         "{sample}/{sample}.log"
     params:
