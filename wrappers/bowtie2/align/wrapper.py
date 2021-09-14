@@ -9,15 +9,15 @@ from snakemake.shell import shell
 option = snakemake.params.get("options", "")
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
-n = len(snakemake.input.sample)
+n = len(snakemake.input.fastq)
 assert (
     n == 1 or n == 2
 ), "input->sample must have 1 (single-end) or 2 (paired-end) elements."
 
 if n == 1:
-    reads = "-U {}".format(*snakemake.input.sample)
+    reads = "-U {}".format(*snakemake.input.fastq)
 else:
-    reads = "-1 {} -2 {}".format(*snakemake.input.sample)
+    reads = "-1 {} -2 {}".format(*snakemake.input.fastq)
 
 shell(
     "(bowtie2 --threads {snakemake.threads} {option} "
