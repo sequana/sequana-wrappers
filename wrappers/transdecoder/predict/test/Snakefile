@@ -13,6 +13,6 @@ rule transdecoder_predict:
     log:
         "logs/transdecoder/test-predict.log"
     params:
-        option=""
+        options=""
     wrapper:
         "main/wrappers/transdecoder/predict"
