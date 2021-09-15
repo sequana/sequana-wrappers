@@ -9,7 +9,7 @@ import shutil
 from snakemake.shell import shell
 from easydev import touch
 
-from sequana_pipetools import FileFactory
+from sequana_pipetools.snaketools import FileFactory
 
 
 # Get rule information (input/output/params...)
