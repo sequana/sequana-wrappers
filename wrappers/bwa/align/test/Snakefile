@@ -32,5 +32,5 @@ rule bwa_align:
         tmp_directory="./tmp"
     threads: 2
     wrapper:
-        "add_minimap2_cnsistency_bowtie_bwa/wrappers/bwa/align"
+        "main/wrappers/bwa/align"
 
