@@ -34,7 +34,7 @@ for i, filename in enumerate(ff.realpaths):
     output_boxplot = formatter(ff.basenames[i] + "_boxplot.png")
     output_json = formatter(ff.basenames[i] + ".json")
 
-    fastq = FastQC(filename, max_sample=500000)
+    fastq = FastQC(filename, max_sample=params.max_reads)
     if len(fastq.fastq) != 0:
         pylab.clf()
         fastq.boxplot_quality()

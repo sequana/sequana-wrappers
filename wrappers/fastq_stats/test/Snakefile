@@ -1,13 +1,16 @@
 
 rule all:
     input: 
-        "fastq_stas/fastqc.done"
+        "fastq_stats/fastqc.done"
 
 rule fastq_stats:
     input:
         "test_R1_.fastq.gz"
     output:
-        done = "fastq_stas/fastqc.done"
+        "fastq_stats/fastqc.done"
+    params:
+        wkdir="temp",
+        max_reads=500000
     wrapper:
         "main/wrappers/fastq_stats"
 
