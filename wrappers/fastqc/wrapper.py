@@ -30,6 +30,8 @@ try:
 except AttributeError:
     pass
 
+os.makedirs(outdir, exist_ok=True)
+
 for fastq_file in input_fastq:
     if fastq_file.endswith((".bam", "sam")):
         shell(

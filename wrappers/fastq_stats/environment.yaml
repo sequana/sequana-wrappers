@@ -5,6 +5,5 @@ channels:
 dependencies:
   - fastqc==0.11.9
   - sequana
-  - sequana_pipetools
   - matplotlib
   - easydev
