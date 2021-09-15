@@ -15,9 +15,6 @@ from sequana_pipetools.snaketools import FileFactory
 # Get rule information (input/output/params...)
 input_fastq = snakemake.input[0]
 
-# figure out the expected output directory
-done = snakemake.output[0]
-
 # params
 params = snakemake.params
 
@@ -29,10 +26,9 @@ ff = FileFactory(input_fastq)
 
 for i, filename in enumerate(ff.realpaths):
     # The ouput files
-    formatter = lambda x: params.wkdir + "/" + x.replace(".fastq.gz","")
-    output_gc = formatter(ff.basenames[i] + "_gc.png")
-    output_boxplot = formatter(ff.basenames[i] + "_boxplot.png")
-    output_json = formatter(ff.basenames[i] + ".json")
+    output_gc = snakemake.output['gc']
+    output_boxplot = snakemake.outoput['boxplot']
+    output_json = snakemake.output["json"]
 
     fastq = FastQC(filename, max_sample=params.max_reads)
     if len(fastq.fastq) != 0:

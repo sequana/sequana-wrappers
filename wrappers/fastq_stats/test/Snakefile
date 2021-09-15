@@ -7,9 +7,10 @@ rule fastq_stats:
     input:
         "{sample}.fastq.gz"
     output:
-        "{sample}/fastq_stats/{sample}.json"
+        gc="{sample}/fastq_stats/{sample}_gc.png",
+        boxplot="{sample}/fastq_stats/{sample}_boxplot.png",
+        json="{sample}/fastq_stats/{sample}.json"
     params:
-        wkdir="fastq_stats",
         max_reads=500000
     wrapper:
         "main/wrappers/fastq_stats"
