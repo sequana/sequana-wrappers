@@ -1,0 +1,14 @@
+
+rule all:
+    input: 
+        "fastq_stas/fastqc.done"
+
+rule fastq_stats:
+    input:
+        "test_R1_.fastq.gz"
+    output:
+        done = "fastq_stas/fastqc.done"
+    wrapper:
+        "main/wrappers/fastq_stats"
+
+
