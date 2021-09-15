@@ -27,7 +27,7 @@ ff = FileFactory(input_fastq)
 for i, filename in enumerate(ff.realpaths):
     # The ouput files
     output_gc = snakemake.output['gc']
-    output_boxplot = snakemake.outoput['boxplot']
+    output_boxplot = snakemake.output['boxplot']
     output_json = snakemake.output["json"]
 
     fastq = FastQC(filename, max_sample=params.max_reads)
