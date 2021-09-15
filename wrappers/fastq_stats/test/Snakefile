@@ -1,15 +1,15 @@
 
 rule all:
-    input: 
-        "fastq_stats/fastqc.done"
+    input:
+        "fastq_stats/test_R1_.json"
 
 rule fastq_stats:
     input:
-        "test_R1_.fastq.gz"
+        "{sample}.fastq.gz"
     output:
-        "fastq_stats/fastqc.done"
+        "{sample}/fastq_stats/{sample}.json"
     params:
-        wkdir="temp",
+        wkdir="fastq_stats",
         max_reads=500000
     wrapper:
         "main/wrappers/fastq_stats"
