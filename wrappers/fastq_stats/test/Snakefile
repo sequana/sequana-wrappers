@@ -1,0 +1,18 @@
+
+rule all:
+    input:
+        "test_R1_/fastq_stats/test_R1_.json"
+
+rule fastq_stats:
+    input:
+        "{sample}.fastq.gz"
+    output:
+        gc="{sample}/fastq_stats/{sample}_gc.png",
+        boxplot="{sample}/fastq_stats/{sample}_boxplot.png",
+        json="{sample}/fastq_stats/{sample}.json"
+    params:
+        max_reads=500000
+    wrapper:
+        "main/wrappers/fastq_stats"
+
+

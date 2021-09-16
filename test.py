@@ -412,3 +412,10 @@ def test_minimap2():
         command,
     )
 
+@skip_if_not_modified
+def test_fastq_stats():
+    run(
+        "wrappers/fastq_stats",
+        command,
+    )
+
