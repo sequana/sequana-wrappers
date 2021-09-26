@@ -20,12 +20,14 @@ Params section:
 
 # Example
 
+    rulegraph_params_mapper = {"a_given_rule": "its_html.html"}
+
     rule rulegraph:
         input: manager.snakefile
         output:
             svg = ".sequana/rulegraph.svg"
         params:
-            mapper = __rulegraph__mapper,
+            mapper = rulegraph_params_mapper,
             configname = "config.yaml"
         wrapper:
             "main/wrappers/rulegraph"
