@@ -11,7 +11,6 @@ Output section:
 
 - **svg**: the output SVG filename
 
-
 Params section:
  
 - **mapper**: a dictionary mapping each rule to a URL (HTML
