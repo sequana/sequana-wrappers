@@ -8,7 +8,9 @@ Input section:
 - the snakefile filename
 
 Output section:
+
 - **svg**: the output SVG filename
+
 
 Params section:
  
