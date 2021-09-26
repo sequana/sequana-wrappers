@@ -32,6 +32,6 @@ Params section:
         wrapper:
             "main/wrappers/rulegraph"
 
-# Requires
+# Requirements
 
 - dot
