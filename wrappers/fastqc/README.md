@@ -27,8 +27,6 @@ Log:
 
 # Required configuration section:
 
-::
-
     ##############################################################################
     # FastQC section
     #
@@ -41,23 +39,24 @@ Log:
 
 
 References:
-    - http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+
+- http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 
 # Example
 
-rule fastqc:
-    input:
-        "{sample}_R1_.fastq", "{sample}_R2_.fastq"
-    output:
-        done = "{sample}/fastqc/fastqc.done"
-    params:
-        options = config['fastqc'][options']
-        working_directory = "{sample}/fastqc"
-    threads:
-        config['fastqc']["threads"]
-    log:
-        "{sample}/fastqc/fastqc.log"
-    wrapper:
-        "main/wrappers/fastqc"
+    rule fastqc:
+        input:
+            "{sample}_R1_.fastq", "{sample}_R2_.fastq"
+        output:
+            done = "{sample}/fastqc/fastqc.done"
+        params:
+            options = config['fastqc'][options'],
+            working_directory = "{sample}/fastqc"
+        threads:
+            config['fastqc']["threads"]
+        log:
+            "{sample}/fastqc/fastqc.log"
+        wrapper:
+            "main/wrappers/fastqc"
 
 
