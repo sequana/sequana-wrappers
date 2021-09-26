@@ -14,8 +14,8 @@ Output section:
 Params section:
  
 - **mapper**: a dictionary mapping each rule to a URL (HTML
-       file or directory). Rules provided in this dictionary will be
-       shown in blue and clickable in the ouptut SVG file.
+  file or directory). Rules provided in this dictionary will be
+  shown in blue and clickable in the ouptut SVG file.
 - **configname**: a config file required by the input Snakefile
 
 # Example
