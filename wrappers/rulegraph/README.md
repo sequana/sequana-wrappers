@@ -1,23 +1,25 @@
 rule rulegraph:
-    """Rulegraph 
+    """Creates a rulegraph showing your pipeline dependencies
 
      Required input:
          - the snakefile filename
 
      Required output:
-         - the output SVG filename 
+         - **svg**: the output SVG filename
 
-    Required parameters:
-        - mapper: a dictionary mapping each rule to a URL (HTML 
-            file or directory). Rules provided in this dictionary will be shown 
-            in blue and clickable in the ouptut SVG file.
-        - configname: a config file required by the input Snakefile
+     Required parameters:
+        - **mapper**: a dictionary mapping each rule to a URL (HTML
+            file or directory). Rules provided in this dictionary will be
+            shown in blue and clickable in the ouptut SVG file.
+        - **configname**: a config file required by the input Snakefile
 
     """
-    input:
-        filename = "Snakefile"
+    input: manager.snakefile
     output:
-        svg  = "test.svg"
+        svg = ".sequana/rulegraph.svg"
     params:
-        mapper = {"rulegraph": "test.html"},
-        configname = "config.yaml" 
+        mapper = __rulegraph__mapper,
+        configname = "config.yaml"
+    wrapper:
+        "main/wrappers/rulegraph"
+
