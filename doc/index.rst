@@ -2,11 +2,11 @@ Sequana-wrapers documentation
 ########################################
 
 
-.. this is suppose to work my myst_parser but do not interpret the markdown
+.. this is suppose to work with myst_parser but do not interpret the markdown
    yet, the parser works since using ..toctree do interpret the file. This is
    jus that .. include:: does not seem to be part ofthe mystparser library for
    now.
-.. include:: ../README.md
+.. .. include:: ../README.md
 
 
 
