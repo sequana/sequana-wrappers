@@ -419,3 +419,24 @@ def test_fastq_stats():
         command,
     )
 
+@skip_if_not_modified
+def test_bamtools_sort():
+    run(
+        "wrappers/bamtools/sort",
+        command,
+    )
+
+@skip_if_not_modified
+def test_bamtools_index():
+    run(
+        "wrappers/bamtools/index",
+        command,
+    )
+
+
+@skip_if_not_modified
+def test_feature_counts():
+    run(
+        "wrappers/feature_counts",
+        command,
+    )
