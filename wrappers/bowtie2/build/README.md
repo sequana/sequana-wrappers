@@ -31,14 +31,14 @@ Log:
     #
     # - options: any options recognised by 'bowtie2 index' command
     # - threads: 
-    bowtie2_index:
+    bowtie2_build:
         options: ''
         threads: 4
 
 
 # Example
 
-    rule bowtie2_index:
+    rule bowtie2_build:
         input:
             reference="genome.fa"
         output:
@@ -47,7 +47,7 @@ Log:
             options = config['fastqc'][options'],
             working_directory = "{sample}/fastqc"
         threads:
-            config['bowtie2_index']["threads"]            
+            config['bowtie2_build']["threads"]            
         log:
             "logs/bowtie2_build/bowtie1_build.log"
         wrapper:
