@@ -1,0 +1,8 @@
+rule bamtools_index:
+    input:
+        test.bam
+    output:
+        test.bam.bai
+    threads: 2
+    wrapper:
+        "main/wrappers/bamtools/index"
