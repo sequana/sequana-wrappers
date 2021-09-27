@@ -1,8 +1,8 @@
 rule bamtools_index:
     input:
-        test.bam
+        "test.bam"
     output:
-        test.bam.bai
+        "test.bam.bai"
     threads: 2
     wrapper:
         "main/wrappers/bamtools/index"
