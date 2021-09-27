@@ -84,7 +84,7 @@ format. It must contain a **Documentation** and **Example** sub sections. If a
 **Configuration** section is found, it is also added to the documentation to be
 found in https://sequana.readthedocs.io
 
-See the [fastqc](wrapper/fastqc/README.md) directory for a workable example
+See the [fastqc](wrappers/fastqc/README.md) directory for a workable example
 
 
 
