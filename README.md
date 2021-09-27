@@ -21,33 +21,38 @@ The Sequana Wrapper Repository is a collection of reusable wrappers used in Sequ
 # Notes for developers
 
 The wrappers directory contains the wrappers. Each sub-directory is dedicated to
-a software. In the wrapper/software sub-directory you may have several
-sub-directories. For example, the wrappers/bowtie1 directory contains two
-wrappers called **align** and **build**.
+a wrapper related to a given software/application. 
 
-A wrapper directory must contain a file called **wrapper.py** where the
+Here is an example a a wrapper tree structure:
+
+    fastqc
+    ├── environment.yaml
+    ├── README.md
+    ├── test
+    │   ├── Snakefile
+    │   ├── test_R1_.fastq
+    │   └── test_R2_.fastq
+    └── wrapper.py
+
+Note that some software may have several sub wrappers (see the bowtie1 wrapper for instance).
+
+So, a wrapper directory must contain a file called **wrapper.py** where the
 developers must provide the core of the wrapper. There is no specific
 instructions here except to write good code as much as possible.
 
 A wrapper directory should have a **test** directory for continuous integration
-with a **Snakefile** to be tested. The test must be added in the **test.py**
-(test.py)[test.py]. 
+with a **Snakefile** to be tested and possibly data file **Do not add large files here**. 
+Finally, include your test in the main [**test.py**](test.py) file 
+of the root of the repository (not the wrapper itself). 
 
 For testing purposes, you should also add a file called **environment.yaml** 
 to tell what are the required packages to be installed for the test (and wrapper) 
 to work.
 
-Finally, for documentation, we kindly ask the developer to create a **README.md** described here below. 
+Finally, for the documentation, we kindly ask the developer to create a **README.md** file 
+described here below. 
 
-So to add a new wrapper called **example**:
-
-1. Create a directory wrappers/example/ **in small caps** (e.g. for this example let us call it **example**
-2. in ./wrappers/example, add the files mentionned above (wrappers.py,
-   environment.yaml and README.md).
-3. Create a test called **Snakefile** in ./wrappers/example/test with a workable
-   example.
-4. Add the test code in the file test.py based on previous examples.
-4. Test the new wrapper:
+To test your new wrapper, type:
 
    pytest test.py -k test_example
 
@@ -78,6 +83,8 @@ Please see the wrappers/fastqc/README.md example. The file must be in markdown
 format. It must contain a **Documentation** and **Example** sub sections. If a
 **Configuration** section is found, it is also added to the documentation to be
 found in https://sequana.readthedocs.io
+
+See the [fastqc](wrapper/fastqc/README.md) directory for a workable example
 
 
 
