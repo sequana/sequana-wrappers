@@ -20,32 +20,47 @@ The Sequana Wrapper Repository is a collection of reusable wrappers used in Sequ
 
 # Notes for developers
 
+The wrappers directory contains the wrappers. Each sub-directory is dedicated to
+a wrapper related to a given software/application. 
 
-A wrappers contains these files:
+Here is an example a a wrapper tree structure:
 
-- environment.yaml to tell what are the required packages to be installed for the test (and wrapper) to work.
-- wrappers.py the wrapper itself. There is no specific instructions here except to write good code as much as possible :-)
-- example.sml is used to document your wrapper. It is an example of a Snakefile using the wrapper. It is not intended to be tested for now. 
-  Instead it is meant to have a docstring that will be used for documentation.
-* a test/ directory with one file called **Snakefile** 
+    fastqc
+    ├── environment.yaml
+    ├── README.md
+    ├── test
+    │   ├── Snakefile
+    │   ├── test_R1_.fastq
+    │   └── test_R2_.fastq
+    └── wrapper.py
 
-So to add a new wrappers:
+Note that some software may have several sub wrappers (see the bowtie1 wrapper for instance).
 
-1. In the .wrappers/ directory create a directory **in small caps** (e.g. for this example let us call it **example**
-2. in ./wrappers/example, add the files mentionned above
-3. in the root of the repository, there is a test.py file. Please see the bottom of this file and add a test for your wrapper.
-4. Test the new wrapper:
+So, a wrapper directory must contain a file called **wrapper.py** where the
+developers must provide the core of the wrapper. There is no specific
+instructions here except to write good code as much as possible.
+
+A wrapper directory should have a **test** directory for continuous integration
+with a **Snakefile** to be tested and possibly data file **Do not add large files here**. 
+Finally, include your test in the main [**test.py**](test.py) file 
+of the root of the repository (not the wrapper itself). 
+
+For testing purposes, you should also add a file called **environment.yaml** 
+to tell what are the required packages to be installed for the test (and wrapper) 
+to work.
+
+Finally, for the documentation, we kindly ask the developer to create a **README.md** file 
+described here below. 
+
+To test your new wrapper, type:
 
    pytest test.py -k test_example
-   
-tooltips: if you use a branch named add_wrapper, the Snakefile you have just added should use the wrapper your_branch/wrappers/example temporarily until you push the new wrapper.
 
 ## Notes about the config file used in sequana
 
 - Rules may use the threads key, which can be defined in the general config file.
-- the **params** section should contain a key called**options** also define in the config file of most pipelines.
+- the **params** section should contain a key called **options** also define in the config file of most pipelines.
 - keys or parameters related to directories and files should use the *_directory* or *_file* suffices
-
 
 Consider this example:: 
 
@@ -61,6 +76,16 @@ Consider this example::
             wkdir=config['falco']['working_directory']
         wrapper:
             "falco/wrappers/falco"
+
+## Documentation
+
+Please see the wrappers/fastqc/README.md example. The file must be in markdown
+format. It must contain a **Documentation** and **Example** sub sections. If a
+**Configuration** section is found, it is also added to the documentation to be
+found in https://sequana.readthedocs.io
+
+See the [fastqc](wrappers/fastqc/README.md) directory for a workable example
+
 
 
 ## Faqs
