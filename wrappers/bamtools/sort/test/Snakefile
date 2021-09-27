@@ -1,0 +1,10 @@
+rule bamtools_sort:
+    input:
+        test.bam
+    output:
+        test.sorted.bam
+    params:
+        options=""
+    threads: 2
+    wrapper:
+        "main/wrappers/bamtools/sort"
