@@ -1,0 +1,19 @@
+
+rule feature_counts:
+    input:
+        bam = "test.sorted.bam",
+        gff = "test.gff"
+    output:
+        counts = "counts.tsv",
+        summary = "counts.tsv.summary"
+    params:
+        strandness=0,
+        feature="gene",
+        attribute="ID",
+        options=""
+    log:
+        "fc.log"
+    threads: 2
+    wrapper:
+        "main/wrappers/feature_counts"
+

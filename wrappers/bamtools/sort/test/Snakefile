@@ -1,8 +1,8 @@
 rule bamtools_sort:
     input:
-        test.bam
+        "test.bam"
     output:
-        test.sorted.bam
+        "test.sorted.bam"
     params:
         options=""
     threads: 2
