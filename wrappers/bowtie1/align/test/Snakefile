@@ -22,7 +22,7 @@ rule bowtie1_align:
         index="reference/genome.1.ebwt"
     output:
         bam="{sample}/{sample}.bam",
-        sort="{sample}/{sample}.sorted.bam",
+        sorted="{sample}/{sample}.sorted.bam",
         index="{sample}/{sample}.sorted.bam.bai"
     log:
         "{sample}/{sample}.log"

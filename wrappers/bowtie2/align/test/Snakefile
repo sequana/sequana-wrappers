@@ -1,5 +1,5 @@
-rule all:
-    input: ["mapped/a.bam"]
+#rule all:
+#    input: ["mapped/a.bam", "mapped/bowtie2_sorted/a.sorted.bam"]
 
 rule bowtie2:
     input:
@@ -8,6 +8,22 @@ rule bowtie2:
         bam="mapped/{sample}.bam"
     log:
         "logs/bowtie2/{sample}.log"
+    params:
+        index="index/genome",  # prefix of reference genome index (built with bowtie2-build)
+        options=""  # optional parameters
+    threads: 2  # Use at least two threads
+    wrapper:
+        "main/wrappers/bowtie2/align"
+
+
+rule bowtie2_sorted:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"]
+    output:
+        bam="mapped/bowtie2_sorted/{sample}.bam",
+        sorted="mapped/bowtie2_sorted/{sample}.sorted.bam"
+    log:
+        "logs/bowtie2_sorted/{sample}.log"
     params:
         index="index/genome",  # prefix of reference genome index (built with bowtie2-build)
         options=""  # optional parameters
