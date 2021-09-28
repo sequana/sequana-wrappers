@@ -32,9 +32,6 @@ shell(
     "| samtools view -Sbh -o {snakemake.output.bam} -) {log}"
 )
 
-# index the bam file
-shell("bamtools index -in {snakemake.output.bam}")
-
 try:
     snakemake.output.sorted
     # sort the bam
