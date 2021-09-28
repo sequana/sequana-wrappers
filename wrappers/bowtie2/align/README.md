@@ -43,7 +43,8 @@ Log:
         input:
             fastq=input_data
         output:
-            "{sample}/bowtie2/{sample}.bam
+            bam="{sample}/bowtie2/{sample}.bam
+            sorted="{sample}/bowtie2/{sample}.sorted.bam
         params:
             options = config['bowtie2'][options'],         
             index="reference/mygenome"
