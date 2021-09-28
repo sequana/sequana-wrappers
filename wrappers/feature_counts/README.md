@@ -40,11 +40,12 @@ Log:
             bam="{sample}/bamfile/{sample}.sorted.bam,
             gff="genome.gff"
         output:
-            "{sample}/feature_counts/counts.tsv
+            counts="{sample}/feature_counts/{sample}_feature.out",
+            summary="{sample}/feature_counts/{sample}_feature.out.summary"
         params:
             options=config["feature_counts"]["options"],
             feature=config["feature_counts"]["feature"],
-            attribute=config["feature_counts"]["attribute"]
+            attribute=config["feature_counts"]["attribute"],
             strandness=config["feature_counts"]["strandness"]
         threads: 
             config["feature_counts"]['threads']

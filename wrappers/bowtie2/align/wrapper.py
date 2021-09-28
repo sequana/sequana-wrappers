@@ -1,3 +1,15 @@
+#
+#  This file is part of Sequana software
+#
+#  Copyright (c) 2016-2021 - Sequana Dev Team (https://sequana.readthedocs.io)
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  Website:       https://github.com/sequana/sequana
+#  Documentation: http://sequana.readthedocs.io
+#  Contributors:  https://github.com/sequana/sequana/graphs/contributors
+##############################################################################
 
 from snakemake.shell import shell
 
@@ -20,11 +32,16 @@ shell(
     "| samtools view -Sbh -o {snakemake.output.bam} -) {log}"
 )
 
-# index the bam file    
+# index the bam file
 shell("bamtools index -in {snakemake.output.bam}")
 
-# sort the bam
-shell("bamtools sort -in {snakemake.output.bam} -out {snakemake.output.sorted}")
+try:
+    snakemake.output.sorted
+    # sort the bam
+    shell("bamtools sort -in {snakemake.output.bam} -out {snakemake.output.sorted}")
+    # and index it
+    shell("bamtools index -in {snakemake.output.sorted}")
+except AttributeError:
+    # FIXME. could add a logger.warning here possibly in the future
+    pass
 
-# and index it
-shell("bamtools index -in {snakemake.output.sorted}")
