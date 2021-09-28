@@ -35,9 +35,6 @@ shell(
     "| samtools view -Sbh  - > {snakemake.output.bam}) {log}"
 )
 
-# indexing
-shell("samtools index {snakemake.output.bam}")
-
 
 try:
     snakemake.output.sorted
