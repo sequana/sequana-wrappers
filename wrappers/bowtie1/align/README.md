@@ -1,6 +1,6 @@
 # Documentation
 
-Mapping sequencing reads onto a reference using Bowtie2
+Mapping sequencing reads onto a reference using Bowtie1
 
 This wrapper takes single or paired data and map them on a reference. 
 The results file is a sorted and indexed BAM file.
@@ -21,7 +21,7 @@ Optional output (recommended):
 Required parameters
 
 - **options**: a list of valid fastqc options
-- **index** the expected index base of bowtie2 genome index
+- **index** the expected index base of bowtie1 genome index
 
 Log:
 
@@ -30,32 +30,32 @@ Log:
 # Configuration
 
     #############################################################################
-    #  Bowtie2 read mapping
+    #  Bowtie1 read mapping
     #
     # :Parameters:
     #
-    # - options: any options recognised by 'bowtie2 index' command
+    # - options: any options recognised by 'bowtie1 index' command
     # - threads: 
-    bowtie2:
+    bowtie1:
         options: ''
         threads: 4
 
 
 # Example
 
-    rule bowtie2:
+    rule bowtie1:
         input:
             fastq=input_data
         output:
-            bam="{sample}/bowtie2/{sample}.bam
-            sorted="{sample}/bowtie2/{sample}.sorted.bam
+            bam="{sample}/bowtie1/{sample}.bam
+            sorted="{sample}/bowtie1/{sample}.sorted.bam
         params:
-            options = config['bowtie2'][options'],         
+            options = config['bowtie1'][options'],         
             index="reference/mygenome"
         threads:
-            config['bowtie2"]["threads"]            
+            config['bowtie1"]["threads"]            
         log:
-            "{sample}/bowtie2/{sample}.log"
+            "{sample}/bowtie1/{sample}.log"
         wrapper:
-            "main/wrappers/bowtie2/align"
+            "main/wrappers/bowtie1/align"
 
