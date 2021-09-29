@@ -9,6 +9,11 @@ import shutil
 import pytest
 
 
+
+
+
+
+
 DIFF_MASTER = os.environ.get("DIFF_MASTER", "false") == "true"
 DIFF_LAST_COMMIT = os.environ.get("DIFF_LAST_COMMIT", "false") == "true"
 
@@ -23,17 +28,20 @@ if DIFF_MASTER or DIFF_LAST_COMMIT:
     )
 
 
+# what to skip on github or locally
+WRAPPERS_TO_SKIP_ON_GA = {
+    "wrappers/bcl2fastq"
+}
+
 class Skipped(Exception):
     pass
 
-
 skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
-skip_if_on_github = pytest.mark.xfail(raises=Skipped)
-
 
 command = ["snakemake", "--cores", "1",  "-F", "--use-conda"] 
 
 
+# a copy wrapper function
 def copy_wrapper(wrapper, dst):
     copy = lambda pth, src: shutil.copy(
         os.path.join(pth, src), os.path.join(dst, pth)
@@ -52,6 +60,7 @@ def copy_wrapper(wrapper, dst):
     print(f"Copied {wrapper} into {dst}")
 
 
+# The main function to run the tests
 def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
 
     origdir = os.getcwd()
@@ -72,7 +81,7 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
             raise Skipped("wrappers not modified")
 
         # if test modified but cannot be run on CI action, raise exception
-        if "GITHUB_ACTION" in os.environ:
+        if wrapper in WRAPPERS_TO_SKIP_ON_GA and "GITHUB_ACTION" in os.environ:
             raise Skipped("Test not runnable on GITHUB CI Action")
 
         # copy wrapper test and run it
@@ -359,7 +368,6 @@ def test_gz_to_dsrc():
     )
 
 # this wrapper test do not use conda but damona
-@skip_if_on_github
 @skip_if_not_modified
 def test_bcl2fastq():
     run(

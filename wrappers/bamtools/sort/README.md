@@ -17,9 +17,8 @@ Log:
 # Configuration
 
 There is no configuration required for this wrapper.
-However, to be consistent with other wrapper, the 
+However, to be consistent with other wrapper, the
 params.options is used (empty by default).
-
 
 # Example
 
