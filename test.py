@@ -23,21 +23,22 @@ if DIFF_MASTER or DIFF_LAST_COMMIT:
     )
 
 
+# what to skip on github or locally
+WRAPPERS_TO_SKIP_ON_GA = {"wrappers/bcl2fastq"}
+
+
 class Skipped(Exception):
     pass
 
 
 skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
-skip_if_on_github = pytest.mark.xfail(raises=Skipped)
+
+command = ["snakemake", "--cores", "1", "-F", "--use-conda"]
 
 
-command = ["snakemake", "--cores", "1",  "-F", "--use-conda"] 
-
-
+# a copy wrapper function
 def copy_wrapper(wrapper, dst):
-    copy = lambda pth, src: shutil.copy(
-        os.path.join(pth, src), os.path.join(dst, pth)
-    )
+    copy = lambda pth, src: shutil.copy(os.path.join(pth, src), os.path.join(dst, pth))
     success = False
     for ext in ("py", "R", "Rmd"):
         script = "wrapper." + ext
@@ -47,18 +48,18 @@ def copy_wrapper(wrapper, dst):
             success = True
             break
     assert success, "No wrapper script found for {}".format(wrapper)
-    if os.path.exists(wrapper +"/environment.yaml"):
+    if os.path.exists(wrapper + "/environment.yaml"):
         copy(wrapper, "environment.yaml")
     print(f"Copied {wrapper} into {dst}")
 
 
+# The main function to run the tests
 def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
 
     origdir = os.getcwd()
     with tempfile.TemporaryDirectory() as d:
         dst = os.path.join(d, "main")
         os.makedirs(dst, exist_ok=True)
-
 
         copy_wrapper(wrapper, dst)
         # if a wrapper depends on other wrappers, we need to include them
@@ -72,7 +73,7 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
             raise Skipped("wrappers not modified")
 
         # if test modified but cannot be run on CI action, raise exception
-        if "GITHUB_ACTION" in os.environ:
+        if wrapper in WRAPPERS_TO_SKIP_ON_GA and "GITHUB_ACTION" in os.environ:
             raise Skipped("Test not runnable on GITHUB CI Action")
 
         # copy wrapper test and run it
@@ -82,7 +83,6 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
         if os.path.exists(".snakemake"):
             shutil.rmtree(".snakemake")
         cmd = cmd + ["--wrapper-prefix", "file://{}/".format(d), "--conda-cleanup-pkgs"]
-
 
         try:
             subprocess.check_call(cmd)
@@ -304,6 +304,7 @@ def test_trinity():
         ],
     )
 
+
 @skip_if_not_modified
 def test_falco():
     run(
@@ -316,7 +317,6 @@ def test_falco():
             "-F",
         ],
     )
-
 
 
 @skip_if_not_modified
@@ -332,6 +332,7 @@ def test_gz_to_bz2():
         ],
     )
 
+
 @skip_if_not_modified
 def test_bz2_to_gz():
     run(
@@ -344,6 +345,7 @@ def test_bz2_to_gz():
             "-F",
         ],
     )
+
 
 @skip_if_not_modified
 def test_gz_to_dsrc():
@@ -358,8 +360,8 @@ def test_gz_to_dsrc():
         ],
     )
 
+
 # this wrapper test do not use conda but damona
-@skip_if_on_github
 @skip_if_not_modified
 def test_bcl2fastq():
     run(
@@ -371,6 +373,7 @@ def test_bcl2fastq():
             "-F",
         ],
     )
+
 
 @skip_if_not_modified
 def test_bowtie1_build():
@@ -385,7 +388,7 @@ def test_bowtie1_align():
     run(
         "wrappers/bowtie1/align",
         ["snakemake", "--cores", "1", "--use-conda", "-F"],
-        extra_wrappers=["wrappers/bowtie1/build"]
+        extra_wrappers=["wrappers/bowtie1/build"],
     )
 
 
@@ -399,11 +402,8 @@ def test_bwa_build():
 
 @skip_if_not_modified
 def test_bwa_align():
-    run(
-        "wrappers/bwa/align",
-        command,
-        extra_wrappers=["wrappers/bwa/build"]
-    )
+    run("wrappers/bwa/align", command, extra_wrappers=["wrappers/bwa/build"])
+
 
 @skip_if_not_modified
 def test_minimap2():
@@ -412,6 +412,7 @@ def test_minimap2():
         command,
     )
 
+
 @skip_if_not_modified
 def test_fastq_stats():
     run(
@@ -419,12 +420,14 @@ def test_fastq_stats():
         command,
     )
 
+
 @skip_if_not_modified
 def test_bamtools_sort():
     run(
         "wrappers/bamtools/sort",
         command,
     )
+
 
 @skip_if_not_modified
 def test_bamtools_index():
