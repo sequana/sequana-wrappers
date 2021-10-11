@@ -9,7 +9,7 @@ from os import path
 
 from snakemake.shell import shell
 
-
+print("--------------------")
 output_dir = path.dirname(snakemake.output[0])
 output_name = path.basename(snakemake.output[0])
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
