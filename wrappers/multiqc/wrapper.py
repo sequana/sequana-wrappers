@@ -20,6 +20,9 @@ input_directory = snakemake.params.input_directory
 modules = snakemake.params.modules
 config_file = snakemake.params.config_file
 
+
+print(options)
+print(input_directory)
 # if config file not provided, should be set to empty string
 if config_file.strip():
     config_file = f" -c {config_file}"
