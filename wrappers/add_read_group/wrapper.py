@@ -18,17 +18,42 @@ from snakemake.shell import shell
 # Get rule information (input/output/params...)
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
-ID = snakemake.params.get(ID)
-LB = snakemake.params.get(LB, "unknown")
-PL = snakemake.params.get(PL, "ILLUMINA")
-PU = snakemake.params.get(PU, "unknown")
-SM = snakemake.params.get(SM)
-
-RG = f"{ID={ID} LB={LB} PL={PL} PU={SM} SM={SM}"
+input_bam = snakemake.input[0]
+output_bam = snakemake.output[0]
+options = snakemake.params.get("options", "")
 
 
-cmd = "picard AddOrReplaceReadGroups VALIDATION_STRINGENCY=SILENT
-I={snakemake.input[0]} O={snakemake.output.bam} {RG}  {log} && samtools index {snakemake.output.bam}"
+# we can not have the same options twice
+# The one in options (if found) should be kept. 
+if "-PL" not in options.split():
+    PL = snakemake.params.get("PL", "Illumina")
+    options += f" -PL {PL}"
 
+if "-LB" not in options.split():
+    LB = snakemake.params.get("LB", "unknown")
+    options += f" -LB {LB}"
+
+if "-PU" not in options.split():
+    PU = snakemake.params.get("PU", "unknown")
+    options += f" -PU {PU}"
+
+if "-SM" not in options.split():
+    SM = input_bam.strip().rsplit(".", 1)[0].replace(".", "_")
+    SM = snakemake.params.get("SM", SM)
+    options += f" -SM {SM}"
+
+if "-ID" not in options.split():
+    import uuid
+    ID = snakemake.params.get("ID", int(uuid.uuid1()))
+    options += f" -ID {ID}"
+
+
+
+cmd = "picard AddOrReplaceReadGroups -VALIDATION_STRINGENCY SILENT -I {input_bam} -O {output_bam} {options} {log}"
 shell(cmd)
+
+
+cmd = "bamtools index -in {output_bam}"
+shell(cmd)
+
 

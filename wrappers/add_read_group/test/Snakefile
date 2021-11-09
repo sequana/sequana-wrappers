@@ -7,17 +7,17 @@ rule add_read_group:
         "test.bam"
     output:
         bam="test.rg.bam",
-        bai="test.rg.bai"
+        bai="test.rg.bam.bai"
     log:
-        out = __add_read_group__log_std,
-        err = __add_read_group__log_err
+        "log.out"
     params:
         ID="test",
-        LB="lib1",
+        LB="lib",
         PL="ILLUMINA",
-        PU="unit1",
-        SM="test"
-    wrappers:
+        PU="unit",
+        SM="test",
+        options=""
+    wrapper:
         "main/wrappers/add_read_group"
 
 

@@ -1,0 +1,20 @@
+
+rule freebayes_vcf_filter:
+    input:
+        vcf = "test.raw.vcf",
+    output:
+        vcf = "test.filter.vcf",
+        csv = "test.filter.csv",
+        html = "test/variant_calling.html"
+    params:
+        filter_dict= {
+            "freebayes_score": 20,
+            "frequency": 0.7,
+            "min_depth": 10,
+            "forward_depth": 3,
+            "reverse_depth": 3,
+            "strand_ratio": 0.2
+        }
+
+    wrapper:
+        "main/wrappers/freebayes_vcf_filter"

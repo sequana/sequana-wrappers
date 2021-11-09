@@ -3,17 +3,22 @@ import os
 from snakemake.shell import shell
 
 # Get rule information (input/output/params...)
-log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
-shell("""bamtools sort -in {snakemake.input[0]} -out {snakemake.output[0]} {snakemake.params.options} {log}""")
+input_fasta = snakemake.input[0]
+input_ann = snakemake.input[1]
+
+output_fasta = snakemake.output[0]
+
+log = snakemake.log[0]
 
 
+# real stuff is here:
 from sequana import SnpEff
-if input['ann'].endswith(".gbk"):
-    snpeff = SnpEff(input['ann'], log=log['log'])
-elif input['ann'].endswith("gff") or input['ann'].endswith('gff3'):
-    snpeff = SnpEff(input['ann'], log=log['log'], fastafile=input['fasta'])
+if input_ann.endswith(".gbk"):
+    snpeff = SnpEff(input_ann, log=log)
+elif input_ann.endswith("gff") or input_ann.endswith('gff3'):
+    snpeff = SnpEff(input_ann, log=log, fastafile=input_fasta)
 else:
     raise IOError("Your annotation file does not end with gbk or gff/gff3 extension")
 
-snpeff.add_locus_in_fasta(input['fasta'], output['fasta'])
+snpeff.add_locus_in_fasta(input_fasta, output_fasta)

@@ -1,0 +1,17 @@
+rule sambamba_markdup:
+    input:
+        "test.sorted.bam"
+    output:
+        bam="test.md.bam",
+        bai="test.md.bam.bai"
+    log:
+        out = "log.out",
+        err = "log.err"
+    params:
+        options="",
+        tmp_directory="tmp/",
+        remove_duplicates=False
+    wrapper:
+        "main/wrappers/sambamba_markdup"
+
+

@@ -3,6 +3,4 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - bamtools
-  - snpeff
-  - sequana
+  - samtools

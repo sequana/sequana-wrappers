@@ -439,24 +439,31 @@ def test_bamtools_index():
 
 @skip_if_not_modified
 def test_feature_counts():
-    run(
-        "wrappers/feature_counts",
-        command,
-    )
+    run("wrappers/feature_counts",command)
+
 
 @skip_if_not_modified
 def test_add_read_group():
-    run(
-        "wrappers/add_read_group",
-        command,
-    )
+    run("wrappers/add_read_group", command)
+
 
 @skip_if_not_modified
-def test_snpeff_add_locus_tag_in_fasta():
-    run(
-        "wrappers/snpeff_add_locus_in_fasta",
-        command,
-    )
+def test_snpeff_add_locus_in_fasta():
+    run("wrappers/snpeff_add_locus_in_fasta", command)
 
 
+@skip_if_not_modified
+def test_sambamba_markdup():
+    run("wrappers/sambamba_markdup", command)
 
+@skip_if_not_modified
+def test_sambamba_filter():
+    run("wrappers/sambamba_filter", command)
+
+@skip_if_not_modified
+def test_samtools_depth():
+    run("wrappers/samtools_depth", command)
+
+@skip_if_not_modified
+def test_sequana_coverage():
+    run("wrappers/sequana_coverage", command)

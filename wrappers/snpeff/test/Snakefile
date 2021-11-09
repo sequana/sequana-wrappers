@@ -1,0 +1,16 @@
+
+rule snpeff:
+    input:
+        vcf = "test.raw.vcf",
+        ann = "measles.gbk"
+    output:
+        vcf = "test.ann.vcf",
+        csv = "test.ann.csv",
+        html = "snpeff.html"
+    log:
+        "snpeff.log"
+    params:
+        options = ""
+    wrapper:
+        "main/wrappers/snpeff"
+
