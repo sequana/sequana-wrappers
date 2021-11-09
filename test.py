@@ -443,3 +443,20 @@ def test_feature_counts():
         "wrappers/feature_counts",
         command,
     )
+
+@skip_if_not_modified
+def test_add_read_group():
+    run(
+        "wrappers/add_read_group",
+        command,
+    )
+
+@skip_if_not_modified
+def test_snpeff_add_locus_tag_in_fasta():
+    run(
+        "wrappers/snpeff_add_locus_in_fasta",
+        command,
+    )
+
+
+

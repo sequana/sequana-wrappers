@@ -96,7 +96,7 @@ Make sure you have added/commited the files you want to test.
 
 Generally, you should create a branch, add the recipe. In the test file, when setting the wrapper
 you should replace the first 'main' by your branch name and then you can test the wrapper locally as
-follows::
+follows:
 
    cd wrapper/your_recipe/test
    snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p
