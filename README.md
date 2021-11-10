@@ -77,6 +77,32 @@ Consider this example::
         wrapper:
             "falco/wrappers/falco"
 
+
+## Additional Developer Guide
+
+### Naming arguments of the different sections
+
+In all sections (e.g., input, params), if there is only one input, no need to name it, otherwise, please do.
+
+    rule example1:
+        input:
+            "test.bam"
+        output:
+            "test.sorted.bam"
+        ...
+
+but:
+    rule example1:
+        input:
+            "test.bam"
+        output:
+            bam="test.sorted.bam"
+            bai="test.sorted.bam.bai"
+        ...
+
+
+
+
 ## Documentation
 
 Please see the wrappers/fastqc/README.md example. The file must be in markdown

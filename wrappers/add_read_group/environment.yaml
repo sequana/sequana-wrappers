@@ -4,4 +4,4 @@ channels:
   - defaults
 dependencies:
   - picard
-  - samtools
+  - bamtools

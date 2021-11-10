@@ -12,7 +12,8 @@ Required output:
 
 - Filtered VCF file.
 - CSV file of filtered variants.
-- HTML report.
+- HTML report. Note that the output is always called "variant_calling.html"
+  If you want to save the file in a specific directory, use report_dir parameter
 
 Required parameters:
 
@@ -32,14 +33,20 @@ Required parameters:
 
     rule freebayes_vcf_filter:
         input:
-            bam = "test.sorted.bam"
-            ref = "measles.fa"
+            vcf = "test.raw.vcf",
         output:
-            vcf = "test.vcf"
-        log:
-            "freebayes.log"
+            vcf = "test.filter.vcf",
+            csv = "test.filter.csv",
+            html = "test/variant_calling.html"
         params:
-            ploidy = 1,
-            options = ""
-        wrappers"
-            "main/wrappers/freebayes/
+           filter_dict= {
+               "freebayes_score": 20,
+               "frequency": 0.7,
+               "min_depth": 10,
+               "forward_depth": 3,
+               "reverse_depth": 3,
+               "strand_ratio": 0.2
+           }
+           report_dir="test"
+       wrapper:
+           "main/wrappers/freebayes_vcf_filter"

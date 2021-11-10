@@ -23,9 +23,9 @@ Log:
 
 # Configuration
 
-snpeff:
-    annotation_file:  # the genbank file
-    options:    # result filters options
+    snpeff:  
+        annotation_file:  # the genbank file
+        options:    # result filters options
 
 # Example
 

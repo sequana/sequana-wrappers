@@ -26,10 +26,10 @@ logout = snakemake.log.out
 logerr = snakemake.log.err
 
 
-
-cmd = "sambamba markdup {input_bam} {output_bam} --tmpdir={tmpdir} 1>{logout} 2>{logerr}"
-
 if remove_duplicates:
-    cmd += " --remove-duplicates "
+    options += " --remove-duplicates "
+
+cmd = "sambamba markdup {input_bam} {output_bam} {options} --tmpdir={tmpdir} 1>{logout} 2>{logerr}"
+
 
 shell(cmd)

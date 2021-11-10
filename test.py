@@ -467,3 +467,15 @@ def test_samtools_depth():
 @skip_if_not_modified
 def test_sequana_coverage():
     run("wrappers/sequana_coverage", command)
+
+@skip_if_not_modified
+def test_freebayes():
+    run("wrappers/freebayes", command)
+
+@skip_if_not_modified
+def test_freebayes_vcf_filter():
+    run("wrappers/freebayes_vcf_filter", command)
+
+@skip_if_not_modified
+def test_snpeff():
+    run("wrappers/snpeff", command)
