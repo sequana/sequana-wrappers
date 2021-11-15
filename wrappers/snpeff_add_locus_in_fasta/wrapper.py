@@ -1,3 +1,15 @@
+#
+#  This file is part of Sequana software
+#
+#  Copyright (c) 2016-2021 - Sequana Dev Team (https://sequana.readthedocs.io)
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  Website:       https://github.com/sequana/sequana
+#  Documentation: http://sequana.readthedocs.io
+#  Contributors:  https://github.com/sequana/sequana/graphs/contributors
+##############################################################################
 import os
 
 from snakemake.shell import shell
@@ -14,9 +26,10 @@ log = snakemake.log[0]
 
 # real stuff is here:
 from sequana import SnpEff
+
 if input_ann.endswith(".gbk"):
     snpeff = SnpEff(input_ann, log=log)
-elif input_ann.endswith("gff") or input_ann.endswith('gff3'):
+elif input_ann.endswith("gff") or input_ann.endswith("gff3"):
     snpeff = SnpEff(input_ann, log=log, fastafile=input_fasta)
 else:
     raise IOError("Your annotation file does not end with gbk or gff/gff3 extension")

@@ -13,9 +13,7 @@ log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 # Assert input
 n = len(snakemake.input.sample)
-assert (
-    n == 1 or n == 2
-), "input->sample must have 1 (single-end) or 2 (paired-end) elements."
+assert n == 1 or n == 2, "input->sample must have 1 (single-end) or 2 (paired-end) elements."
 
 
 # Input files
@@ -49,9 +47,7 @@ if trimmed_paths:
         merged = snakemake.output.get("merged", None)
         if merged:
             if not re.search(r"--merge\b", option):
-                raise ValueError(
-                    "output.merged specified but '--merge' option missing from params.option"
-                )
+                raise ValueError("output.merged specified but '--merge' option missing from params.option")
             trimmed += f" --merged_out {merged}"
 else:
     trimmed = ""
@@ -69,11 +65,5 @@ json = "--json {}".format(snakemake.output.json)
 
 
 shell(
-    "(fastp --thread {snakemake.threads} "
-    "{options} "
-    "{adapters} "
-    "{reads} "
-    "{trimmed} "
-    "{json} "
-    "{html} ) {log}"
+    "(fastp --thread {snakemake.threads} " "{options} " "{adapters} " "{reads} " "{trimmed} " "{json} " "{html} ) {log}"
 )

@@ -15,7 +15,7 @@ import os
 from snakemake.shell import shell
 
 # Get rule information (input/output/params...)
-input_samplesheet = snakemake.input['samplesheet']
+input_samplesheet = snakemake.input["samplesheet"]
 
 # figure out the expected output directory
 output_json = snakemake.output[0]
@@ -25,12 +25,12 @@ params = snakemake.params
 options = snakemake.params.get("options", "")
 
 
-################### The code 
+################### The code
 
 cmd = "bcl2fastq -p {snakemake.threads} --barcode-mismatches {params.barcode_mismatch}"
 cmd += " --runfolder-dir {params.indir}"
 cmd += " --intensities-dir {params.indir}/Data/Intensities"
-if input_samplesheet.strip()!= "":
+if input_samplesheet.strip() != "":
     cmd += " --sample-sheet {input_samplesheet}"
 cmd += " --output-dir {}".format(os.path.abspath("."))
 

@@ -18,7 +18,7 @@ output_bed = snakemake.output[0]
 log = snakemake.log
 
 try:
-    options = snakemake.params['options']
+    options = snakemake.params["options"]
 except AttributeError:
     options = ""
 

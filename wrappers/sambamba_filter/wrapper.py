@@ -10,7 +10,6 @@
 #  Documentation: http://sequana.readthedocs.io
 #  Contributors:  https://github.com/sequana/sequana/graphs/contributors
 ##############################################################################
-
 import os
 
 from snakemake.shell import shell
@@ -21,7 +20,6 @@ input_bam = snakemake.input[0]
 output_bam = snakemake.output[0]
 params = snakemake.params
 log = snakemake.log
-
 
 
 cmd = """sambamba view  {params.options} --format=bam --filter="mapping_quality >= {params.threshold}"       -o {output_bam} {input_bam} 1>{log.out} 2>{log.err}"""

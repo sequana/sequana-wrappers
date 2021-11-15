@@ -1,7 +1,4 @@
 
-
-
-
 rule snpeff_add_locus_in_fasta:
     input:
         fasta="measles.fa",

@@ -21,7 +21,7 @@ input_ann = snakemake.input.ann
 
 output_csv = snakemake.output.csv
 output_vcf = snakemake.output.vcf
-output_html= snakemake.output.html
+output_html = snakemake.output.html
 
 params = snakemake.params
 options = snakemake.params.get("options", "")
@@ -34,5 +34,6 @@ if output_csv:
 
 
 from sequana import SnpEff
+
 mydata = SnpEff(input_ann, log=log)
 mydata.launch_snpeff(input_vcf, output_vcf, html_output=output_html, options=options)

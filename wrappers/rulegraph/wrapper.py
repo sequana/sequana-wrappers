@@ -1,8 +1,15 @@
-__author__ = "Thomas Cokelaer"
-__copyright__ = "Copyright 2021, Sequana Team"
-__email__ = "thomas.cokelaer@pasteur.fr"
-__license__ = "BSD-3"
-
+#
+#  This file is part of Sequana software
+#
+#  Copyright (c) 2016-2021 - Sequana Dev Team (https://sequana.readthedocs.io)
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  Website:       https://github.com/sequana/sequana
+#  Documentation: http://sequana.readthedocs.io
+#  Contributors:  https://github.com/sequana/sequana/graphs/contributors
+##############################################################################
 import os
 
 from snakemake.shell import shell
@@ -10,23 +17,22 @@ from sequana_pipetools import SequanaConfig
 from sequana_pipetools.snaketools import DOTParser
 
 
-
 # This rule calls snakemake. This is in conflict with the main snakemake call itself.
 # Solution: create a new directory where to launch this snakemake
 
 # First, we tried with in a temporary directory but this was creating errs
-# most probably because temp dir was handled in the code rather than 
-# by snakemake itself. 
+# most probably because temp dir was handled in the code rather than
+# by snakemake itself.
 
-# Second, we used a os.chcwd(). Although functional locally, this 
-# messes up the main snakemake snakejobs, that could be copied in the 
+# Second, we used a os.chcwd(). Although functional locally, this
+# messes up the main snakemake snakejobs, that could be copied in the
 # new working directory  and then not seen by the main snakemake call
 # (latency in the creation of the output files maybe).
 
 # third solution (this one) is to call *cd* the shell commands
 
 input_filename = snakemake.input[0]
-output_svg = snakemake.output['svg']
+output_svg = snakemake.output["svg"]
 params = snakemake.params
 
 # change relative path to absolute path
@@ -41,11 +47,13 @@ def parse_path(dico):
                 parse_path(value)
             except AttributeError:
                 pass
+
+
 cfg = SequanaConfig(params.configname)
 parse_path(cfg.config)
 cfg._update_yaml()
 
-cwd = os.getcwd() # if it fails, we must reset the current working directory
+cwd = os.getcwd()  # if it fails, we must reset the current working directory
 try:
     try:
         os.mkdir("rulegraph")
@@ -56,7 +64,7 @@ try:
     shell('cd rulegraph; snakemake -s "{input_filename}" --rulegraph --nolock  > rg.dot; cd .. ')
 except Exception as err:
     print(err)
-    #make sure we come back to the correct directory
+    # make sure we come back to the correct directory
     os.chdir(cwd)
 
 # Annotate the dag with URLs

@@ -24,7 +24,7 @@ options = snakemake.params.get("options", "")
 
 
 # we can not have the same options twice
-# The one in options (if found) should be kept. 
+# The one in options (if found) should be kept.
 if "-PL" not in options.split():
     PL = snakemake.params.get("PL", "Illumina")
     options += f" -PL {PL}"
@@ -44,16 +44,10 @@ if "-SM" not in options.split():
 
 if "-ID" not in options.split():
     import uuid
+
     ID = snakemake.params.get("ID", int(uuid.uuid1()))
     options += f" -ID {ID}"
 
 
-
-cmd = "picard AddOrReplaceReadGroups -VALIDATION_STRINGENCY SILENT -I {input_bam} -O {output_bam} {options} {log}"
+cmd = "picard AddOrReplaceReadGroups -VALIDATION_STRINGENCY SILENT -I {input_bam} -O {output_bam} {options} {log} && bamtools index -in {output_bam}"
 shell(cmd)
-
-
-cmd = "bamtools index -in {output_bam}"
-shell(cmd)
-
-
