@@ -46,7 +46,7 @@ if trimmed_paths:
         # Output merged PE reads
         merged = snakemake.output.get("merged", None)
         if merged:
-            if not re.search(r"--merge\b", option):
+            if not re.search(r"--merge\b", options):
                 raise ValueError("output.merged specified but '--merge' option missing from params.option")
             trimmed += f" --merged_out {merged}"
 else:
