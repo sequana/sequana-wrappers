@@ -1,16 +1,16 @@
 # Documentation
 
-Creates a rulegraph showing your pipeline dependencies
+This wrapper creates a rulegraph showing your pipeline dependencies
 
-Input section:
+**Required input:**
 
 - the snakefile filename
 
-Output section:
+**Required ouput:**
 
 - **svg**: the output SVG filename
 
-Params section:
+**Required parameters:**
 
 - **mapper**: a dictionary mapping each rule to a URL (HTML
   file or directory). Rules provided in this dictionary will be
@@ -35,6 +35,3 @@ Params section:
         wrapper:
             "main/wrappers/rulegraph"
 
-# Requirements
-
-- dot

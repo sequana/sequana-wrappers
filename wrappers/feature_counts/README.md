@@ -1,6 +1,6 @@
 # Documentation
 
-Counts reads mapped to genomic regions using featureCounts (subread)
+This wrapper counts reads mapped to genomic regions using featureCounts (subread)
 
 Reference: http://bioinf.wehi.edu.au/featureCounts/
 
