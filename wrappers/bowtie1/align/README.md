@@ -18,7 +18,7 @@ Optional output (recommended):
 
 - **sorted** If set, the BAM file will also be sorted and indexing provided
  
-Required parameters
+**Required parameters:**
 
 - **options**: a list of valid fastqc options
 - **index** the expected index base of bowtie1 genome index
@@ -40,7 +40,6 @@ Required parameters
         options: ''
         threads: 4
 
-
 # Example
 
     rule bowtie1:
@@ -50,10 +49,10 @@ Required parameters
             bam="{sample}/bowtie1/{sample}.bam
             sorted="{sample}/bowtie1/{sample}.sorted.bam
         params:
-            options = config['bowtie1'][options'],         
+            options = config['bowtie1'][options'],
             index="reference/mygenome"
         threads:
-            config['bowtie1"]["threads"]            
+            config['bowtie1"]["threads"]
         log:
             "{sample}/bowtie1/{sample}.log"
         wrapper:

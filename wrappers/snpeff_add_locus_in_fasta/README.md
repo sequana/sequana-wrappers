@@ -4,34 +4,32 @@ SnpEff requires the locus names in the annotation file and in the FASTA
 file (contig name) to be identical. To make this is true, this rule adds
 locus names of the genbank file into the FASTA file before the mapping.
 
-Required input:
+**Required input:**
 
-- FASTA file of the reference.
-- GENBANK file
+- **fasta** FASTA file of the reference.
+- **ann** GENBANK or GFF file for annotation
 
-Required output:
+**Required output:**
 
 - FASTA file with locus names.
 
-Log:
+**Log:**
 
 - a log file 
 
 # Configuration
 
-snpeff:
-    annotation_file:  # the genbank file
-    options:    # result filters options
+There is no configuration required for this wrapper.
 
 # Example
 
     rule snpeff_add_locus_in_fasta:
         input:
-            fasta="test.fasta",
-            ann="test.gbk"
+            fasta="{sample}.fas",
+            ann="{sample}.gbk"
         output:
-            "{sample}/bamtools/{sample}.sorted.bai
+            "{sample}/snpeff_add_locus_in_fasta/{sample}.fas
         log:
-            "common_logs/snpeff_add_locus_in_fasta.log"
+            "{sample}/snpeff_add_locus_in_fasta/{sample}.log"
         wrapper:
             "main/wrappers/snpeff_add_locus_in_fasta

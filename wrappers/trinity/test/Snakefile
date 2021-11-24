@@ -8,7 +8,7 @@ rule trinity:
     log:
         'logs/trinity/trinity.log'
     params:
-        option=""
+        options=""
     threads: 4
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)

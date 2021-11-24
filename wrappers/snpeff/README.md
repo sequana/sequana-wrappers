@@ -4,53 +4,47 @@ SnpEff adds annotation of variants detected in a VCF file. It annotates
 using the old 'EFF' field instead of 'ANN' field. The latter does not
 provide the codon change information.
 
-Required input:
+**Required input:**
 
-- VCF file of detected variants.
-- Annotation genbank file
+- **vcf**: VCF file of detected variants.
+- **ann**: Annotation genbank file
 
-Required output:
+**Required output:**
 
-- Annotated VCF file.
-- HTML report
-- CSV file with Variants
-
+- **vcf**: Annotated VCF file.
+- **html**: HTML report
+- **csv**: CSV file with Variants
 
 # Configuration
 
-    snpeff:
-        reference: 'genes.gb' # The genbank file with annotation of the reference.
-        options: '-no-downstream' # Any options
+	######################################################################
+	# SNPEff section
+	#
+	# :Parameters:
+	#
+	# - options: string with any valid SNPEff options
+	snpeff:
+		options: '-no-downstream'
 
-Results filter options:
+# Reference
 
-- *-no-downstream*: Do not show DOWNSTREAM changes
-- *-no-intergenic*: Do not show INTERGENIC changes
-- *-no-intron*:     Do not show INTRON changes
-- *-no-upstream*:  Do not show UPSTREAM changes
-- *-no-utr*:       Do not show 5_PRIME_UTR or 3_PRIME_UTR changes
-
+- https://pcingola.github.io/SnpEff/se_introduction/
 
 
 # Example
 
     rule snpeff:
         input:
-            bam = "test.raw.vcf",
+            vcf = "{sample}/freebayes/{sample}.vcf",
             ann = "measles.gbk"
         output:
-            vcf = "test.ann.vcf",
-            csv = "test.ann.csv",
-            html = "snpeff.html"
+            vcf = "{sample}/snpeff/{sample}.vcf",
+            csv = "{sample}/snpeff/{sample}.csv",
+            html = "{sample}/snpeff/{sample}.html"
         log:
-            "snpeff.log"
+            "{sample}/snpeff/{sample}.log"
         params:
-            options = ""
+            options = config["snpeff"]["options"]
         wrapper:
             "main/wrappers/snpeff"
-
-# Note
-
-.. seealso:: snpeff_add_locus_in_fasta
-
 

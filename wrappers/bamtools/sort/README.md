@@ -1,18 +1,18 @@
 # Documentation
 
-Indexing of a BAM file using bamtools
+Sorting of a BAM file using bamtools
 
-Required input:
+**Required input:**
 
 - the input BAM file
 
-Required output:
+**Required output:**
 
-- the indexed BAM file (same as input + .bai extension)
+- the sorted BAM file
 
-Log:
+**Log:**
 
-- a log file
+- a log file produced by bamtools
 
 # Configuration
 
@@ -24,11 +24,11 @@ params.options is used (empty by default).
 
     rule bamtools_index:
         input:
-            "{sample}/bamtools/{sample}.sorted.bam
+            "{sample}/bamtools/{sample}.bam
         output:
-            "{sample}/bamtools/{sample}.sorted.bai
+            "{sample}/bamtools/{sample}.sorted.bam
         log:
-            "{sample}/bamtools/bamtools_index.log"
+            "{sample}/bamtools/bamtools_sort.log"
         wrapper:
-            "main/wrappers/bamtools/index"
+            "main/wrappers/bamtools/sort"
 

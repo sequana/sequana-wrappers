@@ -1,31 +1,44 @@
-rule bz2_to_gz:
-    """**Convert fastq.gz files to fastq.bz2 files**
+# Documentation
 
-    Here are the steps followed by the rule. Any failure stops the
-    process and the original file is untouched. If all succeed, the
-    input is deleted.
+bz2_to_gz converts fastq.gz files to fastq.bz2 files
 
-        #. the input BZ2 file is checked for integrity.
-        #. the input BZ2 file is decompressed with **pbunzip2** and redirected
-           a pipe to **pigz** executable into a GZ output.
-        #. the output is checked for integrity with **pigz**.
-        #. the input BZ2 file is deleted.
+Here are the steps followed by the rule. Any failure stops the
+process and the original file is untouched. If all succeed, the
+input is deleted.
 
-    Required input:
-         - the input bzipped files (wildcards possible)
-    Required output:
-         - the output gzipped files (wildcards possible)
-    Required parameters:
-        - threads:
+- the input BZ2 file is checked for integrity.
+- the input BZ2 file is decompressed with **pbunzip2** and redirected a pipe to
+  **pigz** executable into a GZ output.
+- the output is checked for integrity with **pigz**.
+- the input BZ2 file is deleted.
 
+**Required input:**
 
-    configuration requirements::
+- bzipped files (wildcards possible)
 
-        compressor:
-            - threads
+**Required output:**
 
-    """
-    input: "{dataset}.bz2"
-    output: "{dataset}.gz"
-    threads: config['compressor']['threads']
-    wrapper: main/wrappers/bz2_to_gz
+- output gzipped files (wildcards possible)
+
+# Configuration
+
+	######################################################################
+	# bz2_to_gz section
+	#
+	# :Parameters:
+	#
+	bz2_to_gz:
+		threads: 4
+
+# Example
+
+	rule bz2_to_gz:
+		input:
+			"{sample}.fq.bz2"
+		output:
+			"{sample}/bz2_to_gz/{sample}.fq.gz"		
+		threads:
+			config["bz2_to_gz"]["threads"]
+		wrapper:
+			"main/wrappers/bz2_to_gz"
+

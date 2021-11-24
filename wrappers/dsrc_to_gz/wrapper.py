@@ -17,10 +17,11 @@ from os import path
 from snakemake.shell import shell
 
 # Get directory name
-input_file = snakemake.output[0]
+input_file = snakemake.input[0]
 output_file = snakemake.output[0]
+options = snakemake.params.get("options", "")
 
-cmd = "dsrc d -s -t{threads} {snakemake.params} {input_file} | pigz -p {threads} > {output_file}"
+cmd = "dsrc d -s -t{threads} {options} {input_file} | pigz -p {threads} > {output_file}"
 shell(cmd)
 
 # Check integrity
