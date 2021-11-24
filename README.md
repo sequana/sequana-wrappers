@@ -77,6 +77,32 @@ Consider this example::
         wrapper:
             "falco/wrappers/falco"
 
+
+## Additional Developer Guide
+
+### Naming arguments of the different sections
+
+In all sections (e.g., input, params), if there is only one input, no need to name it, otherwise, please do.
+
+    rule example1:
+        input:
+            "test.bam"
+        output:
+            "test.sorted.bam"
+        ...
+
+but:
+    rule example1:
+        input:
+            "test.bam"
+        output:
+            bam="test.sorted.bam"
+            bai="test.sorted.bam.bai"
+        ...
+
+
+
+
 ## Documentation
 
 Please see the wrappers/fastqc/README.md example. The file must be in markdown
@@ -96,7 +122,7 @@ Make sure you have added/commited the files you want to test.
 
 Generally, you should create a branch, add the recipe. In the test file, when setting the wrapper
 you should replace the first 'main' by your branch name and then you can test the wrapper locally as
-follows::
+follows:
 
    cd wrapper/your_recipe/test
    snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p

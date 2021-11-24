@@ -1,0 +1,23 @@
+
+
+
+
+rule add_read_group:
+    input:
+        "test.bam"
+    output:
+        bam="test.rg.bam",
+        bai="test.rg.bam.bai"
+    log:
+        "log.out"
+    params:
+        ID="test",
+        LB="lib",
+        PL="ILLUMINA",
+        PU="unit",
+        SM="test",
+        options=""
+    wrapper:
+        "main/wrappers/add_read_group"
+
+

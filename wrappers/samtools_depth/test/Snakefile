@@ -1,0 +1,9 @@
+rule samtools_depth:
+    input: 
+        "test.sorted.bam"
+    output: 
+        "test.bed"   
+    log: 
+        "out.log"
+    wrapper:
+        "main/wrappers/samtools_depth"

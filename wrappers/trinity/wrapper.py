@@ -29,18 +29,10 @@ elif "mem_gb" in snakemake.resources.keys():
 # allow multiple input files for single assembly
 left = snakemake.input.get("left")
 assert left is not None, "input-> left is a required input parameter"
-left = (
-    [snakemake.input.left]
-    if isinstance(snakemake.input.left, str)
-    else snakemake.input.left
-)
+left = [snakemake.input.left] if isinstance(snakemake.input.left, str) else snakemake.input.left
 right = snakemake.input.get("right")
 if right:
-    right = (
-        [snakemake.input.right]
-        if isinstance(snakemake.input.right, str)
-        else snakemake.input.right
-    )
+    right = [snakemake.input.right] if isinstance(snakemake.input.right, str) else snakemake.input.right
     assert len(left) >= len(
         right
     ), "left input needs to contain at least the same number of files as the right input (can contain additional, single-end files)"

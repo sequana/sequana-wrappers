@@ -1,0 +1,12 @@
+
+rule snpeff_add_locus_in_fasta:
+    input:
+        fasta="measles.fa",
+        ann="measles.gbk"
+    output:
+        "reference/measles.fasta"
+    log:
+        "common_logs/snpeff_add_locus_in_fasta.log"
+    wrapper:
+        "main/wrappers/snpeff_add_locus_in_fasta"
+

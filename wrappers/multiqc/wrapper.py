@@ -1,3 +1,15 @@
+#
+#  This file is part of Sequana software
+#
+#  Copyright (c) 2016-2021 - Sequana Dev Team (https://sequana.readthedocs.io)
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  Website:       https://github.com/sequana/sequana
+#  Documentation: http://sequana.readthedocs.io
+#  Contributors:  https://github.com/sequana/sequana/graphs/contributors
+##############################################################################
 """Snakemake wrapper for multiqc."""
 
 __author__ = "Etienne Kornobis, Thomas Cokelaer"
@@ -9,7 +21,6 @@ from os import path
 
 from snakemake.shell import shell
 
-
 output_dir = path.dirname(snakemake.output[0])
 output_name = path.basename(snakemake.output[0])
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
@@ -19,6 +30,7 @@ options = snakemake.params.options
 input_directory = snakemake.params.input_directory
 modules = snakemake.params.modules
 config_file = snakemake.params.config_file
+
 
 # if config file not provided, should be set to empty string
 if config_file.strip():

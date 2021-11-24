@@ -1,0 +1,14 @@
+
+rule freebayes:
+    input:
+        bam = "test.sorted.bam",
+        ref = "measles.fa"
+    output:
+        vcf = "test.vcf"
+    log:
+        "freebayes.log"
+    params:
+        ploidy = 1,
+        options = ""
+    wrapper:
+        "main/wrappers/freebayes/"
