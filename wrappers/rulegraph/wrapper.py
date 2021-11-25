@@ -11,6 +11,7 @@
 #  Contributors:  https://github.com/sequana/sequana/graphs/contributors
 ##############################################################################
 import os
+from pathlib import Path
 
 from snakemake.shell import shell
 from sequana_pipetools import SequanaConfig
@@ -33,14 +34,20 @@ from sequana_pipetools.snaketools import DOTParser
 
 input_filename = snakemake.input[0]
 output_svg = snakemake.output["svg"]
-params = snakemake.params
+
+# get params
+config_filename = snakemake.params.get("configname")
+mapper = snakemake.params.get("mapper", {})
+required_local_files = snakemake.params.get("required_local_files", [])
+
 
 # change relative path to absolute path
 def parse_path(dico):
     for key, value in dico.items():
         try:
-            if os.path.exists(value):
-                dico[key] = os.path.realpath(value)
+            p = Path(value)
+            if p.exists():
+                dico[key] = str(p.resolve())
         # check overflowerror if value is a large int
         except (TypeError, OverflowError):
             try:
@@ -49,27 +56,38 @@ def parse_path(dico):
                 pass
 
 
-cfg = SequanaConfig(params.configname)
+def link_required_files(required_paths: list):
+    """Symbolic link of required files"""
+    for path in required_paths:
+        try:
+            if Path(path).exists():
+                Path(f"rulegraph/{path}").symlink_to(f"../{path}")
+            else:
+                raise FileNotFoundError(f"Required local file {path} is not found.")
+        except FileExistsError:
+            pass
+
+
+cfg = SequanaConfig(config_filename)
 parse_path(cfg.config)
 cfg._update_yaml()
 
-cwd = os.getcwd()  # if it fails, we must reset the current working directory
+cwd = Path.cwd()  # if it fails, we must reset the current working directory
 try:
-    try:
-        os.mkdir("rulegraph")
-    except:
-        pass
-    cfg.copy_requirements(target="rulegraph")
-    cfg.save(filename="rulegraph" + os.sep + params.configname)
-    shell('cd rulegraph; snakemake -s "{input_filename}" --rulegraph --nolock  > rg.dot; cd .. ')
+    Path("rulegraph").mkdir(exist_ok=True)
+    if config_filename:
+        cfg.copy_requirements(target="rulegraph")
+        cfg.save(filename=Path("rulegraph") / config_filename)
+    link_required_files(required_local_files)
+    shell('cd rulegraph && snakemake -s "{input_filename}" --rulegraph --nolock  > rg.dot; cd ..')
 except Exception as err:
     print(err)
     # make sure we come back to the correct directory
     os.chdir(cwd)
 
 # Annotate the dag with URLs
-d = DOTParser(cwd + os.sep + "rulegraph/rg.dot")
-d.add_urls(mapper=params.mapper)
+d = DOTParser(cwd / "rulegraph" / "rg.dot")
+d.add_urls(mapper=mapper)
 
 # Now, create the SVG. Somehow if called dag.svg, this is a conflict
 # hence the || true

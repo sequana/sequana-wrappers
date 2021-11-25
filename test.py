@@ -16,11 +16,7 @@ if DIFF_MASTER or DIFF_LAST_COMMIT:
     compare = "HEAD^" if DIFF_LAST_COMMIT else "origin/main"
 
     # check if wrapper is modified compared to master
-    DIFF_FILES = (
-        subprocess.check_output(["git", "diff", compare, "--name-only"])
-        .decode()
-        .split("\n")
-    )
+    DIFF_FILES = subprocess.check_output(["git", "diff", compare, "--name-only"]).decode().split("\n")
 
 
 # what to skip on github or locally
@@ -67,9 +63,7 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
             copy_wrapper(extra_wrapper, dst)
 
         # if test did not changed, not need to be run on CI action
-        if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(
-            f.startswith(wrapper) for f in DIFF_FILES
-        ):
+        if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(f.startswith(wrapper) for f in DIFF_FILES):
             raise Skipped("wrappers not modified")
 
         # if test modified but cannot be run on CI action, raise exception
@@ -89,11 +83,7 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
         except Exception as e:
             # go back to original directory
             os.chdir(origdir)
-            logfiles = [
-                os.path.join(d, f)
-                for d, _, files in os.walk(os.path.join(testdir, "logs"))
-                for f in files
-            ]
+            logfiles = [os.path.join(d, f) for d, _, files in os.walk(os.path.join(testdir, "logs")) for f in files]
             for path in logfiles:
                 with open(path) as f:
                     msg = "###### Logfile: " + path + " ######"
@@ -439,7 +429,7 @@ def test_bamtools_index():
 
 @skip_if_not_modified
 def test_feature_counts():
-    run("wrappers/feature_counts",command)
+    run("wrappers/feature_counts", command)
 
 
 @skip_if_not_modified
@@ -456,26 +446,37 @@ def test_snpeff_add_locus_in_fasta():
 def test_sambamba_markdup():
     run("wrappers/sambamba_markdup", command)
 
+
 @skip_if_not_modified
 def test_sambamba_filter():
     run("wrappers/sambamba_filter", command)
+
 
 @skip_if_not_modified
 def test_samtools_depth():
     run("wrappers/samtools_depth", command)
 
+
 @skip_if_not_modified
 def test_sequana_coverage():
     run("wrappers/sequana_coverage", command)
+
 
 @skip_if_not_modified
 def test_freebayes():
     run("wrappers/freebayes", command)
 
+
 @skip_if_not_modified
 def test_freebayes_vcf_filter():
     run("wrappers/freebayes_vcf_filter", command)
 
+
 @skip_if_not_modified
 def test_snpeff():
     run("wrappers/snpeff", command)
+
+
+@skip_if_not_modified
+def test_rulegraph():
+    run("wrappers/rulegraph", command)

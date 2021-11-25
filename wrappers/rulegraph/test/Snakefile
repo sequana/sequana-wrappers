@@ -2,16 +2,14 @@ rule all:
     input: 
         "test.svg"
 
-rule rulegraph
+rule rulegraph:
     input:
-        "Snakefile"  
+        workflow.snakefile
     output:
         svg  = "test.svg"
     params:
-        mapper = {'rulegraph': 'rulegraph.html}
-        configname="config.yaml"
+        mapper = {'rulegraph': 'rulegraph.html'},
+        required_local_file = ['schema.yml',],
+        configname = 'config.yml'
     wrapper:
         "main/wrappers/rulegraph"
-
-
-
