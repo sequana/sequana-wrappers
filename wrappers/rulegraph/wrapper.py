@@ -42,12 +42,14 @@ required_local_files = snakemake.params.get("required_local_files", [])
 
 
 # change relative path to absolute path
-def parse_path(dico):
+def parse_path(dico: dict):
     for key, value in dico.items():
         try:
-            p = Path(value)
-            if p.exists():
-                dico[key] = str(p.resolve())
+            if value:
+                try:
+                    dico[key] = str(Path(value).resolve(strict=True))
+                except FileNotFoundError:
+                    pass
         # check overflowerror if value is a large int
         except (TypeError, OverflowError):
             try:
