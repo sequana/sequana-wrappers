@@ -14,13 +14,6 @@ index = snakemake.params.get("index_algorithm")
 assert index in ['is', 'bwtsw', 'rb2'], "index must be set to 'is', 'rb2' or bwtsw'; please see bwa documentation"
 
 
-from easydev import cmd_exists
-if cmd_exists("pbwa"):
-    cmd = "pbwa"
-else:
-    cmd = "bwa"
-
-
-shell("{cmd} index -a {index} {options} {reference}  {log} ")
+shell("bwa index -a {index} {options} {reference}  {log} ")
 
 shell("samtools faidx {reference}")

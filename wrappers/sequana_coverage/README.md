@@ -7,32 +7,47 @@ Moreover, a CSV file with all metrics computed is created.
 This CSV can be used to regenerate the sequana_coverage report.
 
 
-Required input:
+**Required input:**
 
-- BED file (built e.g with samtools_depth -aa input.bam)
-- FASTA file of the reference.
-- GENBANK file
+- **bed**: a BED file (built e.g with samtools_depth -aa input.bam)
+- **fasta**: a FASTA file of the reference.
+- **gbk**: a GENBANK file
 
-Required output:
+**Required output:**
 
 - FASTA file with locus names.
 
-Log:
+**Log:**
 
 - a log file 
 
 # Configuration
 
+    ##############################################################################
+    #
+    # :Parameters:
+    #
+    # :param circular: is your genome circular or not ?
+    # :param chunksize: for large genomes, split the data into chunks
+    # :param double_threshold: double threshold for clustering. Keep 0.5 if you do
+    #     not know. Otherwise, checkout the online documentation on
+    #     sequana.readthedocs.io
+    # :param high_threshold: keep 4 or check the online documentation
+    # :param low_threshold: keep -4 or check the online documentation
+    # :param mixture_models: keep to 2.
+    # :param window: the W parameter of the running median. Keep as long as twice
+    #     the deleted/depleted/duplicated you want to identify or to avoid. short
+    #     genome will be set to genome length divided by 5 automatically. 
     sequana_coverage:
         do: true
         circular: true
-        window_size: 3001
-        chunksize: 5000000
+        chunksize: 6000000
         double_threshold: 0.5
         gc_window_size: 201
         high_threshold: 4.0
         low_threshold: -4.0
         mixture_models: 2
+        window_size: 3001
 
 # Example
 

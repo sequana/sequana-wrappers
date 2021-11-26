@@ -1,6 +1,6 @@
 # Documentation
 
-Calls bcl2fastq to convert BCL raw data into FastQ files
+This wrapper calls **bcl2fastq** software to convert BCL raw data into FastQ files
 
 Required input:
 
@@ -26,7 +26,7 @@ Log:
 # Configuration
 
     ##############################################################################
-    # FastQC section
+    # bcl2fastq section
     #
     # :Parameters:
     #
