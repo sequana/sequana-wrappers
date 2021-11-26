@@ -4,5 +4,6 @@ channels:
   - defaults
 dependencies:
   - graphviz
-  - sequana_pipetools
-  - snakemake
+  - pip:
+    - sequana_pipetools
+    - snakemake
