@@ -30,6 +30,7 @@ suffix_dict = {
 options = snakemake.params.get("options", "")
 use_grid = snakemake.params.get("use_grid", False)
 step = snakemake.params.get("step", "")
+preset = snakemake.params.get("preset", "pacbio")
 # canu keeps maxThreads even with use_grid=True ( ͠° ͟ʖ ͡°)
 max_threads = "" if use_grid else f"maxThreads={snakemake.threads}"
 
@@ -54,7 +55,7 @@ shell(
     " {options}"
     " onSuccess='touch canu{step}.done'"
     " onFailure='touch canu{step}.failed'"
-    " -pacbio {snakemake.input[0]}"
+    " -{preset} {snakemake.input[0]}"
 )
 
 # wait canu if grid is used
