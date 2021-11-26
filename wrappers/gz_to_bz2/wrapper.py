@@ -19,20 +19,19 @@ from snakemake.shell import shell
 
 
 # Get directory name
-input_file = snakemake.output[0]
+input_file = snakemake.input[0]
 output_file = snakemake.output[0]
 
-
 # check integrity
-cmd = "pigz -p{threads} --test {input_file}"
+cmd = "pigz -p {snakemake.threads} --test {input_file}"
 shell(cmd)
 
 # conversion
-cmd = "pigz -d -c -p {threads} {input_file} | pbzip2 -p{threads} > {output_file}"
+cmd = "pigz -d -c -p {snakemake.threads} {input_file} | pbzip2 -p {snakemake.threads} > {output_file}"
 shell(cmd)
 
 # integrity output
-cmd = "pbzip2 {output_file} -p{threads} --test"
+cmd = "pbzip2 {output_file} -p {snakemake.threads} --test"
 shell(cmd)
 
 # remove original file

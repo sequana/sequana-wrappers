@@ -2,24 +2,23 @@
 
 Indexing of a BAM file using bamtools
 
-Required input:
+**Required input:**
 
 - the input BAM file
 
-Required output:
+**Required output:**
 
 - the indexed BAM file (same as input + .bai extension)
 
-Log:
+**Log:**
 
-- a log file
+- a log file produced by bamtools
 
 # Configuration
 
 There is no configuration required for this wrapper.
 However, to be consistent with other wrapper, the 
 params.options is used (empty by default).
-
 
 # Example
 
@@ -32,4 +31,8 @@ params.options is used (empty by default).
             "{sample}/bamtools/bamtools_index.log"
         wrapper:
             "main/wrappers/bamtools/index"
+
+# References
+
+- https://github.com/pezmaster31/bamtools
 

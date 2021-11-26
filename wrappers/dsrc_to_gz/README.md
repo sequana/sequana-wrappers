@@ -1,28 +1,45 @@
-rule dsrc_to_gz:
-    """**Convert fastq.dsrc files to fastq.gz files**
+# Documentation
 
-    Here are the steps followed by the rule. Any failure stops the
-    process and the original file is untouched. If all succeed, the
-    input is deleted.
+dsrc_to_gz converts fastq.dsrc files to fastq.gz files
 
-        #. the input DSRC file is decompressed with **dsrc** and redirected
-           a pipe to **pigz** executable into a GZ output.
-        #. Third, the output is checked for integrity with **pigz**.
-        #. Fourth, the input DSRC file is deleted.
+Here are the steps followed by the rule. Any failure stops the
+process and the original file is untouched. If all succeed, the
+input is deleted.
 
-    :param input: {dataset}.dsrc
-    :param output: {dataset}.gz 
-    :third-party executables: dsrc and pigz
+- the input DSRC file is decompressed with **dsrc** and redirected a pipe to
+  **pigz** executable into a GZ output.
+- the output is checked for integrity with **pigz**.
+- the input DSRC file is deleted.
 
-    configuration requirements::
+**Required input:**
 
-        compressor:
-            - threads
+- a dsrc compressed FASTQ file
 
-    """
-    input: "{dataset}.dsrc"
-    output: "{dataset}.gz"
-    params: "-m2"
-    threads: config["compressor"]["threads"]
-    wrappers: main/wrapper/dsrc_to_gz
+**Required output:**
 
+- a gz compressed FASTQ file
+
+# Configuration
+
+	######################################################################
+	# dsrc_to_gz section
+	#
+	# :Parameters:
+	#
+	dsrc_to_gz:
+		threads: 4
+		options: "-m2"
+
+# Example
+
+	rule dsrc_to_gz:
+		input:
+			"{sample}.fq.dsrc"
+		output:
+			"{sample}/dsrc_to_gz/{sample}.fq.gz"
+		params:
+			options = config["dsrc_to_gz"]["options"]
+		threads:
+			config["dsrc_to_gz"]["threads"]
+		wrapper:
+			"main/wrappers/dsrc_to_gz"
