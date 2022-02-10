@@ -21,7 +21,6 @@ from sequana.utils import config
 # Get rule information (input/output/params...)
 
 input_bed = snakemake.input.bed
-input_gbk = snakemake.input.gbk
 input_fasta = snakemake.input.fasta
 
 output_html = snakemake.output[0]
@@ -35,6 +34,7 @@ params_k = snakemake.params.get("mixture_models", 2)
 high = snakemake.params.get("high_threshold", 4)
 low = snakemake.params.get("low_threshold", -4)
 window_size = snakemake.params.get("window_size", 3001)
+input_gbk = snakemake.params.get("gbk", None)
 
 
 # Run sequana coverage
