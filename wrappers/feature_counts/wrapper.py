@@ -29,10 +29,8 @@ if str(strandness).strip() not in ["0", "1", "2"]:
     raise ValueError("the strandness must be set to 0, 1, or 2")
 options += f" -s {strandness} "
 
-if snakemake.params.gff_is_saf:
-    options += "-F SAF "
-else:
-    # add required feature and attribute options
+if not "-F SAF" in options:
+    # add required feature and attribute options if not in SAF mode
     options += f" -t {snakemake.params.feature} "
     options += f" -g {snakemake.params.attribute} "
 
