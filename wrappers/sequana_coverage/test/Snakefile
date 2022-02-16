@@ -7,8 +7,7 @@
 rule sequana_coverage:
     input:
         bed = "test.bed",
-        fasta = "measles.fa",
-        gbk = "measles.gbk"
+        fasta = "measles.fa"
     output:
         html = "test/sequana_coverage.html"
     params:
@@ -18,6 +17,7 @@ rule sequana_coverage:
         circular = True,
         chunksize = 5000000,
         gc_window_size = 201,
+        gbk = "measles.gbk"
     wrapper:
         "main/wrappers/sequana_coverage"
 
