@@ -29,8 +29,6 @@ else:
 shell(
     "(bowtie2 --threads {snakemake.threads} {options} "
     "-x {snakemake.params.index} {reads} "
-    "| samtools view -Sbh -o {snakemake.output.bam} -) {log}"
+    "| samtools sort - > {snakemake.output.bam} "
+    "&& samtools index {snakemake.output.bam}) {log}"
 )
-
-shell("samtools sort {snakemake.output.bam} > {snakemake.output.sorted}")
-shell("samtools index {snakemake.output.sorted}")

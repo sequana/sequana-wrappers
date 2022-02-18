@@ -195,7 +195,7 @@ def test_fastp_se():
 def test_bowtie2_align():
     run(
         "wrappers/bowtie2/align",
-        ["snakemake", "--cores", "1", "mapped/a.bam", "--use-conda", "-F"],
+        ["snakemake", "--cores", "1", "mapped/a.sorted.bam", "--use-conda", "-F"],
     )
 
 
