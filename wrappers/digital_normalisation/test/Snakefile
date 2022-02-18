@@ -1,0 +1,47 @@
+
+# Call wrappers combine PE and SE data.
+# Note, that we also test the case where params.tmp_graph_name is provided or not to test the 
+# default value implemented in the wrapper
+
+rule all:
+    input: "dn_PE.log", "dn_SE.log"
+
+
+
+rule digital_normalisation_PE:
+    input:
+        fastq=["data_R1_.fastq.gz", "data_R2_.fastq.gz"]
+    output:
+        fastq=["data_R1_.dnpe.fastq", "data_R2_.dnpe.fastq"],
+    log:
+        "dn_PE.log"
+    params:
+        prefix = "dn",
+        ksize = 20,
+        cutoff = 20,
+        m = 1000000000,
+        options = '',
+    threads: 1
+    wrapper:
+        "main/wrappers/digital_normalisation"
+
+
+
+rule digital_normalisation_SE:
+    input:
+        fastq="data_R1_.fastq.gz"
+    output:
+        fastq="data_R1_.dnse.fastq",
+    log:
+        "dn_SE.log"
+    params:
+        prefix = "dn",
+        ksize = 20,
+        cutoff = 20,
+        m = 1000000000,
+        options = '',
+        tmp_graph_name="graph.ct.se"
+    threads: 1
+    wrapper:
+        "main/wrappers/digital_normalisation"
+

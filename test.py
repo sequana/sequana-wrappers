@@ -480,3 +480,8 @@ def test_snpeff():
 @skip_if_not_modified
 def test_rulegraph():
     run("wrappers/rulegraph", command)
+
+
+@skip_if_not_modified
+def test_digital_normalisation():
+    run("wrappers/digital_normalisation", command)
