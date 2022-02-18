@@ -140,23 +140,23 @@ In ./wrappers, add a new wrapper. Copy the existing fastqc wrapper for instance.
 Edit the wrapper.py and design a test/Snakefile example for testing. Since you are
 a developer, you are problaby developping in a dedicated branch. Let us call it **dev**.
 
-In the test/Snakefile, you should switch from the **main** to the **dev** in the wrapper path::
+In the test/Snakefile, you should switch from the **main** to the **dev** in the wrapper path:
 
     wrapper:
         "dev/wrappers/my_new_wrapper"
 
-In order to test your Snakefile, you first need to commit the wrapper.py. Then, execute the Snakefile::
+In order to test your Snakefile, you first need to commit the wrapper.py. Then, execute the Snakefile:
 
-   snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p
+    snakemake -s Snakefile  -j 1 --wrapper-prefix git+file:///YOURPATH/sequana-wrappers/ -f -p
 
 If it fails, edit and commit your wrapper.py and execute again until your Snakefile and wrappers are functional.
 
-Once done, switch back the wrapper path to the **main** branch::
+Once done, switch back the wrapper path to the **main** branch:
 
     wrapper:
         "main/wrappers/my_new_wrapper"
 
-Time to include the new wrapper in the continous integration. Go to the root of sequana-wrappers and add a functional test to the end of test.py. Then, test it::
+Time to include the new wrapper in the continous integration. Go to the root of sequana-wrappers and add a functional test to the end of test.py. Then, test it:
 
     pytest test.py -k my_new_wrapper -v
 
