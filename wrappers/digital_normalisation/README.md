@@ -51,7 +51,7 @@ Parameters:
 
 Note that the input and output must be named
 
-::
+:
 
     rule digital_normalisation_PE:
         input:
