@@ -29,16 +29,6 @@ else:
 shell(
     "(bowtie2 --threads {snakemake.threads} {options} "
     "-x {snakemake.params.index} {reads} "
-    "| samtools view -Sbh -o {snakemake.output.bam} -) {log}"
+    "| samtools sort - > {snakemake.output.bam} "
+    "&& samtools index {snakemake.output.bam}) {log}"
 )
-
-try:
-    snakemake.output.sorted
-    # sort the bam
-    shell("bamtools sort -in {snakemake.output.bam} -out {snakemake.output.sorted}")
-    # and index it
-    shell("bamtools index -in {snakemake.output.sorted}")
-except AttributeError:
-    # FIXME. could add a logger.warning here possibly in the future
-    pass
-
