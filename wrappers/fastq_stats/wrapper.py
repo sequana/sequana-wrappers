@@ -23,6 +23,7 @@ from sequana_pipetools.snaketools import FileFactory
 # Get rule information (input/output/params...)
 input_fastq = snakemake.input[0]
 
+print("99999999999")
 # params
 params = snakemake.params
 
