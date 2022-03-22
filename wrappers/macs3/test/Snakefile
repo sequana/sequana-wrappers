@@ -1,0 +1,58 @@
+
+
+rule all:
+    input:
+        "macs3/narrow/tag_peaks.xls",
+        #"macs3_paired/narrow/tag_peaks.xls",
+        "macs3/broad/tag_peaks.xls",
+        directory("macs3_paired/narrow")
+
+
+# Here only one input for IP, one control and two 
+# outputs (narrow and broad) using a wildcards to run
+# the two modes
+rule macs3:
+    input:
+        IP = "IP1.bam",
+        control = "control.bam",
+    output:
+        "macs3/{narrow_broad}/tag_peaks.xls"
+    params:
+        bandwidth       = 300,
+        genome_size     = 4000000,
+        options         = " --keep-dup all ",
+        broad_cutoff    = 0.05,
+        paired          = True,
+        prefix          = "tag",
+        qvalue          = 0.05,
+        mode            = "{narrow_broad}"
+    log:
+        "macs3/{narrow_broad}/out.log"
+    wrapper:
+        "main/wrappers/macs3"
+
+
+# Here two inputs for IP, one control and only one output (narrow)
+# we also remove the options and qvalue parameters, to test
+# that they can be omitted. Note also that instead of being explicit
+# for the output, we use a directory(). Since it is narrow mode,
+# we can also omit the broad-cutoff option 
+rule macs3_paired:
+    input:
+        IP = ["IP1.bam", "IP2.bam"],
+        control = "control.bam",
+    output:
+        directory("macs3_paired/narrow")
+        #"macs3_paired/narrow/tag_peaks.xls",
+        #"macs3/narrow/tag_peaks.xls"
+    params:
+        bandwidth       = 300,
+        genome_size     = 4000000,
+        mode            = "narrow",
+        paired          = True,
+        prefix          = "tag",
+    log:
+        "macs3_paired/narrow/out.log"
+    wrapper:
+        "main/wrappers/macs3"
+
