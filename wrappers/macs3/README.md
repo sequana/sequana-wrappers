@@ -1,10 +1,10 @@
 # Documentation
 
-This wrapper calls peaks in ChIP-seq and ATAQ-seq like sequencing runs.
+This wrapper calls peaks in ChIP-seq and ATAC-seq like sequencing runs.
 
 **Required input:**
 
-- 1 or several sorted BAM files (IPs)
+- 1 or several sorted BAM files (inputs)
 - 1 or several sorted BAM files (controls)
 
 You must set the names IP and control in the input list (see example below).
@@ -33,8 +33,9 @@ the different output files created by macs3.
 * genome_size: this is the mappable size of your genome and is a very important parameter 
 * mode: 'broad'    # broad or narrow. compulsary parameter
 * paired: True  is the data paired or not. Using sequana manager, you can simply set it to manager.paired
-* prefix: tag name. All files will be saved in an output directory according to your output files. However, you alos
-  need to provide a prefix to all the files that will be generated. Set to e.g. 'macs3' or the name of a comparison.
+* prefix: tag name. All files will be saved in an output directory according to your output files. However, 
+  you also need to provide a prefix to all the files that will be generated. Set to e.g. 'macs3' or the 
+  name of a comparison.
 
 
 # Configuration
@@ -63,8 +64,8 @@ mode.
 
     rule macs3:
         input:
-            IP = ["1.bam", "2.bam"],
-            control = "3.bam",
+            inputs = ["1.bam", "2.bam"],
+            controls = "3.bam",
         output:
             "macs3/narrow/tag_peaks.xls",
         params:

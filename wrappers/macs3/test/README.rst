@@ -1,6 +1,6 @@
 Data obtained from biomics.pasteur.fr project B4525.
 We used sample 1 (IP) and 6 (control) mapped on Vibrio Cholera.
-Two peaks were present at postion ~ 544700 and 548288. We selected the
+Two peaks were present at position ~ 544700 and 548288. We selected the
 mapped reads in the region 500000-600000 and subsampled selecting 
 20% of the reads. Applying macs3 as follows should identify those peaks.::
 

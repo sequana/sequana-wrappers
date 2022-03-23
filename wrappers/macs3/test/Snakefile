@@ -3,9 +3,8 @@
 rule all:
     input:
         "macs3/narrow/tag_peaks.xls",
-        #"macs3_paired/narrow/tag_peaks.xls",
         "macs3/broad/tag_peaks.xls",
-        directory("macs3_paired/narrow")
+        "macs3_paired/narrow"
 
 
 # Here only one input for IP, one control and two 
@@ -13,8 +12,8 @@ rule all:
 # the two modes
 rule macs3:
     input:
-        IP = "IP1.bam",
-        control = "control.bam",
+        inputs = "IP1.bam",
+        controls = "control.bam",
     output:
         "macs3/{narrow_broad}/tag_peaks.xls"
     params:
@@ -39,12 +38,10 @@ rule macs3:
 # we can also omit the broad-cutoff option 
 rule macs3_paired:
     input:
-        IP = ["IP1.bam", "IP2.bam"],
-        control = "control.bam",
+        inputs = ["IP1.bam", "IP2.bam"],
+        controls = "control.bam",
     output:
-        directory("macs3_paired/narrow")
-        #"macs3_paired/narrow/tag_peaks.xls",
-        #"macs3/narrow/tag_peaks.xls"
+        directory("macs3_paired/narrow/")
     params:
         bandwidth       = 300,
         genome_size     = 4000000,

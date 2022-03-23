@@ -24,7 +24,11 @@ options = snakemake.params.get("options", "")
 params = snakemake.params
 
 
-cmd = "picard MarkDuplicates  I={input_bam} O={output_bam} M={output_metrics} REMOVE_DUPLICATES={params.remove_dup} TMP_DIR={params.tmpdir}  && samtools index {output_bam} {options} {log} && samtools index {output_bam}"
+cmd = (
+    "picard MarkDuplicates  I={input_bam} O={output_bam} M={output_metrics} "
+    " REMOVE_DUPLICATES={params.remove_dup} TMP_DIR={params.tmpdir}  && "
+    " samtools index {output_bam} {options} {log} && samtools index {output_bam}"
+)
 shell(cmd)
 
 
