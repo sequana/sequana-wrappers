@@ -21,11 +21,11 @@ input_file = snakemake.input[0]
 output_file = snakemake.output[0]
 options = snakemake.params.get("options", "")
 
-cmd = "dsrc d -s -t{threads} {options} {input_file} | pigz -p {threads} > {output_file}"
+cmd = "dsrc d -s -t{snakemake.threads} {options} {input_file} | pigz -p {snakemake.threads} > {output_file}"
 shell(cmd)
 
 # Check integrity
-cmd = "pigz -p {threads} --test {output_file}"
+cmd = "pigz -p {snakemake.threads} --test {output_file}"
 shell(cmd)
 
 # Delete the input file
