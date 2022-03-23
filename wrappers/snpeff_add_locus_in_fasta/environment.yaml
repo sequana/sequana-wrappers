@@ -5,4 +5,5 @@ channels:
 dependencies:
   - bamtools
   - snpeff
-  - sequana
+  - pip:
+    - sequana

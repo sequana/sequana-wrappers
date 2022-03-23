@@ -4,4 +4,5 @@ channels:
   - defaults
 dependencies:
   - freebayes
-  - sequana
+  - pip:
+    - sequana
