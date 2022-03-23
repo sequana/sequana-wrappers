@@ -4,4 +4,4 @@ channels:
   - defaults
 dependencies:
   - pigz
-  - pbzip
+  - pbzip2
