@@ -45,19 +45,19 @@ caller are aware of duplicated reads
 # Example
 
 
-rule mark_duplicates:
-    input:
-        "test.bam"
-    output:
-        bam = "test/md.bam",
-        metrics = "test/md.metrics"
-    log:
-        out = "test/log.out",
-        err = "test/log.err"
-    params:
-        remove_dup = "false",
-        tmpdir = "test/tmp"
-    wrapper:
-        "main/wrappers/mark_duplicates"
+    rule mark_duplicates:
+        input:
+            "test.bam"
+        output:
+            bam = "test/md.bam",
+            metrics = "test/md.metrics"
+        log:
+            out = "test/log.out",
+            err = "test/log.err"
+        params:
+            remove_dup = "false",
+            tmpdir = "test/tmp"
+        wrapper:
+            "main/wrappers/mark_duplicates"
 
 
