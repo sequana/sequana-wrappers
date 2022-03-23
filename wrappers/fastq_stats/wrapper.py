@@ -16,6 +16,8 @@ import shutil
 
 from snakemake.shell import shell
 from easydev import touch
+from sequana import FastQC, sequana_data
+import pylab
 
 from sequana_pipetools.snaketools import FileFactory
 
@@ -26,8 +28,6 @@ input_fastq = snakemake.input[0]
 # params
 params = snakemake.params
 
-from sequana import FastQC, sequana_data
-import pylab
 
 pylab.ioff()
 

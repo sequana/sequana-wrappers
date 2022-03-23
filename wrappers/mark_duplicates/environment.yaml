@@ -3,6 +3,5 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - freebayes
-  - pip:
-    - sequana
+  - picard
+  - samtools

@@ -126,19 +126,6 @@ def test_busco():
     )
 
 
-@skip_if_not_modified
-def test_fastqc():
-    run(
-        "wrappers/fastqc",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F",
-        ],
-    )
-
 
 @skip_if_not_modified
 def test_fastp_pe():
@@ -296,84 +283,6 @@ def test_trinity():
 
 
 @skip_if_not_modified
-def test_falco():
-    run(
-        "wrappers/falco",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F",
-        ],
-    )
-
-
-@skip_if_not_modified
-def test_gz_to_bz2():
-    run(
-        "wrappers/falco",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F",
-        ],
-    )
-
-
-@skip_if_not_modified
-def test_bz2_to_gz():
-    run(
-        "wrappers/falco",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F",
-        ],
-    )
-
-
-@skip_if_not_modified
-def test_gz_to_dsrc():
-    run(
-        "wrappers/falco",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "--use-conda",
-            "-F",
-        ],
-    )
-
-
-# this wrapper test do not use conda but damona
-@skip_if_not_modified
-def test_bcl2fastq():
-    run(
-        "wrappers/bcl2fastq",
-        [
-            "snakemake",
-            "--cores",
-            "2",
-            "-F",
-        ],
-    )
-
-
-@skip_if_not_modified
-def test_bowtie1_build():
-    run(
-        "wrappers/bowtie1/build",
-        ["snakemake", "--cores", "1", "--use-conda", "-F"],
-    )
-
-
-@skip_if_not_modified
 def test_bowtie1_align():
     run(
         "wrappers/bowtie1/align",
@@ -383,105 +292,40 @@ def test_bowtie1_align():
 
 
 @skip_if_not_modified
-def test_bwa_build():
-    run(
-        "wrappers/bwa/build",
-        command,
-    )
-
-
-@skip_if_not_modified
 def test_bwa_align():
     run("wrappers/bwa/align", command, extra_wrappers=["wrappers/bwa/build"])
 
 
+@pytest.mark.parametrize("wrapper_name", [
+    "add_read_group",
+    "bamtools/sort",
+    "bamtools/index",
+    "bz2_to_gz",
+    "bcl2fastq",
+    "bowtie1/build",
+    "bowtie1/align",
+    "bwa/build",
+    'digital_normalisation',
+    "dsrc_to_gz",
+    "fastq_stats",
+    "fastqc",
+    "falco",
+    "feature_counts",
+    'freebayes',
+    'freebayes_vcf_filter',
+    "gz_to_bz2",
+    'mark_duplicates',
+    "minimap2",
+    'macs3',
+    'rulegraph',
+    "sambamba_markdup",
+    "sambamba_filter",
+    "samtools_depth",
+    "sequana_coverage",
+    "snpeff_add_locus_in_fasta",
+    'snpeff'
+    ])
 @skip_if_not_modified
-def test_minimap2():
-    run(
-        "wrappers/minimap2",
-        command,
-    )
+def test_wrapper(wrapper_name):
+    run(f"wrappers/{wrapper_name}", command)
 
-
-@skip_if_not_modified
-def test_fastq_stats():
-    run(
-        "wrappers/fastq_stats",
-        command,
-    )
-
-
-@skip_if_not_modified
-def test_bamtools_sort():
-    run(
-        "wrappers/bamtools/sort",
-        command,
-    )
-
-
-@skip_if_not_modified
-def test_bamtools_index():
-    run(
-        "wrappers/bamtools/index",
-        command,
-    )
-
-
-@skip_if_not_modified
-def test_feature_counts():
-    run("wrappers/feature_counts", command)
-
-
-@skip_if_not_modified
-def test_add_read_group():
-    run("wrappers/add_read_group", command)
-
-
-@skip_if_not_modified
-def test_snpeff_add_locus_in_fasta():
-    run("wrappers/snpeff_add_locus_in_fasta", command)
-
-
-@skip_if_not_modified
-def test_sambamba_markdup():
-    run("wrappers/sambamba_markdup", command)
-
-
-@skip_if_not_modified
-def test_sambamba_filter():
-    run("wrappers/sambamba_filter", command)
-
-
-@skip_if_not_modified
-def test_samtools_depth():
-    run("wrappers/samtools_depth", command)
-
-
-@skip_if_not_modified
-def test_sequana_coverage():
-    run("wrappers/sequana_coverage", command)
-
-
-@skip_if_not_modified
-def test_freebayes():
-    run("wrappers/freebayes", command)
-
-
-@skip_if_not_modified
-def test_freebayes_vcf_filter():
-    run("wrappers/freebayes_vcf_filter", command)
-
-
-@skip_if_not_modified
-def test_snpeff():
-    run("wrappers/snpeff", command)
-
-
-@skip_if_not_modified
-def test_rulegraph():
-    run("wrappers/rulegraph", command)
-
-
-@skip_if_not_modified
-def test_digital_normalisation():
-    run("wrappers/digital_normalisation", command)

@@ -1,9 +1,13 @@
 
+rule all:
+    input: "test.fastq.gz"
+
+
 rule dsrc_to_gz:
     input:
-        "{sample}/test.fasta.dsrc"
+        "test.fastq.dsrc"
     output:
-        "{sample}/test.fasta.gz"
+        "test.fastq.gz"
     threads: 2
     params: "-m2"
     wrapper:
