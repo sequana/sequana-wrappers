@@ -24,11 +24,11 @@ output_file = snakemake.output[0]
 
 
 # check integrity
-cmd = "pbunzip2 -p {snakemake.threads} --test {input_file}"
+cmd = "pbunzip2 -p{snakemake.threads} --test {input_file}"
 shell(cmd)
 
 # conversion
-cmd = "pnunzip2  -p {snakemake.threads} {input_file} | pigz -p {snakemake.threads} > {output_file}"
+cmd = "pbunzip2  -p{snakemake.threads} {input_file} | pigz -p {snakemake.threads} > {output_file}"
 shell(cmd)
 
 # integrity output

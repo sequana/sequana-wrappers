@@ -1,9 +1,11 @@
+rule all:
+    input: "test.fastq.gz"
 
 rule bz2_to_gz:
     input:
-        "{sample}/test.fastq.bz2"
+        "test.fastq.bz2"
     output:
-        "{sample}/test.fastq.gz"
+        "test.fastq.gz"
     threads: 2
     wrapper:
         "main/wrappers/bz2_to_gz"
