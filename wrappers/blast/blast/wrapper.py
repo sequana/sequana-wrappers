@@ -12,11 +12,13 @@ format = snakemake.params.get("format", "")
 blastdb = snakemake.input.get("blastdb", "")[0]
 db_name = path.splitext(blastdb)[0]
 
+blast_type = snakemake.params.get("blast_type", "")
+
 if format:
     out_format = " -outfmt '{}'".format(format)
 
 shell(
-    "blastn"
+    "{blast_type}"
     " -query {snakemake.input.query}"
     " {out_format}"
     " {snakemake.params.extra}"

@@ -126,7 +126,6 @@ def test_busco():
     )
 
 
-
 @skip_if_not_modified
 def test_fastp_pe():
     run(
@@ -237,6 +236,14 @@ def test_blast_makeblastdb_protein():
 
 
 @skip_if_not_modified
+def test_blast_blast():
+    run(
+        "wrappers/blast/blast",
+        ["snakemake", "--cores", "1", "a.blast.txt", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
 def test_multiqc():
     run(
         "wrappers/multiqc",
@@ -296,36 +303,38 @@ def test_bwa_align():
     run("wrappers/bwa/align", command, extra_wrappers=["wrappers/bwa/build"])
 
 
-@pytest.mark.parametrize("wrapper_name", [
-    "add_read_group",
-    "bamtools/sort",
-    "bamtools/index",
-    "bz2_to_gz",
-    "bcl2fastq",
-    "bowtie1/build",
-    "bowtie1/align",
-    "bwa/build",
-    'digital_normalisation',
-    "dsrc_to_gz",
-    "fastq_stats",
-    "fastqc",
-    "falco",
-    "feature_counts",
-    'freebayes',
-    'freebayes_vcf_filter',
-    "gz_to_bz2",
-    'mark_duplicates',
-    "minimap2",
-    'macs3',
-    'rulegraph',
-    "sambamba_markdup",
-    "sambamba_filter",
-    "samtools_depth",
-    "sequana_coverage",
-    "snpeff_add_locus_in_fasta",
-    'snpeff'
-    ])
+@pytest.mark.parametrize(
+    "wrapper_name",
+    [
+        "add_read_group",
+        "bamtools/sort",
+        "bamtools/index",
+        "bz2_to_gz",
+        "bcl2fastq",
+        "bowtie1/build",
+        "bowtie1/align",
+        "bwa/build",
+        "digital_normalisation",
+        "dsrc_to_gz",
+        "fastq_stats",
+        "fastqc",
+        "falco",
+        "feature_counts",
+        "freebayes",
+        "freebayes_vcf_filter",
+        "gz_to_bz2",
+        "mark_duplicates",
+        "minimap2",
+        "macs3",
+        "rulegraph",
+        "sambamba_markdup",
+        "sambamba_filter",
+        "samtools_depth",
+        "sequana_coverage",
+        "snpeff_add_locus_in_fasta",
+        "snpeff",
+    ],
+)
 @skip_if_not_modified
 def test_wrapper(wrapper_name):
     run(f"wrappers/{wrapper_name}", command)
-
