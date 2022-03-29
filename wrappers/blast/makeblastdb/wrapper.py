@@ -8,7 +8,6 @@ from os import path
 
 log = snakemake.log
 out = snakemake.output[0]
-options = snakemake.params.get("options", "")
 
 db_type = ""
 (out_name, ext) = path.splitext(out)
@@ -22,7 +21,7 @@ shell(
     "makeblastdb"
     " -in {snakemake.input.fasta}"
     " -dbtype {db_type}"
-    " {options}"
+    " {snakemake.params}"
     " -logfile {log}"
     " -out {out_name}"
 )
