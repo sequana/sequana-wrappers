@@ -21,7 +21,7 @@ shell(
     "{blast_type}"
     " -query {snakemake.input.query}"
     " {out_format}"
-    " {snakemake.params.extra}"
+    " {snakemake.params.options}"
     " -db {db_name}"
     " -num_threads {snakemake.threads}"
     " -out {snakemake.output[0]}"

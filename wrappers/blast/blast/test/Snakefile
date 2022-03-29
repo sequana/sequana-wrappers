@@ -21,6 +21,6 @@ rule blast_nucleotide:
         # https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/blast/blastn.html.
         blast_type="blastn",
         format="6 qseqid sseqid evalue",
-        extra=""
+        options=""
     wrapper:
         "main/wrappers/blast/blast"
