@@ -11,6 +11,7 @@
 #  Contributors:  https://github.com/sequana/sequana/graphs/contributors
 ##############################################################################
 
+import os
 from snakemake.shell import shell
 
 options = snakemake.params.get("options", "")
@@ -26,9 +27,11 @@ elif n == 2:
 else:
     raise ValueError("input->fastq must have 1 (single-end) or 2 (paired-end) elements.")
 
+index = os.path.commonprefix(snakemake.input.idx).rstrip(".")
+
 shell(
     "(bowtie2 --threads {snakemake.threads} {options} "
-    "-x {snakemake.params.index} {reads} "
+    "-x {index} {reads} "
     "| samtools sort - > {snakemake.output.bam} "
     "&& samtools index {snakemake.output.bam}) {log}"
 )
