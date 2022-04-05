@@ -5,8 +5,8 @@ __copyright__ = "Copyright 2018, Tessa Pierce"
 __email__ = "ntpierce@gmail.com"
 __license__ = "MIT"
 
-from os import path
 from snakemake.shell import shell
+from pathlib import Path
 
 options = snakemake.params.get("options", "")
 # preserved below:
@@ -55,8 +55,7 @@ if not seqtype:
             seqtype is not None
         ), "cannot infer 'fq' or 'fa' seqtype from input files. Please specify 'fq' or 'fa' in 'seqtype' parameter"
 
-outdir = path.dirname(snakemake.output[0])
-assert "trinity" in outdir, "output directory name must contain 'trinity'"
+outdir = Path(snakemake.output[0]).parent
 
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
@@ -65,4 +64,10 @@ shell(
     " --max_memory {max_memory} --seqType {seqtype} "
     " --output {outdir} {snakemake.params.options} "
     " {log}"
+)
+
+# Trinity relase v2.14.0 change its path for the output
+shell(f"mv {outdir.parent / (str(outdir.stem) + '.Trinity.fasta')} {outdir / 'Trinity.fasta'}")
+shell(
+    f"mv {outdir.parent / (str(outdir.stem) + '.Trinity.fasta.gene_trans_map')} {outdir / 'Trinity.fasta.gene_trans_map'}"
 )
