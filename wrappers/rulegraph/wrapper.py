@@ -78,7 +78,6 @@ cwd = Path.cwd()  # if it fails, we must reset the current working directory
 try:
     Path("rulegraph").mkdir(exist_ok=True)
     if config_filename:
-        cfg.copy_requirements(target="rulegraph")
         cfg.save(filename=Path("rulegraph") / config_filename)
     link_required_files(required_local_files)
     shell('cd rulegraph && snakemake -s "{input_filename}" --rulegraph --nolock  > rg.dot; cd ..')
