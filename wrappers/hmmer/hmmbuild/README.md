@@ -4,7 +4,7 @@ HMMbuild constructs HMM profile from multiple sequence alignment.
 
 **Required input:**
 
-- An multiple alignment file (STOCKHOLM, FASTA, CLUSTAL PHYLIP formats...)
+- A multiple alignment file (STOCKHOLM, FASTA, CLUSTAL PHYLIP formats...)
 
 **Required output:**
 
@@ -33,17 +33,17 @@ HMMbuild constructs HMM profile from multiple sequence alignment.
 # Example
 
 	rule hmmbuild:
-    input:
-        "profile.sto"
-    output:
-        "profile.hmm"
-    log:
-        "logs/hmmer/hmmbuild.log"
-    params:
-        options=config["hmmbuild"]["options"],
-    threads: config["hmmbuild"]["threads"]
-    wrapper:
-        "main/wrappers/hmmer/hmmbuild"
+		input:
+			"profile.sto"
+		output:
+			"profile.hmm"
+		log:
+			"logs/hmmer/hmmbuild.log"
+		params:
+			options=config["hmmbuild"]["options"],
+		threads: config["hmmbuild"]["threads"]
+		wrapper:
+			"main/wrappers/hmmer/hmmbuild"
 
 # References
 

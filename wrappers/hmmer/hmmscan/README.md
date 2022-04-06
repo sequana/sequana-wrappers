@@ -39,7 +39,7 @@ At least one of these outputs is required:
 
 	rule hmmscan:
 		input:
-		    fasta="protein.fa",
+			fasta="protein.fa",
 			profile="profile.hmm.h3f",
 		output:
 			tblout="prot-tbl.txt"

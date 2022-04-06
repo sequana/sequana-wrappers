@@ -9,4 +9,4 @@ rule hmmbuild_profile:
         options="",
     threads: 4
     wrapper:
-        "master/bio/hmmer/hmmbuild"
+        "main/wrappers/hmmer/hmmbuild"

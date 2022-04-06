@@ -66,8 +66,10 @@ shell(
     " {log}"
 )
 
-# Trinity relase v2.14.0 change its path for the output
-shell(f"mv {outdir.parent / (str(outdir.stem) + '.Trinity.fasta')} {outdir / 'Trinity.fasta'}")
-shell(
-    f"mv {outdir.parent / (str(outdir.stem) + '.Trinity.fasta.gene_trans_map')} {outdir / 'Trinity.fasta.gene_trans_map'}"
-)
+# Trinity release v2.14.0 changed its path for the output
+new_trinity_fasta = outdir.parent / (str(outdir.stem) + ".Trinity.fasta")
+new_gene_trans_map = outdir.parent / (str(outdir.stem) + ".Trinity.fasta.gene_trans_map")
+
+if new_trinity_fasta.exists():
+    shell(f"mv {new_trinity_fasta} {outdir / 'Trinity.fasta'}")
+    shell(f"mv {new_gene_trans_map} {outdir / 'Trinity.fasta.gene_trans_map'}")

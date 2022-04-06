@@ -49,7 +49,4 @@ extra = snakemake.params.get("extra", "")
 
 log = snakemake.log_fmt_shell(stdout=False, stderr=True)
 
-shell(
-    "hmmscan {out_cmd} {thresh_cmd} --cpu {snakemake.threads}"
-    " {extra} {profile} {snakemake.input.fasta} {log}"
-)
+shell("hmmscan {out_cmd} {thresh_cmd} --cpu {snakemake.threads}" " {extra} {profile} {snakemake.input.fasta} {log}")

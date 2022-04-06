@@ -17,4 +17,4 @@ rule hmmscan_profile:
         extra="",
     threads: 4
     wrapper:
-        "master/bio/hmmer/hmmscan"
+        "main/wrappers/hmmer/hmmscan"
