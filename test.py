@@ -290,6 +290,22 @@ def test_trinity():
 
 
 @skip_if_not_modified
+def test_hmmbuild():
+    run(
+        "wrappers/hmmer/hmmbuild",
+        ["snakemake", "--cores", "1", "test-profile.hmm", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
+def test_hmmscan():
+    run(
+        "wrappers/hmmer/hmmscan",
+        ["snakemake", "--cores", "1", "test-prot-tbl.txt", "--use-conda", "-F"],
+    )
+
+
+@skip_if_not_modified
 def test_bowtie1_align():
     run(
         "wrappers/bowtie1/align",
