@@ -290,6 +290,21 @@ def test_trinity():
 
 
 @skip_if_not_modified
+def test_trinity_quantify():
+    run(
+        "wrappers/trinity_quantify",
+        [
+            "snakemake",
+            "--cores",
+            "1",
+            "reads/kallisto/abundance.tsv",
+            "--use-conda",
+            "-F",
+        ],
+    )
+
+
+@skip_if_not_modified
 def test_hmmbuild():
     run(
         "wrappers/hmmer/hmmbuild",
