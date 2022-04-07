@@ -26,10 +26,10 @@ output_name = path.basename(snakemake.output[0])
 log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 
-options = snakemake.params.options
-input_directory = snakemake.params.input_directory
-modules = snakemake.params.modules
-config_file = snakemake.params.config_file
+options = snakemake.params.get("options", "")
+input_directory = snakemake.params.get("input_directory", ".")
+modules = snakemake.params.get("modules", "")
+config_file = snakemake.params.get("config_file", "")
 
 
 # if config file not provided, should be set to empty string
