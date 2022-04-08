@@ -15,7 +15,7 @@ from snakemake import shell
 
 input_bam = snakemake.input[0]
 output_bed = snakemake.output[0]
-log = snakemake.log
+log = snakemake.log_fmt_shell(stdout=False, stderr=True)
 
 try:
     options = snakemake.params["options"]
@@ -23,5 +23,5 @@ except AttributeError:
     options = ""
 
 
-cmd = "samtools depth -m 20000 -aa {input_bam} {options} > {output_bed} 2>{log}"
+cmd = "samtools depth -m 20000 -aa {input_bam} {options} > {output_bed} {log}"
 shell(cmd)
