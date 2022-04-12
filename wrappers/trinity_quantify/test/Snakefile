@@ -1,0 +1,19 @@
+rule quantify:
+    input:
+        fasta="assembly/Trinity.fasta",
+        left=["reads/{sample}.left.fq.gz"],
+        right=["reads/{sample}.right.fq.gz"],
+    output:
+        outdir=directory("{sample}/kallisto"),
+        transcripts="{sample}/kallisto/abundance.tsv",
+        genes="{sample}/kallisto/abundance.tsv.genes",
+    params:
+        lib_type="RF",
+        est_method="kallisto",
+    log:
+        "logs/trinity/{sample}_quantify.log"
+    threads: 2
+    wrapper:
+        "main/wrappers/trinity_quantify"
+
+        
