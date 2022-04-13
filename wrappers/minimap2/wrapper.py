@@ -25,6 +25,6 @@ threads = snakemake.threads
 
 shell(
     """
-minimap2 -t {threads} {input_reference} {input_fastq} {params.options} -a | samtools view -b | bamtools sort -in - -out {output}
+minimap2 -t {threads} {input_reference} {input_fastq} {params.options} -a | samtools sort -@ {threads} -o {output}
 """
 )
