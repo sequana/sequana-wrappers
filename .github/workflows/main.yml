@@ -17,6 +17,10 @@ jobs:
       with:
         fetch-depth: 2
 
+    - name: OS update
+      run: |
+        sudo apt-get update
+
     - name: Add conda to system path
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
@@ -24,9 +28,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-            # pin the last stable mamba version because 0.21.1 has bug in github action
-            conda install -c conda-forge mamba=0.18.1 --quiet
-            mamba create -c bioconda -c conda-forge --quiet -y --name snakemake snakemake-minimal pytest
+        
+            conda create -c bioconda -c conda-forge --quiet -y --name snakemake snakemake-minimal pytest 'mamba<0.24'
 
     - name: Fetch master
       if: github.ref != 'refs/heads/main'
