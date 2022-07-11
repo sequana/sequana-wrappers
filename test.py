@@ -357,6 +357,7 @@ def test_bwa_align():
         "mark_duplicates",
         "minimap2",
         "macs3",
+        "polypolish",
         "rulegraph",
         "sambamba_markdup",
         "sambamba_filter",
