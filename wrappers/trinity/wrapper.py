@@ -16,7 +16,7 @@ max_memory = "10G"
 # By doing so, backward compatibility is preserved
 if "mem_mb" in snakemake.resources.keys():
     # max_memory from trinity expects a value in gigabytes.
-    rounded_mb_to_gb = int(snakemake.resources["mem_mb"] / 1024)
+    rounded_mb_to_gb = int(max(snakemake.resources["mem_mb"],1024) / 1024)
     max_memory = "{}G".format(rounded_mb_to_gb)
 
 # Getting memory in gigabytes, for user convenience. Please prefer the use
