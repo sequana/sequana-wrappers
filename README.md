@@ -24,15 +24,15 @@ or with a local copy in /home/user:
 
     cd
     git clone git@github.com:sequana/sequana-wrappers.git sequana_wrappers
-    snakemake --wrapper-prefix git+file:////home/user/sequana_wrappers
+    snakemake --wrapper-prefix git+file:///home/user/sequana_wrappers
 
 
 # Notes for developers
 
 ## Overview
 
-The wrappers directory contains the wrappers. Each sub-directory is dedicated to
-a wrapper related to a given software/application. 
+The wrappers/ directory contains the wrappers themselves. Each sub-directory is dedicated to
+a wrapper that is related to a given software/application. A sub directory may have several wrappers (e.g., bwa has a sub directory related to the indexing, and a sub directory related to mapping).
 
 Here is an example of a wrapper tree structure:
 
@@ -136,7 +136,7 @@ Each wrapper should have a dedicated documentation explaining the input/output w
 
 ### adding a new wrapper in practice
 
-In ./wrappers, add a new wrapper. Copy the existing fastqc wrapper for instance. 
+In ./wrappers, add a new wrapper. Copy the existing fastqc wrapper for instance.
 Edit the wrapper.py and design a test/Snakefile example for testing. Since you are
 a developer, you are problaby developping in a dedicated branch. Let us call it **dev**.
 
