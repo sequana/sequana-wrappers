@@ -10,19 +10,15 @@
 #  Documentation: http://sequana.readthedocs.io
 #  Contributors:  https://github.com/sequana/sequana/graphs/contributors
 ##############################################################################
-
 from snakemake.shell import shell
 
 
 # Get rule information (input/output/params...)
-if "alignment" in snakemake.input and "assembly" in snakemake.input:
-    assembly = snakemake.input.assembly
-    alignment = snakemake.input.alignment
-else:
-    # alphabetical order
-    alignment = snakemake.input[0]
-    assembly = snakemake.input[1]
+assembly = snakemake.input.get("assembly")
+alignments = snakemake.input.get("alignments")
 
+if isinstance(alignments, (list, tuple)):
+    alignments = " ".join(alignments)
 
 # There is only one output
 result = snakemake.output[0]
@@ -34,5 +30,6 @@ options = snakemake.params.get("options", "")
 # the result (FastA sequence) is redirected to stdout by polypolish
 log = snakemake.log_fmt_shell(stdout=False, stderr=True)
 
-shell("polypolish {options} {assembly} {alignment} 1>{result} {log}")
+cmd = "polypolish {options} {assembly} {alignments} 1>{result} {log}"
+shell(cmd)
 

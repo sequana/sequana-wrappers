@@ -1,4 +1,6 @@
 
+branch="main"
+
 rule all:
     input:
         "polypolish/polypolish1.fasta",
@@ -6,10 +8,10 @@ rule all:
         "polypolish/polypolish3.fasta"
 
 
-# test with named input parameters and specific params 
+# test with named input parameters and specific params
 rule polypolish1:
     input:
-        alignment="alignments.sam",
+        alignments="alignments.sam",
         assembly="assembly.fasta"
     output:
         fasta = "polypolish/polypolish1.fasta"
@@ -18,30 +20,30 @@ rule polypolish1:
     log:
         "polypolish/test1.log"
     wrapper:
-        "main/wrappers/polypolish"
+        f"{branch}/wrappers/polypolish"
 
 
 # test with named input parameters and default params
 rule polypolish2:
     input:
-        alignment="alignments.sam",
+        alignments="alignments.sam",
         assembly="assembly.fasta"
     output:
         fasta = "polypolish/polypolish2.fasta"
     log:
         "polypolish/test2.log"
     wrapper:
-        "main/wrappers/polypolish"
+        f"{branch}/wrappers/polypolish"
 
 
 # test with list of input parameters and default params
-rule polypolish3:
+rule polypolish_several_inputs:
     input:
-        "alignments.sam",
-        "assembly.fasta"
+        alignments=("alignments.sam","alignments.sam"),
+        assembly="assembly.fasta"
     output:
         fasta = "polypolish/polypolish3.fasta"
     log:
         "polypolish/test3.log"
     wrapper:
-        "main/wrappers/polypolish"
+        f"{branch}/wrappers/polypolish"
