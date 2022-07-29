@@ -31,7 +31,7 @@ default_file = output_dir / "consensus.fasta"
 
 shell(
     "(medaka_consensus {options}" 
-    " -t {threads}"
+    " -t {snakemake.threads}"
     " -i {fastq}"
     " -d {assembly}"
     " -o {output_dir}"
