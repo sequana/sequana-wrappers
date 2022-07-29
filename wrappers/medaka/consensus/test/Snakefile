@@ -1,0 +1,13 @@
+rule main:
+    input: "medaka/ctg.fa"
+
+rule medaka_consensus:
+    input:
+        assembly = "ctg.fa",
+        fastq = "reads.fq.gz"
+    output:
+        "medaka/ctg.fa"
+    params:
+        model = "r941_min_fast_g303"
+    wrapper:
+        "main/wrappers/medaka/consensus"
