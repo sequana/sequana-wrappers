@@ -355,6 +355,7 @@ def test_bwa_align():
         "freebayes_vcf_filter",
         "gz_to_bz2",
         "mark_duplicates",
+        "medaka/consensus",
         "minimap2",
         "macs3",
         "polypolish",
