@@ -41,7 +41,7 @@ os.makedirs(outdir, exist_ok=True)
 
 for fastq_file in input_fastq:
     if fastq_file.endswith((".bam", "sam")):
-        shell(" fastqc -t {snakemake.threads} --outdir {outdir} " " {fast_file} {params.options} &>> {log}")
+        shell(" fastqc -t {snakemake.threads} --outdir {outdir} " " {fastq_file} {params.options} &>> {log}")
     else:
         shell(" fastqc -t {snakemake.threads} --outdir {outdir} -f fastq " " {fastq_file} {params.options} &>> {log}")
 
