@@ -345,6 +345,7 @@ def test_bwa_align():
         "bowtie1/build",
         "bowtie1/align",
         "bwa/build",
+        "deeptools/bam_coverage",
         "digital_normalisation",
         "dsrc_to_gz",
         "fastq_stats",

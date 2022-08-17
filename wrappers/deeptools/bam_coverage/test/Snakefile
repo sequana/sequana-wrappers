@@ -1,0 +1,11 @@
+rule all:
+    input: "test.bw"
+
+
+rule bam_coverage:
+    input:
+        "test.bam"
+    output:
+        "test.bw"
+    wrapper:
+        "main/wrappers/deeptools/bam_coverage"
