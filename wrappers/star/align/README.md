@@ -45,7 +45,7 @@ This wrapper calls star with genome generate command to build index of a genome
 
 - **readFilesCommand** 'zcat' by default assuming input Fastq.gz file. If files 
     are compressed with bzip, set this value to 'bunzip2 -c'
-- **outSAMtype: set to 'BAM SortedByCoordinate' by default
+- **outSAMtype**: set to 'BAM SortedByCoordinate' by default
 - **sjdbOverHang** set to 100 by default
 
 **Log:**
