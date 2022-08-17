@@ -1,0 +1,59 @@
+
+rule all:
+    input:
+        "star_mapping/_Aligned.sortedByCoord.out.bam",
+        "star_mapping2/_Aligned.sortedByCoord.out.bam",
+
+rule star_index:
+    input:
+        "genome.fasta"
+    output:
+        done = "star_index/star.done"
+    params:
+        options= " ",
+        wkdir="star_index"
+    threads: 1
+    log:
+        "star_index/star.log"
+    wrapper:
+        "main/wrappers/star_index"
+
+
+rule star_mapping:
+    input:
+        fastq="test.fastq.gz",
+        reference="genome.fasta",
+        index="star_index/star.done"
+    output:
+        done = "star_mapping/_Aligned.sortedByCoord.out.bam"
+    params:
+        prefix="star_mapping/",
+        legacy=True,
+    threads: 1
+    log:
+        "star_mapping/star.log"
+    wrapper:
+        "main/wrappers/star_align"
+
+
+rule star_mapping2:
+    input:
+        fastq="test.fastq.gz",
+        reference="genome.fasta",
+        index="star_index/star.done",
+        annotation="genome.gff3"
+    output:
+        done = "star_mapping2/_Aligned.sortedByCoord.out.bam"
+    params:
+        prefix="star_mapping2/",
+        exonParentTranscript='Parent'
+    threads: 1
+    log:
+        "star_mapping2/star.log"
+    wrapper:
+        "main/wrappers/star_align"
+
+
+
+
+

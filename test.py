@@ -344,6 +344,7 @@ def test_bwa_align():
         "bcl2fastq",
         "bowtie1/build",
         "bowtie1/align",
+        "bwa/align",
         "bwa/build",
         "deeptools/bam_coverage",
         "digital_normalisation",
@@ -367,6 +368,8 @@ def test_bwa_align():
         "sequana_coverage",
         "snpeff_add_locus_in_fasta",
         "snpeff",
+        "star/index"
+        "star/align"
     ],
 )
 @skip_if_not_modified
