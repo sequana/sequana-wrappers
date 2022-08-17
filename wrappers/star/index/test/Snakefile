@@ -17,7 +17,7 @@ rule star_index:
     log:
         "star_index/star.log"
     wrapper:
-        "main/wrappers/star/star_index"
+        "main/wrappers/star/index"
 
 
 rule star_index2:
@@ -33,7 +33,7 @@ rule star_index2:
     log:
         "star_index2/star.log"
     wrapper:
-        "main/wrappers/star/star_index"
+        "main/wrappers/star/index"
 
 
 rule star_index3:
@@ -51,4 +51,4 @@ rule star_index3:
     log:
         "star_index3/star.log"
     wrapper:
-        "main/wrappers/star/star_index"
+        "main/wrappers/star/index"
