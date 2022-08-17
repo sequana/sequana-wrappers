@@ -39,7 +39,14 @@ log = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
 params = snakemake.params
 
 # compulsary parameter
-prefix = params['prefix']
+# the BAM file create always finishes with this suffix, meaning the
+# first part is the prefix
+output = snakemake.output.get("bam")
+suffix = "_Aligned.sortedByCoord.out.bam" 
+if suffix not in output:
+    raise ValueError(f"The output bam file must end with {suffix}")
+prefix = output.replace(suffix, "")
+
 
 # optional documented arguments
 readFilesCommand = params.get("readFilesCommand", "zcat")

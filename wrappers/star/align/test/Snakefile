@@ -1,4 +1,5 @@
 
+
 rule all:
     input:
         "star_mapping/_Aligned.sortedByCoord.out.bam",
@@ -25,9 +26,8 @@ rule star_mapping:
         reference="genome.fasta",
         index="star_index/star.done"
     output:
-        done = "star_mapping/_Aligned.sortedByCoord.out.bam"
+        bam="star_mapping/_Aligned.sortedByCoord.out.bam"
     params:
-        prefix="star_mapping/",
         legacy=True,
     threads: 1
     log:
@@ -43,9 +43,8 @@ rule star_mapping2:
         index="star_index/star.done",
         annotation="genome.gff3"
     output:
-        done = "star_mapping2/_Aligned.sortedByCoord.out.bam"
+        bam="star_mapping2/_Aligned.sortedByCoord.out.bam"
     params:
-        prefix="star_mapping2/",
         exonParentTranscript='Parent'
     threads: 1
     log:
