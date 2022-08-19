@@ -1,0 +1,54 @@
+
+rule all:
+    input: 
+        "star_index/star.done",
+        "star_index2/star.done",
+        "star_index3/star.done"
+
+
+rule star_index:
+    input:
+        fasta="genome.fasta"
+    output:
+        done = "star_index/star.done"
+    params:
+        # no options and no wkdir set on purpose for testing
+    threads: 2
+    log:
+        "star_index/star.log"
+    wrapper:
+        "main/wrappers/star/index"
+
+
+rule star_index2:
+    input:
+        fasta="genome.fasta",
+        annotation="genome.gtf"
+    output:
+        done = "star_index2/star.done"
+    params:
+        options= " ",
+        wkdir="star_index2"
+    threads: 2
+    log:
+        "star_index2/star.log"
+    wrapper:
+        "main/wrappers/star/index"
+
+
+rule star_index3:
+    input:
+        fasta="genome.fasta",
+        annotation="genome.gff3"
+    output:
+        done = "star_index3/star.done"
+    params:
+        # set sjdbOverhang specifically for testing
+        wkdir="star_index3",
+        sjdbOverhang=150,
+        exonParentTranscript= 'Parent'
+    threads: 2
+    log:
+        "star_index3/star.log"
+    wrapper:
+        "main/wrappers/star/index"

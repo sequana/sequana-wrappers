@@ -367,6 +367,8 @@ def test_bwa_align():
         "sequana_coverage",
         "snpeff_add_locus_in_fasta",
         "snpeff",
+        "star/index",
+        "star/align",
     ],
 )
 @skip_if_not_modified
