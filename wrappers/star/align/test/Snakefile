@@ -5,21 +5,6 @@ rule all:
         "star_mapping/_Aligned.sortedByCoord.out.bam",
         "star_mapping2/_Aligned.sortedByCoord.out.bam",
 
-rule star_index:
-    input:
-        "genome.fasta"
-    output:
-        done = "star_index/star.done"
-    params:
-        options= " ",
-        wkdir="star_index"
-    threads: 1
-    log:
-        "star_index/star.log"
-    wrapper:
-        "main/wrappers/star/index"
-
-
 rule star_mapping:
     input:
         fastq="test.fastq.gz",
