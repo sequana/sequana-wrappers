@@ -1,0 +1,18 @@
+
+rule all:
+    input:
+        "salmon/salmon.done",
+
+rule salmon_index:
+    input:
+        fasta="genome.fasta",
+        gff="genome.gff3"
+    output:
+        done = "salmon/salmon.done"
+    threads: 1
+    log:
+        "salmon/salmon.log"
+    wrapper:
+        "main/wrappers/salmon/index"
+
+
