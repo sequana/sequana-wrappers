@@ -361,6 +361,8 @@ def test_bwa_align():
         "macs3",
         "polypolish",
         "rulegraph",
+        "salmon/index",
+        "salmon/align",
         "sambamba_markdup",
         "sambamba_filter",
         "samtools_depth",

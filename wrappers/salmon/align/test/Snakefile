@@ -1,0 +1,43 @@
+
+
+rule all:
+    input:
+        "salmon_mapping/quant.sf",
+        "salmon_mapping_pe/quant_pe.sf",
+
+
+
+rule salmon_se_mapping:
+    input:
+        fastq="test_R1.fastq.gz",
+        index="salmon_index/salmon.done"
+    output:
+        quant="salmon_mapping/quant.sf"
+    params:
+        genome_dir="salmon_index"
+    threads: 1
+    log:
+        "salmon_mapping/salmon.log"
+    wrapper:
+        "main/wrappers/salmon/align"
+
+
+
+rule salmon_mapping_pe:
+    input:
+        fastq=("test_R1.fastq.gz", "test_R2.fastq.gz"),
+        index="salmon_index/salmon.done"
+    output:
+        # output named differently from default on purpose to test
+        # the mv command
+        quant="salmon_mapping_pe/quant_pe.sf"
+    params:
+        genome_dir="salmon_index"
+    threads: 1
+    log:
+        "salmon_mapping_pe/salmon.log"
+    wrapper:
+        "main/wrappers/salmon/align"
+
+
+
