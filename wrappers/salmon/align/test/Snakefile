@@ -14,6 +14,7 @@ rule salmon_se_mapping:
     output:
         quant="salmon_mapping/quant.sf"
     params:
+        options='-l A',
         genome_dir="salmon_index"
     threads: 1
     log:
@@ -32,6 +33,7 @@ rule salmon_mapping_pe:
         # the mv command
         quant="salmon_mapping_pe/quant_pe.sf"
     params:
+        options='-l A',
         genome_dir="salmon_index"
     threads: 1
     log:
