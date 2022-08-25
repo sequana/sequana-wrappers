@@ -1,0 +1,17 @@
+rule all: "ctg.fa"
+
+rule spades:
+    input: 
+        fastq=["raw_R1.fastq.gz"]
+    output:
+        contig="ctg.fa",
+        scaffold="scf.fa"
+    params:
+        k=21,
+        preset="isolate",
+        options="--only-assembler",
+        memory=4
+    log:
+        "spades.log"
+    wrapper:
+        "main/wrappers/spades"
