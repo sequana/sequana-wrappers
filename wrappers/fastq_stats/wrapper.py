@@ -13,9 +13,9 @@
 
 import os
 import shutil
+from pathlib import Path
 
 from snakemake.shell import shell
-from easydev import touch
 from sequana import FastQC, sequana_data
 import pylab
 
@@ -56,4 +56,4 @@ for i, filename in enumerate(ff.realpaths):
         shutil.copy(location, output_gc)
         shutil.copy(location, output_boxplot)
         # this will be handled inside report_fastq_stats
-        touch(output_json)
+        Path(output_json).touch()
