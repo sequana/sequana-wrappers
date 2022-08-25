@@ -5,7 +5,7 @@ __license__ = "BSD"
 
 
 from snakemake.shell import shell
-
+from shutil import which 
 
 fastq = snakemake.input.fastq
 reference = snakemake.input.reference
@@ -15,8 +15,7 @@ output_sorted_bam = snakemake.output.sorted
 params = snakemake.params
 
 
-from easydev import cmd_exists
-if cmd_exists("pbwa"):
+if which("pbwa"):
     bwa_exe = "pbwa"
 else:
     bwa_exe = "bwa"
