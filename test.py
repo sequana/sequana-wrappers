@@ -360,6 +360,7 @@ def test_bwa_align():
         "minimap2",
         "macs3",
         "polypolish",
+        "quast",
         "rulegraph",
         "salmon/index",
         "salmon/align",
