@@ -49,7 +49,6 @@ Notes: This wrapper cannot be used to perform correction only.
 
 # Example
 
-"""
     rule spades:
         input:
             fastq="data/raw.fastq.gz",
@@ -67,4 +66,3 @@ Notes: This wrapper cannot be used to perform correction only.
             config["spades"]["threads"]
         wrapper:
             "main/wrappers/spades"
-"""

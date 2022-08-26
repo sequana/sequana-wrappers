@@ -47,7 +47,6 @@ Note also that medaka consensus may be seen to use resources equivalent to <thre
 
 # Example
 
-"""
     rule medaka_consensus:
         input:
             fastq="data/raw.fastq.gz",
@@ -57,9 +56,8 @@ Note also that medaka consensus may be seen to use resources equivalent to <thre
         params:
             model=config["medaka_consensus"]["model"]
         log:
-            "{sample}/logs/medaka.log"
+            "logs/medaka.log"
         threads:
             config["medaka_consensus"]["threads"]
         wrapper:
             "main/wrappers/medaka/consensus"
-"""
