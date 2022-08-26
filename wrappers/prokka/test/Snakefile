@@ -1,0 +1,6 @@
+rule all: "prokka/ctg.gff"
+
+rule prokka:
+    input: "ctg.fa"
+    output: "prokka/ctg.gff"
+    wrapper: "main/wrappers/prokka"

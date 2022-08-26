@@ -45,7 +45,6 @@ This wrapper assesses an assembly using **Quast**.
 
 # Example
 
-"""
     rule quast:
         input:
             fastq="data/raw.fastq.gz",
@@ -57,9 +56,8 @@ This wrapper assesses an assembly using **Quast**.
             annotation=config["quast"]["annotation"],
             options=config["quast"]["options"],
         log:
-            "{sample}/logs/quast.log"
+            "logs/quast.log"
         threads:
             config["quast"]["threads"]
         wrapper:
             "main/wrappers/quast"
-"""
