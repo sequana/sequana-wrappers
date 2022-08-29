@@ -4,9 +4,7 @@ rule sambamba_markdup:
     output:
         bam="test.md.bam",
         bai="test.md.bam.bai"
-    log:
-        out = "log.out",
-        err = "log.err"
+    log: "log.out",
     params:
         options="",
         tmp_directory="tmp/",
