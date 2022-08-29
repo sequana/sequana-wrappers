@@ -21,15 +21,14 @@ input_bam = snakemake.input[0]
 output_bam = snakemake.output[0]
 options = snakemake.params.get("options", "")
 remove_duplicates = snakemake.params.get("remove_duplicates", "False")
-tmpdir = snakemake.params.get("tmp_directory", "./tmp")
-logout = snakemake.log.out
-logerr = snakemake.log.err
+tmpdir = snakemake.params.get("tmp_directory")
+log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 
 if remove_duplicates:
-    options += " --remove-duplicates "
+    options += " --remove-duplicates"
 
-cmd = "sambamba markdup {input_bam} {output_bam} {options} --tmpdir={tmpdir} 1>{logout} 2>{logerr}"
+if tmpdir:
+    options += f" --tmpdir={tmpdir}"
 
-
-shell(cmd)
+shell("sambamba markdup {input_bam} {output_bam} {options} {log}")
