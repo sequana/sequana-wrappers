@@ -11,7 +11,7 @@ This CSV can be used to regenerate the sequana_coverage report.
 
 - **bed**: a BED file (built e.g with samtools_depth -aa input.bam)
 - **fasta**: a FASTA file of the reference.
-- **gbk**: a GENBANK file
+- **gbk**: a GENBANK file. (Optional)
 
 **Required output:**
 

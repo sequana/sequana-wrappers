@@ -1,13 +1,15 @@
-
+rule all:
+    input: "test/sequana_coverage.html", "test2/sequana_coverage.html"
 
 # on purpose, we do not provide low/high in the params section to test the
 # wrapper ability to set default values
 
 
-rule sequana_coverage:
+rule sequana_coverage_with_gbk:
     input:
         bed = "test.bed",
-        fasta = "measles.fa"
+        fasta = "measles.fa",
+        gbk = "measles.gbk"
     output:
         html = "test/sequana_coverage.html"
     params:
@@ -17,8 +19,22 @@ rule sequana_coverage:
         circular = True,
         chunksize = 5000000,
         gc_window_size = 201,
-        gbk = "measles.gbk"
     wrapper:
         "main/wrappers/sequana_coverage"
 
 
+rule sequana_coverage:
+    input:
+        bed = "test.bed",
+        fasta = "measles.fa",
+    output:
+        html = "test2/sequana_coverage.html"
+    params:
+        mixture_models = 2,
+        window_size = 3001,
+        double_threshold = 0.5,
+        circular = True,
+        chunksize = 5000000,
+        gc_window_size = 201,
+    wrapper:
+        "main/wrappers/sequana_coverage"
