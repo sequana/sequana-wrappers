@@ -15,13 +15,13 @@ from pathlib import Path
 from snakemake.shell import shell
 
 
-fastq = snakemake.input[0]
-contig = snakemake.output.contig
-scaffold = snakemake.output.scaffold
+fastq = snakemake.input
+contigs = snakemake.output.contigs
+scaffolds = snakemake.output.scaffolds
 logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 is_paired = len(fastq) == 2
-input_file = f"-1 {fastq[0]} -2 {fastq[1]}" if is_paired else f"-s {fastq}"
+input_file = f"-1 {fastq[0]} -2 {fastq[1]}" if is_paired else f"-s {fastq[0]}"
 
 
 kmers = snakemake.params.get("k", "'auto'")
@@ -33,7 +33,7 @@ if preset.startswith("meta") and not is_paired:
     raise NotImplementedError("Cannot use meta SPAdes with single-end data")
 
 preset_option = f"--{preset}" if preset else ""
-outdir = Path(fastq[0]).parent
+outdir = Path(scaffolds).parent
 
 shell(
     "spades.py {preset_option}"
@@ -43,6 +43,6 @@ shell(
     " {input_file}"
     " -o {outdir}"
     " {options} {logs}"
-    " && cp {outdir}/contigs.fasta {contig}"
-    " && cp {outdir}/scaffolds.fasta {scaffold}"
+    " && cp {outdir}/contigs.fasta {contigs}"
+    " && cp {outdir}/scaffolds.fasta {scaffolds}"
 )

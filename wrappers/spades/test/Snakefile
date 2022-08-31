@@ -1,11 +1,11 @@
-rule all: "ctg.fa"
+rule all: "raw/ctg.fa"
 
 rule spades:
     input: 
         fastq=["raw_R1.fastq.gz"]
     output:
-        contig="ctg.fa",
-        scaffold="scf.fa"
+        contigs="raw/ctg.fa",
+        scaffolds="raw/scf.fa"
     params:
         k=21,
         preset="isolate",

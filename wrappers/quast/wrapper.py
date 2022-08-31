@@ -20,7 +20,7 @@ assembly = snakemake.input.assembly
 outfile = Path(snakemake.output[0])
 options = snakemake.params.get("options", "")
 preset = snakemake.params.get("preset", "single")
-log = snakemake.log_fmt_shell(stdout=True, stderr=True)
+logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 reference_options = ""
 if "reference" in snakemake.params:
@@ -31,8 +31,6 @@ if "reference" in snakemake.params:
 if len(fastq) == 2:
     input_fastq = f"-1 {fastq[0]} -2 {fastq[1]}"
 else:
-    if isinstance(fastq, list):
-        fastq = fastq[0]
     input_fastq = f"--{preset} {fastq}"
     
 outdir = outfile.parent
@@ -40,7 +38,7 @@ outdir = outfile.parent
 shell(
     "quast.py {options}"
     " -t {snakemake.threads}"
-    " {input.assembly}"
+    " {assembly}"
     " {input_fastq}"
     " --output-dir {outdir} {logs}"
     " && touch {outfile}"

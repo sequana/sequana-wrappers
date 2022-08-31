@@ -18,7 +18,7 @@ from snakemake.shell import shell
 assembly = snakemake.input[0]
 outfile = Path(snakemake.output[0])
 options = snakemake.params.get("options", "")
-log = snakemake.log_fmt_shell(stdout=True, stderr=True)
+logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 shell(
     "prokka --force {options}"

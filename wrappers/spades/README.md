@@ -8,8 +8,8 @@ This wrapper generates de novo assembly using **SPAdes**.
 
 **Required output::**
 
-- **contig**: the contigs fasta file.
-- **scaffold**: the scaffold fasta file.
+- **contigs**: the contigs fasta file.
+- **scaffolds**: the scaffolds fasta file.
  
 **Required parameters:**
 
@@ -53,8 +53,8 @@ Notes: This wrapper cannot be used to perform correction only.
         input:
             fastq="data/raw.fastq.gz",
         output:
-            contig="assembled/contigs.fasta",
-            scaffold="assembled/scaffold.fasta"
+            contigs="assembled/contigs.fasta",
+            scaffolds="assembled/scaffolds.fasta"
         params:
             k=config["spades"]["k"],
             preset=config["spades"]["preset"],
