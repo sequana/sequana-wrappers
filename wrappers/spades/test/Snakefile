@@ -1,4 +1,5 @@
-rule all: "raw/ctg.fa"
+rule all:
+    input: "raw/ctg.fa"
 
 rule spades:
     input: 
