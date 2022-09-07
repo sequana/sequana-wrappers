@@ -3,12 +3,9 @@ rule sambamba_filter:
         "test.sorted.bam"
     output:
         bam="test.filter.bam",
-    log:
-        out = "log.out",
-        err = "log.err"
+    log: "sambamba_filter.log"
     params:
-        threshold=30,
-        options=""
+        threshold=30
     wrapper:
         "main/wrappers/sambamba_filter"
 

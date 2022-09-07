@@ -1,4 +1,5 @@
-rule all: "prokka/ctg.gff"
+rule all:
+    input: "prokka/ctg.gff"
 
 rule prokka:
     input: "ctg.fa"

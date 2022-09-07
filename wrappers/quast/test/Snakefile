@@ -1,9 +1,12 @@
-rule all: "test/quast.done"
+rule all:
+    input: "test/quast.done"
 
 rule quast:
     input:
         fastq="raw_R1.fastq.gz",
         assembly="ctg.fa"
     output: "test/quast.done"
+    params:
+        options="--min-contig 50"
     wrapper:
         "main/wrappers/quast" 
