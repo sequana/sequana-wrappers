@@ -16,12 +16,19 @@ from snakemake.shell import shell
 
 # Get rule information (input/output/params...)
 
-input_bam = snakemake.input[0]
-output_bam = snakemake.output[0]
-params = snakemake.params
-log = snakemake.log
+input_bam = snakemake.input
+output_bam = snakemake.output
+options = snakemake.params.get("options", "")
+threshold = snakemake.params.get("threshold")
+logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
+if not threshold:
+    raise AssertionError("A threshold must be set in rule params")
 
-cmd = """sambamba view  {params.options} --format=bam --filter="mapping_quality >= {params.threshold}"       -o {output_bam} {input_bam} 1>{log.out} 2>{log.err}"""
-
-shell(cmd)
+shell(
+    "sambamba view {options}"
+    " --format=bam"
+    " --filter='mapping_quality >= {threshold}'"
+    " -o {output_bam}"
+    " {input_bam} {logs}"
+)
