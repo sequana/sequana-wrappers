@@ -32,8 +32,7 @@ if which("pbwa"):
 else:
     bwa_exe = "bwa"
 
-if tmpdir:
-    sambamba_tmp = f"--tmpdir={tmpdir}"
+sambamba_tmp = f"--tmpdir={tmpdir}" if tmpdir else ""
 
 
 shell(
