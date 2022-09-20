@@ -10,8 +10,7 @@
 #  Documentation: http://sequana.readthedocs.io
 #  Contributors:  https://github.com/sequana/sequana/graphs/contributors
 ##############################################################################
-import os
-
+from pathlib import Path
 from snakemake.shell import shell
 
 # Get rule information (input/output/params...)
@@ -24,6 +23,11 @@ logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 if not threshold:
     raise AssertionError("A threshold must be set in rule params")
+
+# sambamba/snakemake does not seem to create the output directory if any
+# is provided in the output
+Path(str(output_bam)).parent.mkdir(exist_ok=True)
+
 
 shell(
     "sambamba view {options}"
