@@ -56,7 +56,7 @@ This wrapper takes 1 fasta file as input. It creates by default a Blast reports 
 		params:
 			blast_type="blastx",
 			options=config['blastx']["options"],
-			format=6,
+			outfmt=6,
 		threads: config['blastx']["threads"]
 		wrapper:
 			"main/wrappers/blast/blast"

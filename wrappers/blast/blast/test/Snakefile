@@ -20,7 +20,7 @@ rule blast_nucleotide:
         # Usable options and specifiers for the different output formats are listed here:
         # https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/blast/blastn.html.
         blast_type="blastn",
-        format="6 qseqid sseqid evalue",
+        outfmt="6 qseqid sseqid evalue",
         options=""
     wrapper:
         "main/wrappers/blast/blast"
