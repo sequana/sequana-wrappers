@@ -1,0 +1,12 @@
+rule all:
+    input: "raw/ctg.fa"
+
+rule unicycler:
+    input: 
+        fastq=["raw_R1.fastq.gz"]
+    output:
+        contigs="raw/ctg.fa",
+    log:
+        "unicycler.log"
+    wrapper:
+        "main/wrappers/unicycler"
