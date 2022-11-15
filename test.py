@@ -374,6 +374,7 @@ def test_bwa_align():
         "spades",
         "star/index",
         "star/align",
+        "unicycler"
     ],
 )
 @skip_if_not_modified
