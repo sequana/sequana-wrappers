@@ -23,14 +23,15 @@ output_fasta = snakemake.output[0]
 
 log = snakemake.log[0]
 
+options = snakemake.params.get("options", "")
 
 # real stuff is here:
 from sequana import SnpEff
 
 if input_ann.endswith(".gbk"):
-    snpeff = SnpEff(input_ann, log=log)
+    snpeff = SnpEff(input_ann, log=log, build_options=options)
 elif input_ann.endswith("gff") or input_ann.endswith("gff3"):
-    snpeff = SnpEff(input_ann, log=log, fastafile=input_fasta)
+    snpeff = SnpEff(input_ann, log=log, fastafile=input_fasta, build_options=options)
 else:
     raise IOError("Your annotation file does not end with gbk or gff/gff3 extension")
 
