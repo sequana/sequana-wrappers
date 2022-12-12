@@ -25,8 +25,10 @@ or with a local copy in /home/user:
     cd
     git clone git@github.com:sequana/sequana-wrappers.git sequana_wrappers
     snakemake --wrapper-prefix git+file:///home/user/sequana_wrappers
-
-
+    
+Note that if you define a variable SEQUANA_WRAPPERS=git+file:///home/user/sequana_wrappers all pipelines will
+automatically set the --wraper-prefix to this variable content.
+    
 # Notes for developers
 
 ## Overview
