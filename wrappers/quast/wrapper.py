@@ -32,12 +32,13 @@ if len(fastq) == 2:
     input_fastq = f"-1 {fastq[0]} -2 {fastq[1]}"
 else:
     input_fastq = f"--{preset} {fastq}"
-    
+
 outdir = outfile.parent
 
 shell(
     "quast.py {options}"
     " -t {snakemake.threads}"
+    " {reference_options}"
     " {assembly}"
     " {input_fastq}"
     " --output-dir {outdir} {logs}"
