@@ -61,7 +61,6 @@ Note that the input and output must be named
         log:
             "dn_PE.log"
         params:
-            prefix = "dn",
             ksize = 20,
             cutoff = 20,
             m = 1000000000,
