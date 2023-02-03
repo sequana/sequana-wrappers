@@ -16,7 +16,6 @@ rule digital_normalisation_PE:
     log:
         "dn_PE.log"
     params:
-        prefix = "dn",
         ksize = 20,
         cutoff = 20,
         m = 1000000000,
@@ -35,7 +34,6 @@ rule digital_normalisation_SE:
     log:
         "dn_SE.log"
     params:
-        prefix = "dn",
         ksize = 20,
         cutoff = 20,
         m = 1000000000,
