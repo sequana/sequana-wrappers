@@ -49,5 +49,5 @@ if "-ID" not in options.split():
     options += f" -ID {ID}"
 
 
-cmd = "picard AddOrReplaceReadGroups -VALIDATION_STRINGENCY SILENT -I {input_bam} -O {output_bam} {options} {log} && bamtools index -in {output_bam}"
+cmd = "picard AddOrReplaceReadGroups -VALIDATION_STRINGENCY SILENT -I {input_bam} -O {output_bam} {options} {log} && samtools index {output_bam}"
 shell(cmd)
