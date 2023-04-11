@@ -41,7 +41,7 @@ try:
     # sort the bam
     shell("samtools sort -@ {threads} -o {snakemake.output.sorted} {snakemake.output.bam}")
     # and index it
-    shell("bamtools index -in {snakemake.output.sorted}")
+    shell("samtools index {snakemake.output.sorted}")
 except AttributeError:
     # FIXME. could add a logger.warning here possibly in the future
     pass
