@@ -8,7 +8,7 @@ This wrapper creates a rulegraph showing your pipeline dependencies
 
 **Required ouput:**
 
-- **svg**: the output SVG filename
+- the output dot filename
 
 **Required parameters:**
 
@@ -27,7 +27,7 @@ This wrapper creates a rulegraph showing your pipeline dependencies
         input: 
             manager.snakefile
         output:
-            svg = ".sequana/rulegraph.svg"
+            "rulegraph/rulegraph.dot"
         params:
             configname = "config.yaml",
             mapper = rulegraph_params_mapper,

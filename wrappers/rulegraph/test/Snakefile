@@ -1,12 +1,12 @@
 rule all:
     input: 
-        "test.svg"
+        "test.dt"
 
 rule rulegraph:
     input:
         workflow.snakefile
     output:
-        svg  = "test.svg"
+        "test.dt"
     params:
         mapper = {'rulegraph': 'rulegraph.html'},
         required_local_file = ['schema.yml',],
