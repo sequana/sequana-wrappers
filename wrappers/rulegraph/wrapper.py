@@ -33,7 +33,7 @@ from sequana_pipetools.snaketools import DOTParser
 # third solution (this one) is to call *cd* the shell commands
 
 input_filename = snakemake.input[0]
-output_svg = snakemake.output["svg"]
+output_dot = snakemake.output[0]
 
 # get params
 config_filename = snakemake.params.get("configname")
@@ -88,9 +88,5 @@ except Exception as err:
 
 # Annotate the dag with URLs
 d = DOTParser(cwd / "rulegraph" / "rg.dot")
-d.add_urls(mapper=mapper)
+d.add_urls(output_filename=output_dot, mapper=mapper)
 
-# Now, create the SVG. Somehow if called dag.svg, this is a conflict
-# hence the || true
-shell("dot -Tsvg rg.ann.dot  -o {output_svg} || true")
-shell("rm -f rg.ann.dot")
