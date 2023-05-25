@@ -31,5 +31,7 @@ There is no configuration required for this wrapper.
             "{sample}/snpeff_add_locus_in_fasta/{sample}.fas
         log:
             "{sample}/snpeff_add_locus_in_fasta/{sample}.log"
+        container:
+            "https://zenodo.org/record/7963917/files/sequana_tools_0.15.1.img"
         wrapper:
             "main/wrappers/snpeff_add_locus_in_fasta
