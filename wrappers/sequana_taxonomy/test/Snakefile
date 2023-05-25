@@ -1,0 +1,14 @@
+
+rule sequana_coverage:
+    input:
+        "test_R1_.fastq.gz"
+    output:
+        html = "test/summary.html",
+        summary = "test/kraken/kraken.out.summary",
+        unclassified="test/unclassified.fastq"
+    params:
+        paired=False,
+        databases=['toydb'],
+        store_unclassified=False
+    wrapper:
+        "main/wrappers/sequana_taxonomy"

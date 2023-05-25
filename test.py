@@ -369,6 +369,7 @@ def test_bwa_align():
         "sambamba_filter",
         "samtools_depth",
         "sequana_coverage",
+        "sequana_taxonomy",
         "snpeff_add_locus_in_fasta",
         "snpeff",
         "spades",
