@@ -32,6 +32,8 @@ This wrapper creates a rulegraph showing your pipeline dependencies
             configname = "config.yaml",
             mapper = rulegraph_params_mapper,
             required_local_files = ['rules/',]
+        container:
+          "https://zenodo.org/record/7928262/files/graphviz_7.0.5.img"
         wrapper:
             "main/wrappers/rulegraph"
 
