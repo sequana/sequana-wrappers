@@ -1,0 +1,13 @@
+'bowtie2_index':
+    type: map
+    mapping:
+        "options":
+            type: str
+        "threads":
+            type: int
+            required: True
+            range: { min: 1}
+        "resources":
+            type: any
+            required: true
+

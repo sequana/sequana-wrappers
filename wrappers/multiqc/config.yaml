@@ -1,0 +1,17 @@
+#############################################################################
+#  MultiQC aggregates results from bioinformatics analyses across several
+#  samples into a single report.
+#
+# :Parameters:
+#
+# - options: any options recognised by multiqc
+# - modules: list of modules to use. Let this empty to scan all modules
+# - intput_directory: directory to scan 
+# - config_file: by default, we use the multiqc_config file of the pipeline 
+#     if found, otherwise fill this entry with your own.
+multiqc:
+    options: -p -f 
+    modules: '' 
+    input_directory: .
+    config_file: multiqc_config.yaml
+

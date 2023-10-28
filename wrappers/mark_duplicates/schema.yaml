@@ -1,0 +1,14 @@
+'mark_duplicates':
+    type: map
+    mapping:
+        "do":
+            type: bool
+        "remove":
+            type: bool
+        "tmpdir":
+            type: str
+        "threads":
+            type: int
+            required: True
+            range: { min: 1, max: 8 }
+

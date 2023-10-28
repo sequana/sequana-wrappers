@@ -1,0 +1,24 @@
+"fastp":
+    type: map
+    mapping:
+      "options":
+          type: str
+      "minimum_length":
+          required: True
+          type: int
+      "adapters":
+          type: str
+          required: False
+      "quality":
+          type: int
+          range: {max: 40, min: 0}
+          required: False
+      "threads":
+          type: int
+          required: True
+          range: { min: 1 }
+      "disable_adapter_trimming":
+              type: bool
+      "disable_quality_filtering":
+              type: bool
+

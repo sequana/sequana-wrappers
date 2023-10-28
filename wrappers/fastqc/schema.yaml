@@ -1,0 +1,16 @@
+"fastqc":
+    type: map
+    mapping:
+        "skip_fastqc_raw":
+            type: bool
+            required: True
+        "options":
+            type: str
+            required: True
+        "threads":
+            type: int
+            required: True
+            range: { min: 1 }
+        "resources":
+            type: any
+            required: true

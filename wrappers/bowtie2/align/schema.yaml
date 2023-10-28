@@ -1,0 +1,14 @@
+'bowtie2_mapping':
+    type: map
+    mapping:
+        "options":
+            type: str
+        "threads":
+            type: int
+            required: True
+            range: { min: 1}
+        "genome_size_larger_than_4gb":
+            type: bool
+        "resources":
+            type: any
+            required: true
