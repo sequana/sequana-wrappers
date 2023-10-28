@@ -340,6 +340,7 @@ def test_bwa_align():
         "add_read_group",
         "bamtools/sort",
         "bamtools/index",
+        "bamtools/stats",
         "bz2_to_gz",
         "bcl2fastq",
         "bowtie1/build",
