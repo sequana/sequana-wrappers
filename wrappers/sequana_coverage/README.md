@@ -64,7 +64,8 @@ This CSV can be used to regenerate the sequana_coverage report.
             double_threshold = 0.5,
             circular = True,
             chunksize = 5000000,
-            gc_size = 201,
+            gc_window_size = 201,
+            mixture_models = 2
         wrapper:
             "main/wrappers/sequana_coverage"
 

@@ -13,12 +13,13 @@ rule sequana_coverage_with_gbk:
     output:
         html = "test/sequana_coverage.html"
     params:
+        chunksize = 5000000,
+        circular = True,
+        double_threshold = 0.5,
+        gc_window_size = 201,
         mixture_models = 2,
         window_size = 3001,
-        double_threshold = 0.5,
-        circular = True,
-        chunksize = 5000000,
-        gc_window_size = 201,
+        high_threshold=2
     wrapper:
         "main/wrappers/sequana_coverage"
 
@@ -30,11 +31,12 @@ rule sequana_coverage:
     output:
         html = "test2/sequana_coverage.html"
     params:
-        mixture_models = 2,
-        window_size = 3001,
-        double_threshold = 0.5,
         circular = True,
         chunksize = 5000000,
+        double_threshold = 0.5,
         gc_window_size = 201,
+        mixture_models = 2,
+        window_size = 3001,
+        high_threshold=2
     wrapper:
         "main/wrappers/sequana_coverage"
