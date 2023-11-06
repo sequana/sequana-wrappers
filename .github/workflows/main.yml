@@ -28,8 +28,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        
-            conda create -c bioconda -c conda-forge --quiet -y --name snakemake snakemake-minimal pytest 
+            conda create -c bioconda -c conda-forge --quiet -y --name snakemake snakemake-minimal pytest
 
     - name: Fetch main
       if: github.ref != 'refs/heads/main'

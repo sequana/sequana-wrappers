@@ -12,7 +12,7 @@ The Sequana Wrapper Repository is a collection of reusable wrappers used in the 
 | Overview | A set of Snakemake wappers to help building Sequana pipelines |
 |Status | Production |
 |Issues | Please fill a report on [github/sequana/sequana-wrappers](https://github.com/sequana/sequana/issues) |
-|Python version | Python 3.7, 3.8, 3.9|
+|Python version | Python 3.8, 3.9, 3.10|
 |Citation| Cokelaer et al, (2017), ‘Sequana’: a Set of Snakemake NGS pipelines, Journal of Open Source Software, 2(16) ), 352,  [JOSS DOI doi:10.21105/joss.00352 ](http://www.doi2bib.org/bib/10.21105%2Fjoss.00352) |
 
 
@@ -25,10 +25,10 @@ or with a local copy in /home/user:
     cd
     git clone git@github.com:sequana/sequana-wrappers.git sequana_wrappers
     snakemake --wrapper-prefix git+file:///home/user/sequana_wrappers
-    
+
 Note that if you define a variable SEQUANA_WRAPPERS=git+file:///home/user/sequana_wrappers all pipelines will
 automatically set the --wraper-prefix to this variable content.
-    
+
 # Notes for developers
 
 ## Overview
@@ -164,6 +164,17 @@ Time to include the new wrapper in the continous integration. Go to the root of 
 
 You are ready to push and create a pull-requests
 
+
+
+## Tagging
+
+You may consider to add a tag. Our convention is to use a tag with the YEAR.MONTH.DAY
+where day and month do not include extra zeros. So you would have e.g.::
+
+    23.11.11
+    23.2.2
+
+but not 23.02.02
 
 
 
