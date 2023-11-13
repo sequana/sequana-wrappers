@@ -14,61 +14,45 @@ import os
 
 from snakemake.shell import shell
 
-from sequana.bedtools import GenomeCov
-from sequana.modules_report.coverage import CoverageModule
-from sequana.utils import config
+log = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 # Get rule information (input/output/params...)
-
+# inputs
 input_bed = snakemake.input.bed
 input_fasta = snakemake.input.fasta
-input_gbk = snakemake.input.get("gbk", None)
 
+# outputs
 output_html = snakemake.output[0]
 report_dir = output_html.rsplit("/", 1)[0]
 
+# default values from sequana_coverage
+annotation = snakemake.input.get("annotation_file", None)
 circular = snakemake.params.get("circular", True)
-chunksize = snakemake.params.get("chunksize", 0.5)
+chunksize = snakemake.params.get("chunksize", 5000000)
 double_threshold = snakemake.params.get("double_threshold", 0.5)
-gc_size = snakemake.params.get("gc_window_size", 201)
-params_k = snakemake.params.get("mixture_models", 2)
+gc_window_size = snakemake.params.get("gc_window_size", 101)
 high = snakemake.params.get("high_threshold", 4)
 low = snakemake.params.get("low_threshold", -4)
-window_size = snakemake.params.get("window_size", 3001)
+params_k = snakemake.params.get("mixture_models", 2)
+options = snakemake.params.get("options", "")
+window_size = snakemake.params.get("window_size", 20001)
+output_directory = snakemake.params.get("output_directory", "report")
 
+# create the command
+cmd = f"sequana_coverage --input-file {input_bed} -H {high} -L {low} "\
+       "--clustering-parameter {double_threshold} --chunk-size {chunksize} "\
+       "--window-gc {gc_window_size} --mixture-models {params_k} "\
+       "--output-directory {output_directory} "
 
-# Run sequana coverage
-# read the data
-bed = GenomeCov(input_bed, input_gbk, low, high, double_threshold, double_threshold)
+if circular:
+    cmd += " -o "
 
-# compute GC
-bed.compute_gc_content(input_fasta, gc_size, circular)
+if annotation:
+    cmd += f" --annotation-file {annotation} "
 
-# we expect the sample name to be the {sample}/something/...
-sample = input_bed.split(os.sep)[0]
+if input_fasta:
+    cmd += f" --reference-file {input_fasta} "
 
-for chrom in bed:
-    if window_size > len(chrom.df) / 4:
-        W = int(len(chrom.df) / 4)
-    else:
-        W = window_size
+cmd += " {options} {log} "
 
-    results = chrom.run(W, circular=circular, k=params_k, binning=-1, cnv_delta=-1)
-
-    prefix = f"{report_dir}/{chrom.chrom_name}/"
-    output_json = prefix + "sequana_summary_coverage.json"
-
-    os.makedirs(prefix, exist_ok=True)
-    output_roi = prefix + "rois.csv"
-    ROIs = results.get_rois()
-    ROIs.df.to_csv(output_roi)
-    chrom.plot_coverage(prefix + "coverage.png")
-
-    summary = results.get_summary(caller="sequana_pipeline")
-    summary.to_json(output_json)
-
-# Create HTML reports
-config.output_dir = report_dir
-config.sample_name = sample
-
-CoverageModule(bed)
+shell(cmd)
