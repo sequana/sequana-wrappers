@@ -4,41 +4,48 @@ on:
   push:
     branches:
       - main
+      - dev
+  workflow_dispatch:
   pull_request:
     branches-ignore: []
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 4 * *'
 
 jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: checkout git repo
+      uses: actions/checkout@v4
+ 
+
+    - name: mamba
+      uses: "mamba-org/setup-micromamba@v1"
       with:
-        fetch-depth: 2
-
-    - name: OS update
-      run: |
-        sudo apt-get update
-
-    - name: Add conda to system path
-      run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-
-    - name: Install dependencies
-      run: |
-            conda create -c bioconda -c conda-forge --quiet -y --name snakemake snakemake-minimal pytest
+          create-args: >-
+              python=${{ matrix.python }}
+              snakemake-minimal
+              pytest
+          environment-name: snakemake
+          init-shell: >-
+            bash
+          condarc: |
+              channels:
+                  - conda-forge
+                  - bioconda
+              channel_priority: strict
 
     - name: Fetch main
+      shell: bash -l {0}
       if: github.ref != 'refs/heads/main'
       run: |
         git fetch origin main
 
     - name: Test with pytest
+      shell: bash -l {0}
       env:
         DIFF_MASTER: ${{ github.event_name == 'pull_request' }}
         DIFF_LAST_COMMIT: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        source activate snakemake
+        #source activate snakemake
         pytest test.py -vv

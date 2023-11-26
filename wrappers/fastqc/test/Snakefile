@@ -9,8 +9,8 @@ rule fastqc_PE:
     output:
         done = "fastqc_PE/fastqc.done"
     params:
-        options= " -nogroup ",
-        working_directory= "fastqc_PE" 
+        options= " --nogroup ",
+        working_directory= "fastqc_PE"
     threads: 2
     log:
         "fastqc_PE/fastqc.log"
@@ -23,12 +23,27 @@ rule fastqc_SE:
     output:
         done = "fastqc_SE/fastqc.done"
     params:
-        options= " -nogroup ",
-        working_directory= "fastqc_SE" 
+        options= " --nogroup ",
+        working_directory= "fastqc_SE"
     threads: 2
     log:
         "fastqc_SE/fastqc.log"
     wrapper:
         "main/wrappers/fastqc"
 
-
+# Using apptainer
+rule fastqc_SE_apptainer:
+    input:
+        "test_R1_.fastq"
+    output:
+        done = "fastqc_SE_apptainer/fastqc.done"
+    params:
+        options= " --nogroup ",
+        working_directory= "fastqc_SE"
+    threads: 2
+    container:
+        "https://zenodo.org/record/7923780/files/fastqc_0.12.1.img"
+    log:
+        "fastqc_SE_apptainer/fastqc.log"
+    wrapper:
+        "main/wrappers/fastqc"
