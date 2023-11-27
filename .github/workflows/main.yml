@@ -28,7 +28,6 @@ jobs:
               pytest
           init-shell: >-
             bash
-          cache-environment: true
           condarc: |
               channels:
                   - conda-forge
