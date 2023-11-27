@@ -47,5 +47,5 @@ jobs:
         DIFF_MASTER: ${{ github.event_name == 'pull_request' }}
         DIFF_LAST_COMMIT: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        source activate snakemake
+        #source activate snakemake
         pytest test.py -vv
