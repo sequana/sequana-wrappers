@@ -3,6 +3,6 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - falco==0.2.4
+  - falco
   - pip:
     - sequana
