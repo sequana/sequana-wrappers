@@ -26,19 +26,14 @@ jobs:
               python=${{ matrix.python }}
               snakemake-minimal
               pytest
+          environment-name: snakemake
           init-shell: >-
             bash
-          cache-environment: true
           condarc: |
               channels:
                   - conda-forge
                   - bioconda
               channel_priority: strict
-
-    - name: Install dependencies
-      shell: bash -l {0}
-      run: |
-          mamba create --quiet -y --name snakemake snakemake-minimal pytest
 
     - name: Fetch main
       shell: bash -l {0}
