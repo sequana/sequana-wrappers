@@ -26,7 +26,6 @@ jobs:
               python=${{ matrix.python }}
               snakemake-minimal
               pytest
-          environment-file: false
           init-shell: >-
             bash
           cache-environment: true
