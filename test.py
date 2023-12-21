@@ -12,6 +12,7 @@ import pytest
 DIFF_MASTER = os.environ.get("DIFF_MASTER", "false") == "true"
 DIFF_LAST_COMMIT = os.environ.get("DIFF_LAST_COMMIT", "false") == "true"
 
+
 if DIFF_MASTER or DIFF_LAST_COMMIT:
     compare = "HEAD^" if DIFF_LAST_COMMIT else "origin/main"
 
@@ -62,7 +63,7 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
         for extra_wrapper in extra_wrappers:
             copy_wrapper(extra_wrapper, dst)
 
-        # if test did not changed, not need to be run on CI action
+        # if test did not changed, no need to be run on CI action
         if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(f.startswith(wrapper) for f in DIFF_FILES):
             raise Skipped("wrappers not modified")
 

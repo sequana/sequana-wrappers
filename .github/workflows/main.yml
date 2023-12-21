@@ -17,7 +17,11 @@ jobs:
     steps:
     - name: checkout git repo
       uses: actions/checkout@v4
- 
+      with:
+          # by default fetch depth is 1 leading to error
+          # when using git diff HEAD^ --name-only so we need to set 
+          # fetch depth to 0 manualy
+          fetch-depth: '0'
 
     - name: mamba
       uses: "mamba-org/setup-micromamba@v1"
@@ -36,16 +40,20 @@ jobs:
               channel_priority: strict
 
     - name: Fetch main
-      shell: bash -l {0}
-      if: github.ref != 'refs/heads/main'
+      shell: bash -el {0}
+      if: ${{ github.ref != 'refs/heads/main' }}
       run: |
         git fetch origin main
-
     - name: Test with pytest
-      shell: bash -l {0}
+      shell: bash -el {0}
       env:
         DIFF_MASTER: ${{ github.event_name == 'pull_request' }}
         DIFF_LAST_COMMIT: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        mamba activate snakemake
+        if [ $(git rev-parse --verify HEAD^ > /dev/null 2>&1; echo $?) -eq 0 ]; then
+          git diff HEAD^ --name-only
+        else
+          echo "No parent commit. Skipping git diff."
+        fi
+        #/home/runner/micromamba-bin/micromamba activate snakemake
         pytest test.py -vv
