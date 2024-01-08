@@ -10,3 +10,4 @@ rule unicycler:
         "unicycler.log"
     wrapper:
         "main/wrappers/unicycler"
+
