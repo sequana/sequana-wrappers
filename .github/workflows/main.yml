@@ -14,6 +14,13 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
+    strategy:
+       max-parallel: 5
+       matrix:
+         python: ['3.10']
+
+
+
     steps:
     - name: checkout git repo
       uses: actions/checkout@v4
@@ -26,10 +33,13 @@ jobs:
     - name: mamba
       uses: "mamba-org/setup-micromamba@v1"
       with:
+          # snakemake complains it cannot find mamba. the micromamba does not seem 
+          # to install mamba by itself so we add it specifically
           create-args: >-
               python=${{ matrix.python }}
               snakemake-minimal
               pytest
+              mamba
           environment-name: snakemake
           init-shell: >-
             bash
@@ -45,7 +55,7 @@ jobs:
       run: |
         git fetch origin main
     - name: Test with pytest
-      shell: bash -el {0}
+      shell: micromamba-shell {0}
       env:
         DIFF_MASTER: ${{ github.event_name == 'pull_request' }}
         DIFF_LAST_COMMIT: ${{ github.ref == 'refs/heads/main' }}
@@ -55,5 +65,4 @@ jobs:
         else
           echo "No parent commit. Skipping git diff."
         fi
-        #/home/runner/micromamba-bin/micromamba activate snakemake
         pytest test.py -vv

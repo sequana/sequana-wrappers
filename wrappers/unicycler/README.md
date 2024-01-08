@@ -4,7 +4,7 @@ This wrapper generates de novo assembly using **Unicycler** an assembly pipeline
 
 **Required input:**
 
-- **fastq**: the input fastq files.
+- **fastq**: the input fastq files. Could be short (paired or not) or long reads
 
 **Required output::**
 
@@ -14,6 +14,11 @@ This wrapper generates de novo assembly using **Unicycler** an assembly pipeline
 
 - **mode**: Bridging mode. (conservative|normal|bold) (default: "normal")
 - **options**: a list of valid **Unicycler** options.
+
+**Optional parameters:**
+
+- **long_reads** if provided and set to True, unicycler is used for long reads.
+  expected input is therefore single end data (one file).
 
 Notes: This wrapper cannot be used to perform correction only.
 
@@ -33,9 +38,11 @@ Notes: This wrapper cannot be used to perform correction only.
     # - mode: any bridging mode in this list ["conservative", "normal", "bold"]
     # - options: any options recognised by unicycler cli.
     # - threads: number of threads to be used.
+    # - long_reads: set to True to switch to long read analysis
     #
     unicycler:
         mode: "normal"
+        long_reads: True # optional
         options: ""
         threads: 4
 
@@ -54,6 +61,7 @@ Notes: This wrapper cannot be used to perform correction only.
             "logs/unicycler.log"
         threads:
             config["unicycler"]["threads"]
+        container: 
         wrapper:
             "main/wrappers/unicycler"
 
