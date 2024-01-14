@@ -19,7 +19,8 @@ rule sequana_coverage_with_gbk:
         gc_window_size = 201,
         mixture_models = 2,
         window_size = 3001,
-        high_threshold=2
+        high_threshold=2.5,
+        output_directory="test"
     wrapper:
         "main/wrappers/sequana_coverage"
 
@@ -37,6 +38,7 @@ rule sequana_coverage:
         gc_window_size = 201,
         mixture_models = 2,
         window_size = 3001,
-        high_threshold=2
+        high_threshold=2.5,
+        output_directory="test2"
     wrapper:
         "main/wrappers/sequana_coverage"

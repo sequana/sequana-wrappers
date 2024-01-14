@@ -42,7 +42,7 @@ output_directory = snakemake.params.get("output_directory", "report")
 cmd = f"sequana_coverage --input-file {input_bed} -H {high} -L {low} "\
        "--clustering-parameter {double_threshold} --chunk-size {chunksize} "\
        "--window-gc {gc_window_size} --mixture-models {params_k} "\
-       "--output-directory {output_directory} "
+       "--output-directory {output_directory} --window-median {window_size}"
 
 if circular:
     cmd += " -o "
