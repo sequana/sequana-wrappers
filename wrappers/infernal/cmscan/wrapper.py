@@ -5,7 +5,6 @@ __copyright__ = "Copyright 2019, N. Tessa Pierce"
 __email__ = "ntpierce@gmail.com"
 __license__ = "MIT"
 
-from os import path
 from snakemake.shell import shell
 
 profile = snakemake.input.get("profile")
@@ -40,6 +39,4 @@ extra = snakemake.params.get("extra", "")
 
 log = snakemake.log_fmt_shell(stdout=False, stderr=True)
 
-shell(
-    "cmscan {out_cmd} {thresh_cmd} {extra} --cpu {snakemake.threads} {profile} {snakemake.input.fasta} {log}"
-)
+shell("cmscan {out_cmd} {thresh_cmd} {extra} --cpu {snakemake.threads} {profile} {snakemake.input.fasta} {log}")
