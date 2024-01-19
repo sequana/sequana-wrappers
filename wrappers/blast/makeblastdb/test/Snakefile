@@ -14,7 +14,7 @@ rule blast_makedatabase_nucleotide:
     log:
         "logs/{genome}.log"
     params:
-        "-input_type fasta -blastdb_version 5 -parse_seqids"
+        options="-input_type fasta -blastdb_version 5 -parse_seqids"
     wrapper:
         "main/wrappers/blast/makeblastdb"
 
@@ -34,6 +34,6 @@ rule blast_makedatabase_protein:
     log:
         "logs/{protein}.log"
     params:
-        "-input_type fasta -blastdb_version 5"
+        options="-input_type fasta -blastdb_version 5"
     wrapper:
         "main/wrappers/blast/makeblastdb"
