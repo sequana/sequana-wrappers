@@ -1,0 +1,17 @@
+
+rule freebayes:
+    input:
+        bam = "test.sorted.bam",
+        ref = "measles.fa"
+    output:
+        vcf = "test.vcf"
+    log:
+        "freebayes.log"
+    params:
+        ploidy = 1,
+        options = "",
+        chunk="5000"
+    threads:
+        4
+    wrapper:
+        "main/wrappers/freebayes-parallel"
