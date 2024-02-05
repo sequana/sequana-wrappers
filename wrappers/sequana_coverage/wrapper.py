@@ -26,7 +26,7 @@ output_html = snakemake.output[0]
 report_dir = output_html.rsplit("/", 1)[0]
 
 # default values from sequana_coverage
-annotation = snakemake.input.get("annotation_file", None)
+annotation = snakemake.params.get("annotation", None)
 circular = snakemake.params.get("circular", True)
 chunksize = snakemake.params.get("chunksize", 5000000)
 double_threshold = snakemake.params.get("double_threshold", 0.5)
