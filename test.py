@@ -356,6 +356,7 @@ def test_bwa_align():
         "feature_counts",
         "freebayes",
         "freebayes_vcf_filter",
+        "freebayes-parallel",
         "gz_to_bz2",
         "mark_duplicates",
         "medaka/consensus",
