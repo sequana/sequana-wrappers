@@ -8,8 +8,8 @@ This wrapper generates de novo assembly using **Unicycler** an assembly pipeline
 
 **Required output::**
 
-- **contigs**: the contigs fasta file.
- 
+- **fastas**: the contigs fasta file.
+
 **Required parameters:**
 
 - **mode**: Bridging mode. (conservative|normal|bold) (default: "normal")

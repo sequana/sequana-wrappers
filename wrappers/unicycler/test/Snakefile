@@ -5,7 +5,8 @@ rule unicycler:
     input: 
         fastq=["raw_R1.fastq.gz"]
     output:
-        contigs="raw/ctg.fa",
+        fasta="raw/ctg.fa",
+        #gfa="raw/ctg.gfa"
     log:
         "unicycler.log"
     wrapper:
