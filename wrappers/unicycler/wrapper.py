@@ -16,7 +16,7 @@ from snakemake.shell import shell
 
 
 fastq = snakemake.input
-contigs = snakemake.output
+output = snakemake.output
 logs = snakemake.log_fmt_shell(stdout=True, stderr=True)
 
 # by default, this wrapper is for short read data
@@ -31,7 +31,7 @@ if snakemake.params.get("long_reads", False):
 
 options = snakemake.params.get("options", "")
 mode = snakemake.params.get("mode", "normal")
-outdir = Path(str(contigs)).parent
+outdir = Path(str(output.fasta)).parent
 
 shell(
     "unicycler --mode {mode}"
@@ -39,5 +39,5 @@ shell(
     " {input_file}"
     " -o {outdir}"
     " {options} {logs}"
-    " && cp {outdir}/assembly.fasta {contigs}"
+    " && cp {outdir}/assembly.fasta {output.fasta}"
 )
