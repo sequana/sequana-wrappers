@@ -9,7 +9,8 @@ This CSV can be used to regenerate the sequana_coverage report.
 
 **Required input:**
 
-- **bed**: a BED file (built e.g with samtools_depth -aa input.bam)
+- **input**: a COV or BAM file. The COV file is a 3-column file with 
+  chromosome name, position, depth (built e.g with samtools_depth -aa input.bam)
 - **fasta**: a FASTA file of the reference.
 - **gbk**: a GENBANK file. (Optional)
 
@@ -53,7 +54,7 @@ This CSV can be used to regenerate the sequana_coverage report.
 
     rule sequana_coverage:
         input:
-            bed = "test.bed",
+            input = "test.bed",
             fasta = "measles.fa",
             gbk = "measles.gbk"
         output:
