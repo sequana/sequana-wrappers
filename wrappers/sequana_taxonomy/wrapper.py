@@ -16,9 +16,9 @@ from snakemake import shell
 
 outdir = snakemake.output.html.split("/",1)[0]
 
-cmd = "sequana_taxonomy --file1 {snakemake.input[0]} "
+cmd = "sequana_taxonomy --input-file1 {snakemake.input[0]} "
 if snakemake.params.paired:
-    cmd += " --file2 {snakemake.input[1]} "
+    cmd += " --input-file2 {snakemake.input[1]} "
 
 confidence = snakemake.params.get('confidence', 0)
 level = snakemake.params.get('level', "INFO")
