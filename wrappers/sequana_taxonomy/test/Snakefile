@@ -1,5 +1,5 @@
 
-rule sequana_coverage:
+rule sequana_taxonomy:
     input:
         "test_R1_.fastq.gz"
     output:

@@ -4,6 +4,6 @@ channels:
   - defaults
 dependencies:
   - kraken2
-  - krona 
+  - krona
   - pip:
     - sequana
