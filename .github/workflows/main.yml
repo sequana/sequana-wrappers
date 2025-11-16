@@ -31,7 +31,7 @@ jobs:
           fetch-depth: '0'
 
     - name: mamba
-      uses: "mamba-org/setup-micromamba@v1"
+      uses: "mamba-org/setup-micromamba@v2"
       with:
           # snakemake complains it cannot find mamba. the micromamba does not seem 
           # to install mamba by itself so we add it specifically
@@ -48,6 +48,17 @@ jobs:
                   - conda-forge
                   - bioconda
               channel_priority: strict
+
+    # clenup step recommended by github action
+    - name: Clean conda environment cache
+      run: rm -rf /tmp/tmp9qtdq9jf/test/.snakemake/conda/*
+    # github action suggestion 
+    - name: Install snakemake and mamba
+      run: |
+        pip install --upgrade snakemake
+        conda install -c conda-forge mamba
+
+
 
     - name: Fetch main
       shell: bash -el {0}
