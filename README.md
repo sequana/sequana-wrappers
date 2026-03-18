@@ -180,6 +180,8 @@ We use annotated tags so the command is e.g.:
 
     git tag -a v23.11.11
 
+and then push it to github:
 
+    git push origin main v23.11.11
 
 
