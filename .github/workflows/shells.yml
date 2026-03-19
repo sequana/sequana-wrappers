@@ -97,7 +97,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Apptainer
-        uses: apptainer/install-apptainer@v1
+        uses: sylabs/apptainer-action@v1
 
       - name: Install sequana_wrappers
         run: pip install -e .
