@@ -1,0 +1,14 @@
+from sequana_wrappers import get_shell
+
+rule all:
+    input: ["test.txt"]
+
+rule bamtools_stats:
+    input:
+        bam="test.bam"
+    output:
+        "test.txt"
+    container:
+        "https://zenodo.org/record/10211475/files/bamtools_2.5.2.img"
+    shell:
+        get_shell("bamtools/stats", "v1")

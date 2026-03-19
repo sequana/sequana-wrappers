@@ -107,6 +107,100 @@ def run(wrapper, cmd, check_log=None, extra_wrappers=[]):
             os.chdir(origdir)
 
 
+APPTAINER_PREFIX = os.environ.get("APPTAINER_PREFIX", os.path.expanduser("~/.config/damona/images"))
+
+
+def run_shell(shell_path, cmd, check_log=None):
+    """Run a shell command test using an Apptainer container.
+
+    Mirrors the ``run()`` function for wrappers but uses ``--use-singularity``
+    instead of ``--use-conda``.  The test directory is expected at:
+    ``sequana_wrappers/shells/<tool>/<command>/test/``.
+
+    :param shell_path: slash-separated path, e.g. ``"minimap2/align"``
+    :param cmd: snakemake command list (without ``--use-singularity`` flags,
+        which are added automatically)
+    :param check_log: optional callable to validate log file contents
+    """
+    origdir = os.getcwd()
+    testdir_src = os.path.join("sequana_wrappers", "shells", *shell_path.split("/"), "test")
+
+    if (DIFF_MASTER or DIFF_LAST_COMMIT) and not any(
+        f.startswith(os.path.join("sequana_wrappers", "shells", *shell_path.split("/")))
+        for f in DIFF_FILES
+    ):
+        raise Skipped("shell not modified")
+
+    with tempfile.TemporaryDirectory() as d:
+        testdir = os.path.join(d, "test")
+        shutil.copytree(testdir_src, testdir)
+        os.chdir(testdir)
+        if os.path.exists(".snakemake"):
+            shutil.rmtree(".snakemake")
+
+        full_cmd = cmd + [
+            "--use-singularity",
+            "--singularity-prefix", APPTAINER_PREFIX,
+        ]
+
+        try:
+            subprocess.check_call(full_cmd)
+        except Exception as e:
+            os.chdir(origdir)
+            logfiles = [
+                os.path.join(dirpath, f)
+                for dirpath, _, files in os.walk(testdir)
+                for f in files
+                if f.endswith(".log")
+            ]
+            for path in logfiles:
+                with open(path) as f:
+                    msg = "###### Logfile: " + path + " ######"
+                    print(msg, "\n")
+                    print(f.read())
+                    print("#" * len(msg))
+            if check_log is not None:
+                for path in logfiles:
+                    check_log(open(path).read())
+            else:
+                raise e
+        finally:
+            os.chdir(origdir)
+
+
+# ======================================================================
+# Shell tests
+# ======================================================================
+
+@skip_if_not_modified
+def test_shell_minimap2_align():
+    run_shell("minimap2/align", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bwa_build():
+    run_shell("bwa/build", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bwa_align():
+    run_shell("bwa/align", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bowtie2_build():
+    run_shell("bowtie2/build", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bowtie2_align():
+    run_shell("bowtie2/align", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bamtools_stats():
+    run_shell("bamtools/stats", ["snakemake", "--cores", "2", "-F"])
+
+
+# ======================================================================
+# Wrapper tests
+# ======================================================================
+
 @skip_if_not_modified
 def test_canu():
     run("wrappers/canu", ["snakemake", "--cores", "2", "--use-conda", "-F"])

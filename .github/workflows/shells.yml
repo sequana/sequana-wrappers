@@ -1,0 +1,139 @@
+name: Tests shells
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "sequana_wrappers/shells/**"
+  pull_request:
+    branches-ignore: []
+    paths:
+      - "sequana_wrappers/shells/**"
+  workflow_dispatch:
+  schedule:
+    # Monthly full run on the 4th — same cadence as wrapper tests
+    - cron: "0 0 4 * *"
+
+
+jobs:
+  # ------------------------------------------------------------------ #
+  # Job 1: detect which shells need testing                             #
+  # ------------------------------------------------------------------ #
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      shells: ${{ steps.find.outputs.shells }}
+      any: ${{ steps.find.outputs.any }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main branch for diff
+        if: github.ref != 'refs/heads/main'
+        run: git fetch origin main
+
+      - name: Find shells to test
+        id: find
+        run: |
+          SHELLS_ROOT="sequana_wrappers/shells"
+
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Full run: all shells that have a test/ directory
+            CHANGED=$(find ${SHELLS_ROOT} -mindepth 3 -maxdepth 3 -type d -name test \
+              | sed "s|${SHELLS_ROOT}/||;s|/test$||" \
+              | sort -u)
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            # Push to main: shells changed in the last commit
+            CHANGED=$(git diff HEAD^ --name-only 2>/dev/null \
+              | grep "^${SHELLS_ROOT}/" \
+              | awk -F/ 'NF>=5{print $3"/"$4}' \
+              | sort -u)
+          else
+            # PR: shells changed relative to main
+            CHANGED=$(git diff origin/main --name-only \
+              | grep "^${SHELLS_ROOT}/" \
+              | awk -F/ 'NF>=5{print $3"/"$4}' \
+              | sort -u)
+          fi
+
+          # Keep only shells that actually have a test/ directory
+          TESTABLE=""
+          for shell in $CHANGED; do
+            if [ -d "${SHELLS_ROOT}/${shell}/test" ]; then
+              TESTABLE="${TESTABLE} ${shell}"
+            fi
+          done
+
+          if [ -z "$TESTABLE" ]; then
+            echo "any=false" >> $GITHUB_OUTPUT
+            echo "shells=[]" >> $GITHUB_OUTPUT
+          else
+            JSON=$(echo $TESTABLE | tr ' ' '\n' | grep -v '^$' | jq -R . | jq -sc .)
+            echo "any=true" >> $GITHUB_OUTPUT
+            echo "shells=${JSON}" >> $GITHUB_OUTPUT
+          fi
+
+          echo "Shells to test: $TESTABLE"
+
+
+  # ------------------------------------------------------------------ #
+  # Job 2: run each shell test in parallel                              #
+  # ------------------------------------------------------------------ #
+  test:
+    needs: detect
+    if: needs.detect.outputs.any == 'true'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: ${{ fromJson(needs.detect.outputs.shells) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Apptainer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y software-properties-common
+          curl -fsSL https://github.com/apptainer/apptainer/releases/download/v1.3.6/apptainer_1.3.6_amd64.deb \
+            -o /tmp/apptainer.deb
+          sudo dpkg -i /tmp/apptainer.deb
+          apptainer --version
+
+      - name: Install sequana_wrappers
+        run: pip install -e .
+
+      - name: Install snakemake
+        run: pip install snakemake
+
+      # Cache containers keyed on the test Snakefile content.
+      # If the container URL changes (new Snakefile), the key changes
+      # and the image is re-downloaded automatically.
+      - name: Cache Apptainer images
+        uses: actions/cache@v4
+        with:
+          path: apptainer_cache
+          key: apptainer-${{ matrix.shell }}-${{ hashFiles(format('sequana_wrappers/shells/{0}/test/Snakefile', matrix.shell)) }}
+
+      - name: Run shell test
+        env:
+          APPTAINER_CACHEDIR: ${{ github.workspace }}/apptainer_cache
+        run: |
+          TESTDIR="sequana_wrappers/shells/${{ matrix.shell }}/test"
+          cd ${TESTDIR}
+          snakemake -s Snakefile -c4 --use-singularity \
+            --singularity-prefix ${{ github.workspace }}/apptainer_cache \
+            --forceall
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.shell == '/' && 'root' || matrix.shell }}-${{ github.run_id }}
+          path: sequana_wrappers/shells/${{ matrix.shell }}/test/**/*.log
+          if-no-files-found: ignore

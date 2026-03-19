@@ -1,0 +1,37 @@
+from sequana_wrappers import get_shell
+
+BOWTIE2_CONTAINER = "https://zenodo.org/record/8037162/files/sequana_minimal_23.6.13.img"
+
+rule all:
+    input: ["mapped/a.sorted.bam"]
+
+rule bowtie2_build:
+    input:
+        reference="reference/genome.fasta"
+    output:
+        multiext("reference/genome", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
+    log:
+        "logs/bowtie2_build.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        BOWTIE2_CONTAINER
+    shell:
+        get_shell("bowtie2/build", "v1")
+
+rule bowtie2_align:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        idx=multiext("reference/genome", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
+    output:
+        bam="mapped/{sample}.sorted.bam"
+    log:
+        "logs/bowtie2/{sample}.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        BOWTIE2_CONTAINER
+    shell:
+        get_shell("bowtie2/align", "v1")
