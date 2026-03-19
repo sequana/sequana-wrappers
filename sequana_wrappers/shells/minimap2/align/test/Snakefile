@@ -1,0 +1,20 @@
+from sequana_wrappers import get_shell
+
+rule all:
+    input: ["a/a.sorted.bam"]
+
+rule minimap2:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        reference="genome.fasta"
+    output:
+        "{sample}/{sample}.sorted.bam"
+    log:
+        "{sample}/{sample}.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        "https://zenodo.org/record/7987999/files/samtools_1.17_minimap2_2.24.0.img"
+    shell:
+        get_shell("minimap2/align", "v1")
