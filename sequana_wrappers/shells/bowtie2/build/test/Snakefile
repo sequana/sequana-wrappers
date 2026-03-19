@@ -1,0 +1,20 @@
+from sequana_wrappers import get_shell
+
+rule all:
+    input:
+        multiext("reference/genome", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
+
+rule bowtie2_build:
+    input:
+        reference="reference/genome.fasta"
+    output:
+        multiext("reference/genome", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
+    log:
+        "logs/bowtie2_build.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        "https://zenodo.org/record/8092297/files/bowtie2_2.5.1.img"
+    shell:
+        get_shell("bowtie2/build", "v1")

@@ -1,0 +1,21 @@
+from sequana_wrappers import get_shell
+
+rule all:
+    input: ["genome.fasta.bwt", "genome.fasta.fai"]
+
+rule bwa_build:
+    input:
+        reference="genome.fasta"
+    output:
+        bwa_bwt="genome.fasta.bwt",
+        fai="genome.fasta.fai"
+    log:
+        "logs/bwa_build.log"
+    params:
+        options="",
+        index_algorithm="is"
+    threads: 2
+    container:
+        "https://zenodo.org/record/7341710/files/sequana_tools_0.14.5.img"
+    shell:
+        get_shell("bwa/build", "v1")

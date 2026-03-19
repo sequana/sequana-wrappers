@@ -1,0 +1,42 @@
+from sequana_wrappers import get_shell
+
+BWA_CONTAINER = "https://zenodo.org/record/7341710/files/sequana_tools_0.14.5.img"
+
+rule all:
+    input: ["a/a.sorted.bam"]
+
+rule bwa_build:
+    input:
+        reference="index/genome.fasta"
+    output:
+        bwa_bwt="index/genome.fasta.bwt",
+        fai="index/genome.fasta.fai"
+    log:
+        "logs/bwa_build.log"
+    params:
+        options="",
+        index_algorithm="is"
+    threads: 2
+    container:
+        BWA_CONTAINER
+    shell:
+        get_shell("bwa/build", "v1")
+
+rule bwa_align:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        bwa_bwt="index/genome.fasta.bwt",
+        fai="index/genome.fasta.fai",
+        reference="index/genome.fasta"
+    output:
+        sorted="{sample}/{sample}.sorted.bam"
+    log:
+        "{sample}/{sample}.log"
+    params:
+        options="-T 30 -M",
+        tmp_directory="./tmp"
+    threads: 2
+    container:
+        BWA_CONTAINER
+    shell:
+        get_shell("bwa/align", "v1")

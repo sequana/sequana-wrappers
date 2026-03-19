@@ -176,6 +176,26 @@ def run_shell(shell_path, cmd, check_log=None):
 def test_shell_minimap2_align():
     run_shell("minimap2/align", ["snakemake", "--cores", "2", "-F"])
 
+@skip_if_not_modified
+def test_shell_bwa_build():
+    run_shell("bwa/build", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bwa_align():
+    run_shell("bwa/align", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bowtie2_build():
+    run_shell("bowtie2/build", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bowtie2_align():
+    run_shell("bowtie2/align", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bamtools_stats():
+    run_shell("bamtools/stats", ["snakemake", "--cores", "2", "-F"])
+
 
 # ======================================================================
 # Wrapper tests
