@@ -1,0 +1,23 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/10205070/files/multiqc_1.16.0.img"
+
+rule all:
+    input: ["multiqc/multiqc_report.html"]
+
+rule multiqc:
+    input:
+        "data/sample_fastqc.zip"
+    output:
+        "multiqc/multiqc_report.html"
+    log:
+        "logs/multiqc.log"
+    params:
+        options="",
+        modules=[],
+        input_directory="data"
+    threads: 1
+    container:
+        CONTAINER
+    shell:
+        get_shell("multiqc/run", "v1")

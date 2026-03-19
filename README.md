@@ -28,6 +28,13 @@ tool commands to Sequana pipelines:
   inside the container.  This is the active development track and the
   recommended approach for all new Sequana pipelines.
 
+  All wrappers avaible in shells except 4 (require Python imports from the sequana library —
+   not expressible as pure bash):
+  - fastq_stats — uses sequana.FastQC + matplotlib
+  - freebayes_vcf_filter — uses sequana.VCF_freebayes Python class  
+  - snpeff_add_locus_in_fasta — uses sequana.SnpEff.add_locus_in_fasta()
+  - rulegraph — uses sequana_pipetools.DOTParser
+
 ## Quick start — shells (recommended)
 
 Install the package:
