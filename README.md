@@ -2,12 +2,13 @@
 
 [![Tests wrappers](https://github.com/sequana/sequana-wrappers/actions/workflows/main.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/main.yml)
 [![Tests shells](https://github.com/sequana/sequana-wrappers/actions/workflows/shells.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/shells.yml)
+[![Tests snippets](https://github.com/sequana/sequana-wrappers/actions/workflows/snippets.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/snippets.yml)
 [![Tests](http://joss.theoj.org/papers/10.21105/joss.00352/status.svg)](http://joss.theoj.org/papers/10.21105/joss.00352)
 
 |||
 | --- | --- |
 | Overview | Shell command library and Snakemake wrappers for Sequana pipelines |
-| Status | Production (`wrappers/` — maintenance only) / Active (`shells/`) |
+| Status | Production (`wrappers/` — maintenance only) / Active (`shells/`, `snippets/`) |
 | Issues | Please fill a report on [github/sequana/sequana-wrappers](https://github.com/sequana/sequana/issues) |
 | Python version | Python 3.8+ |
 | Citation | Cokelaer et al, (2017), ‘Sequana’: a Set of Snakemake NGS pipelines, Journal of Open Source Software, 2(16), 352, [doi:10.21105/joss.00352](http://www.doi2bib.org/bib/10.21105%2Fjoss.00352) |
@@ -28,12 +29,20 @@ tool commands to Sequana pipelines:
   inside the container.  This is the active development track and the
   recommended approach for all new Sequana pipelines.
 
-  All wrappers avaible in shells except 4 (require Python imports from the sequana library —
+- **`sequana_wrappers/snippets/`** — versioned Python callables for pipeline
+  steps that require Python logic but still benefit from shared, versioned
+  definitions. Used via `run:` blocks (not `shell:`).  See
+  [the snippets section below](#the-snippets-directory--rationale) for details.
+
+  All wrappers available in shells except 3 (require Python imports from the sequana library —
    not expressible as pure bash):
   - fastq_stats — uses sequana.FastQC + matplotlib
-  - freebayes_vcf_filter — uses sequana.VCF_freebayes Python class  
+  - freebayes_vcf_filter — uses sequana.VCF_freebayes Python class
   - snpeff_add_locus_in_fasta — uses sequana.SnpEff.add_locus_in_fasta()
-  - rulegraph — uses sequana_pipetools.DOTParser
+
+  The `rulegraph` rule formerly in wrappers has been migrated to
+  `sequana_wrappers/snippets/rulegraph/` because it requires Python imports from
+  `sequana_pipetools` — it cannot run as a pure bash command inside a container.
 
 ## Quick start — shells (recommended)
 
@@ -53,6 +62,25 @@ rule minimap2:
     container: "https://zenodo.org/record/7987999/files/samtools_1.17_minimap2_2.24.0.img"
     shell:   manager.get_shell("minimap2/align", "v1")
 ```
+
+## Quick start — snippets (Python run blocks)
+
+When a pipeline step requires Python logic (host-side imports, file path
+resolution, etc.) but you still want the code to be shared and versioned, use
+`get_run` with a `run:` block:
+
+```python
+rule rulegraph:
+    input:   "Snakefile"
+    output:  "rulegraph/rulegraph.svg"
+    params:  configname="config.yaml"
+    run:
+        manager.get_run("rulegraph/run", "v1")(snakemake)
+```
+
+The snippet's `execute(input, output, params)` function runs on the **host**
+(where `sequana_pipetools` and other Python dependencies are available) — no
+container is involved.
 
 ## Quick start — wrappers (legacy)
 
@@ -158,23 +186,19 @@ sequana-wrappers/
 ├── wrappers/                        # existing — kept for backward compat
 │   ├── bwa/align/wrapper.py
 │   └── ...
-└── sequana_wrappers/shells/         # Python package — container-first shell library
-    ├── __init__.py
-    ├── bwa/
-    │   ├── __init__.py
-    │   ├── align/
-    │   │   ├── __init__.py
-    │   │   └── v1/
-    │   │       ├── __init__.py
-    │   │       └── cmd.py           # frozen at release v1
-    │   └── build/
-    │       ├── __init__.py
-    │       └── v1/cmd.py
-    ├── bamtools/
-    │   └── stats/
-    │       ├── __init__.py
-    │       └── v1/cmd.py
-    └── ...
+└── sequana_wrappers/
+    ├── __init__.py                  # get_shell() and get_run()
+    ├── shells/                      # container-first shell strings
+    │   ├── bwa/
+    │   │   ├── align/
+    │   │   │   └── v1/cmd.py        # frozen at release v1
+    │   │   └── build/
+    │   │       └── v1/cmd.py
+    │   ├── bamtools/stats/v1/cmd.py
+    │   └── ...
+    └── snippets/                    # host-side Python callables
+        ├── rulegraph/run/v1/code.py
+        └── ...
 ```
 
 ### Versioning convention
@@ -282,6 +306,53 @@ rm -rf sequana_wrappers/shells/<tool>/<command>/dev
 Then update the pipeline rule to `manager.get_shell("<tool>/<command>", "v2")`
 and bump `version` in `pyproject.toml`.  No git tag required — the directory
 **is** the version.
+
+---
+
+# The `snippets/` directory — rationale
+
+Some pipeline steps require Python logic that cannot be expressed as a pure
+bash command string.  Examples: generating a rule graph (needs
+`sequana_pipetools.DOTParser`), post-processing VCF files with a custom Python
+class, or running tools that depend on host-side Python libraries.
+
+These steps **cannot use `shell:` + `container:`** (the container has no Python
+runtime; and even if it did, the ABI mismatch problem described above applies).
+They also cannot use `wrapper:` for the same ABI reason.
+
+The solution is a `snippets/` library of versioned Python callables that are
+invoked inside Snakemake `run:` blocks, running entirely on the host where all
+Python dependencies are available:
+
+```
+sequana_wrappers/snippets/<tool>/<command>/<version>/code.py
+```
+
+Each `code.py` exports an `execute(input, output, params)` function.  Versioning
+follows the same convention as shells (`v1`, `v2`, …, `dev`).  `get_run` loads
+the callable by path and version — no git-time fetching, no ABI concerns.
+
+| Property | Wrappers | Shell library | Snippet library |
+|---|---|---|---|
+| Python in container | Required | Not needed | N/A (host-side) |
+| Container needed | Optional | Yes | No |
+| Snakemake directive | `wrapper:` | `shell:` | `run:` |
+| Reusable & versioned | Yes | Yes | **Yes** |
+| Python imports on host | Yes | No | **Yes** |
+
+The repository layout extended with snippets:
+
+```
+sequana-wrappers/
+├── wrappers/                            # legacy — maintenance only
+├── sequana_wrappers/
+│   ├── shells/                          # container-first shell strings
+│   │   ├── bwa/align/v1/cmd.py
+│   │   └── ...
+│   └── snippets/                        # host-side Python callables
+│       ├── rulegraph/run/v1/code.py
+│       └── ...
+```
 
 ---
 

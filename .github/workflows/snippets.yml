@@ -1,0 +1,118 @@
+name: Tests snippets
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "sequana_wrappers/snippets/**"
+  pull_request:
+    branches-ignore: []
+    paths:
+      - "sequana_wrappers/snippets/**"
+  workflow_dispatch:
+  schedule:
+    # Monthly full run — same cadence as other test suites
+    - cron: "0 0 4 * *"
+
+
+jobs:
+  # ------------------------------------------------------------------ #
+  # Job 1: detect which snippets need testing                           #
+  # ------------------------------------------------------------------ #
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      snippets: ${{ steps.find.outputs.snippets }}
+      any: ${{ steps.find.outputs.any }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main branch for diff
+        if: github.ref != 'refs/heads/main'
+        run: git fetch origin main
+
+      - name: Find snippets to test
+        id: find
+        run: |
+          SNIPPETS_ROOT="sequana_wrappers/snippets"
+
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Full run: all snippets that have a test/ directory
+            CHANGED=$(find ${SNIPPETS_ROOT} -mindepth 3 -maxdepth 3 -type d -name test \
+              | sed "s|${SNIPPETS_ROOT}/||;s|/test$||" \
+              | sort -u)
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            # Push to main: snippets changed in the last commit
+            CHANGED=$(git diff HEAD^ --name-only 2>/dev/null \
+              | grep "^${SNIPPETS_ROOT}/" \
+              | awk -F/ 'NF>=5{print $3"/"$4}' \
+              | sort -u)
+          else
+            # PR: snippets changed relative to main
+            CHANGED=$(git diff origin/main --name-only \
+              | grep "^${SNIPPETS_ROOT}/" \
+              | awk -F/ 'NF>=5{print $3"/"$4}' \
+              | sort -u)
+          fi
+
+          # Keep only snippets that actually have a test/ directory
+          TESTABLE=""
+          for snippet in $CHANGED; do
+            if [ -d "${SNIPPETS_ROOT}/${snippet}/test" ]; then
+              TESTABLE="${TESTABLE} ${snippet}"
+            fi
+          done
+
+          if [ -z "$TESTABLE" ]; then
+            echo "any=false" >> $GITHUB_OUTPUT
+            echo "snippets=[]" >> $GITHUB_OUTPUT
+          else
+            JSON=$(echo $TESTABLE | tr ' ' '\n' | grep -v '^$' | jq -R . | jq -sc .)
+            echo "any=true" >> $GITHUB_OUTPUT
+            echo "snippets=${JSON}" >> $GITHUB_OUTPUT
+          fi
+
+          echo "Snippets to test: $TESTABLE"
+
+
+  # ------------------------------------------------------------------ #
+  # Job 2: run each snippet test in parallel                            #
+  # ------------------------------------------------------------------ #
+  test:
+    needs: detect
+    if: needs.detect.outputs.any == 'true'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        snippet: ${{ fromJson(needs.detect.outputs.snippets) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install sequana_pipetools snakemake pytest
+          pip install -e .
+
+      - name: Run snippet tests
+        run: |
+          pytest sequana_wrappers/snippets/${{ matrix.snippet }}/test/ -v
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snippet-logs-${{ matrix.snippet }}-${{ github.run_id }}
+          path: sequana_wrappers/snippets/${{ matrix.snippet }}/test/**/*.log
+          if-no-files-found: ignore
