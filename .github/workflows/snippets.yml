@@ -34,4 +34,4 @@ jobs:
           pip install -e .
 
       - name: Run snippet tests
-        run: pytest test_snippets.py -v
+        run: pytest -v .
