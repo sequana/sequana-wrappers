@@ -1,6 +1,6 @@
 from sequana_wrappers import get_shell
 
-BOWTIE2_CONTAINER = "https://zenodo.org/record/8037162/files/sequana_minimal_23.6.13.img"
+BOWTIE2_CONTAINER = "https://zenodo.org/record/19127803/files/sequana_minimal_26.3.19.img"
 
 rule all:
     input: ["mapped/a.sorted.bam"]
