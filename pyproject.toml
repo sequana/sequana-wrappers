@@ -13,3 +13,6 @@ requires-python = ">=3.8"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sequana_wrappers*"]
+
+[tool.pytest.ini_options]
+norecursedirs = ["sequana_wrappers/shells", "dist", "build", ".git"]
