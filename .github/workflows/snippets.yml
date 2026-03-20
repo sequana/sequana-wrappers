@@ -34,4 +34,4 @@ jobs:
           pip install -e .
 
       - name: Run snippet tests
-        run: pytest sequana_wrappers/snippets/ -v
+        run: pytest test_snippets.py -v
