@@ -76,4 +76,4 @@ jobs:
         else
           echo "No parent commit. Skipping git diff."
         fi
-        pytest test.py -vv
+        pytest wrappers/test.py -vv
