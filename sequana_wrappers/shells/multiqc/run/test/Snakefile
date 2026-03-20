@@ -15,7 +15,8 @@ rule multiqc:
     params:
         options="",
         modules=[],
-        input_directory="data"
+        input_directory="data",
+        config_file=""
     threads: 1
     container:
         CONTAINER
