@@ -1,0 +1,24 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["sample/sample.markdup.bam"]
+
+rule mark_duplicates:
+    input:
+        bam="sample/sample.bam"
+    output:
+        bam="sample/sample.markdup.bam",
+        metrics="sample/sample.markdup.metrics"
+    log:
+        "logs/mark_duplicates.log"
+    params:
+        options="",
+        remove_dup="false",
+        tmpdir="tmp"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("mark_duplicates/run", "v1")
