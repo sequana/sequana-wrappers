@@ -1,0 +1,30 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/19140702/files/macs3_3.0.4.img"
+
+rule all:
+    input: ["macs3_output/sample_peaks.narrowPeak"]
+
+rule macs3:
+    input:
+        inputs="sample/chip.bam",
+        controls="sample/input.bam"
+    output:
+        "macs3_output/sample_peaks.narrowPeak"
+    log:
+        "logs/macs3.log"
+    params:
+        options="--keep-dup all --nomodel --extsize 147",
+        genome_size="hs",
+        prefix="sample",
+        bandwidth=300,
+        qvalue=0.05,
+        paired=False,
+        mode="narrow",
+        broad_cutoff=0.1,
+        outdir="macs3_output"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("macs3/run", "v1")

@@ -1,0 +1,32 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["coverage_output/sequana_coverage.html"]
+
+rule sequana_coverage:
+    input:
+        bed="test.bed",
+        fasta="measles.fa"
+    output:
+        "coverage_output/sequana_coverage.html"
+    log:
+        "logs/sequana_coverage.log"
+    params:
+        circular=True,
+        chunksize=5000000,
+        double_threshold=0.5,
+        gc_window_size=201,
+        mixture_models=2,
+        window_size=3001,
+        high_threshold=2.5,
+        low_threshold=-2.5,
+        annotation="",
+        output_directory="coverage_output",
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("sequana_coverage/run", "v1")
