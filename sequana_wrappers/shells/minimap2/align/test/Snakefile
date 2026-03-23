@@ -15,6 +15,6 @@ rule minimap2:
         options=""
     threads: 2
     container:
-        "https://zenodo.org/record/7987999/files/samtools_1.17_minimap2_2.24.0.img"
+        "https://zenodo.org/record/19127803/files/sequana_minimal_26.3.19.img"
     shell:
         get_shell("minimap2/align", "v1")
