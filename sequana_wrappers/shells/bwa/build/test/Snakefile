@@ -16,6 +16,6 @@ rule bwa_build:
         index_algorithm="is"
     threads: 2
     container:
-        "https://zenodo.org/record/7341710/files/sequana_tools_0.14.5.img"
+        "https://zenodo.org/record/19127803/files/sequana_minimal_26.3.19.img"
     shell:
         get_shell("bwa/build", "v1")
