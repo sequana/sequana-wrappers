@@ -1,0 +1,25 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["star_index/star.done"]
+
+rule star_index:
+    input:
+        fasta="genome.fasta"
+    output:
+        done="star_index/star.done"
+    log:
+        "logs/star_index.log"
+    params:
+        wkdir="star_index",
+        annotation="",
+        sjdbOverhang=100,
+        exonParentTranscript="Parent",
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("star/index", "v1")

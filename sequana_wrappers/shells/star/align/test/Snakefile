@@ -1,0 +1,27 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["star_mapping/_Aligned.sortedByCoord.out.bam"]
+
+rule star_align:
+    input:
+        fastq="test.fastq.gz",
+        index="star_index/star.done"
+    output:
+        bam="star_mapping/_Aligned.sortedByCoord.out.bam"
+    log:
+        "logs/star_align.log"
+    params:
+        annotation="",
+        sjdbOverhang=100,
+        exonParentTranscript="Parent",
+        outSAMtype="BAM SortedByCoordinate",
+        readFilesCommand="zcat",
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("star/align", "v1")

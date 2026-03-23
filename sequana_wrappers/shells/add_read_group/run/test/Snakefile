@@ -1,0 +1,26 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["test.rg.bam"]
+
+rule add_read_group:
+    input:
+        bam="test.bam"
+    output:
+        bam="test.rg.bam"
+    log:
+        "logs/add_read_group.log"
+    params:
+        ID="test",
+        LB="lib",
+        PL="ILLUMINA",
+        PU="unit",
+        SM="test",
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("add_read_group/run", "v1")
