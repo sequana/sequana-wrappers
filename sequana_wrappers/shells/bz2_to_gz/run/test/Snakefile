@@ -1,0 +1,17 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/19127803/files/sequana_minimal_26.3.19.img"
+
+rule all:
+    input: ["test.fastq.gz"]
+
+rule bz2_to_gz:
+    input:
+        "test.fastq.bz2"
+    output:
+        "test.fastq.gz"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("bz2_to_gz/run", "v1")

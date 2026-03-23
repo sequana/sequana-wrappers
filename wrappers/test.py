@@ -200,6 +200,10 @@ def test_shell_bamtools_stats():
 def test_shell_multiqc_run():
     run_shell("multiqc/run", ["snakemake", "--cores", "2", "-F"])
 
+@skip_if_not_modified
+def test_shell_bz2_to_gz_run():
+    run_shell("bz2_to_gz/run", ["snakemake", "--cores", "2", "-F"])
+
 
 # ======================================================================
 # Wrapper tests
