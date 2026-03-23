@@ -1,6 +1,7 @@
 from sequana_wrappers import get_shell
 
-CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+CONTAINER = "https://zenodo.org/record/17098202/files/snpeff_5.2.0.img"
+CONTAINER = "https://zenodo.org/record/7963301/files/snpeff_5.1.0.img"
 
 rule all:
     input: ["test.ann.vcf"]
