@@ -1,6 +1,7 @@
 CMD = """\
 picard AddOrReplaceReadGroups \
     -VALIDATION_STRINGENCY SILENT \
+    -SO coordinate \
     -I {input.bam} \
     -O {output.bam} \
     -PL {params.PL} \
