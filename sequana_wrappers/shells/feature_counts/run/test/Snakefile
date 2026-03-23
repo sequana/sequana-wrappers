@@ -15,7 +15,7 @@ rule feature_counts:
     log:
         "logs/feature_counts.log"
     params:
-        options="",
+        options="-p",  # -p since test example is paired
         strandness=0,
         feature="gene",
         attribute="ID"
