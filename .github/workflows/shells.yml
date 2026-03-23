@@ -61,8 +61,15 @@ jobs:
           fi
 
           # Keep only shells that actually have a test/ directory
+          # Exclude shells whose container download is too slow for CI
+          EXCLUDED="medaka"
           TESTABLE=""
           for shell in $CHANGED; do
+            tool=$(echo "$shell" | cut -d/ -f1)
+            if echo "$EXCLUDED" | grep -qw "$tool"; then
+              echo "Skipping excluded shell: $shell"
+              continue
+            fi
             if [ -d "${SHELLS_ROOT}/${shell}/test" ]; then
               TESTABLE="${TESTABLE} ${shell}"
             fi
