@@ -1,0 +1,21 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7848524/files/blast_2.12.0.img"
+
+rule all:
+    input: ["database/db.nhr"]
+
+rule makeblastdb:
+    input:
+        fasta="genome/genome.fasta"
+    output:
+        db="database/db.nhr"
+    log:
+        "logs/makeblastdb.log"
+    params:
+        options=""
+    threads: 1
+    container:
+        CONTAINER
+    shell:
+        get_shell("blast/makeblastdb", "v1")
