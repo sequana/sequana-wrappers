@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input:
+        multiext("reference/genome", ".1.ebwt", ".2.ebwt", ".3.ebwt", ".4.ebwt", ".rev.1.ebwt", ".rev.2.ebwt")
+
+rule bowtie1_build:
+    input:
+        reference="reference/genome.fasta"
+    output:
+        multiext("reference/genome", ".1.ebwt", ".2.ebwt", ".3.ebwt", ".4.ebwt", ".rev.1.ebwt", ".rev.2.ebwt")
+    log:
+        "logs/bowtie1_build.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("bowtie1/build", "v1")

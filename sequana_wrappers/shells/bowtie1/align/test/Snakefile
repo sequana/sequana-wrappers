@@ -1,0 +1,38 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["mapped/a.sorted.bam"]
+
+rule bowtie1_build:
+    input:
+        reference="reference/genome.fasta"
+    output:
+        "reference/genome.1.ebwt"
+    log:
+        "logs/bowtie1_build.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("bowtie1/build", "v1")
+
+rule bowtie1_align:
+    input:
+        fastq=["reads/{sample}.1.fastq", "reads/{sample}.2.fastq"],
+        index="reference/genome.1.ebwt"
+    output:
+        bam="mapped/{sample}.bam",
+        sorted="mapped/{sample}.sorted.bam"
+    log:
+        "logs/bowtie1/{sample}.log"
+    params:
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("bowtie1/align", "v1")
