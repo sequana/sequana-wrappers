@@ -12,4 +12,4 @@ extra = snakemake.params.get("extra", "")
 log = snakemake.log_fmt_shell(stdout=False, stderr=True)
 
 # -F enables overwrite of old (otherwise cmpress will fail if old versions exist)
-shell("cmpress -F {snakemake.input} {log}")
+shell("cmpress -F {extra} {snakemake.input} {log}")
