@@ -1,0 +1,24 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["test/summary.html"]
+
+rule sequana_taxonomy:
+    input:
+        fastq="test_R1_.fastq.gz"
+    output:
+        html="test/summary.html",
+        summary="test/kraken/kraken.out.summary",
+        unclassified="test/unclassified.fastq"
+    log:
+        "logs/sequana_taxonomy.log"
+    params:
+        databases="toydb",
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("sequana_taxonomy/run", "v1")
