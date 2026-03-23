@@ -2,4 +2,4 @@ all:
 	snakemake -s Snakefile -c4 --use-singularity --forceall
 
 clean:
-	rm -rf test.vcf logs .snakemake
+	rm -rf test.vcf logs .snakemake .parallel
