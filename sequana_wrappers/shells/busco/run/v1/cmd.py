@@ -1,5 +1,6 @@
 CMD = """\
-out="${{output[0]%/}}"
+out="{output[0]}"
+out="${{out%/}}"
 out_path=$(dirname "$out")
 out_name=$(basename "$out")
 path_opt=""
