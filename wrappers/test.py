@@ -460,6 +460,8 @@ def test_bwa_align():
         "freebayes_vcf_filter",
         "freebayes-parallel",
         "gz_to_bz2",
+        "infernal/cmpress",
+        "infernal/cmscan",
         "mark_duplicates",
         "medaka/consensus",
         "minimap2",

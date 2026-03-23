@@ -12,4 +12,4 @@ rule cmscan_profile:
         #score_threshold=50, # Instead of thresholding per-CM output on E-value, report target sequences with a bit score of >= <x>. 
     threads: 4
     wrapper:
-        "master/bio/infernal/cmscan"
+        "main/wrappers/infernal/cmscan"
