@@ -1,0 +1,21 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/10211475/files/bamtools_2.5.2.img"
+
+rule all:
+    input: ["sample/sample.sorted.bam"]
+
+rule bamtools_sort:
+    input:
+        bam="sample/sample.bam"
+    output:
+        bam="sample/sample.sorted.bam"
+    log:
+        "logs/bamtools_sort.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("bamtools/sort", "v1")
