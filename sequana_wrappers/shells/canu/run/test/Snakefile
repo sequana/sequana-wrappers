@@ -1,0 +1,24 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["canu/ccs.contigs.fasta"]
+
+rule canu_assembly:
+    input:
+        "ccs.fq"
+    output:
+        "canu/ccs.contigs.fasta"
+    log:
+        "logs/canu.log"
+    params:
+        step="",
+        genome_size="1000",
+        preset="pacbio",
+        options="maxMemory=6G corThreads=2 corMemory=6G redMemory=6G oeaMemory=6G"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("canu/run", "v1")
