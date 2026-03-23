@@ -1,5 +1,5 @@
 all:
-snakemake -s Snakefile -c4 --use-singularity --forceall
+	snakemake -s Snakefile -c4 --use-singularity --forceall
 
 clean:
-rm -rf test.bw logs .snakemake
+	rm -rf test.bw logs .snakemake

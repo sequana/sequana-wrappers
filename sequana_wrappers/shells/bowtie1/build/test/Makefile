@@ -1,5 +1,5 @@
 all:
-snakemake -s Snakefile -c4 --use-singularity --forceall
+	snakemake -s Snakefile -c4 --use-singularity --forceall
 
 clean:
-rm -rf reference logs .snakemake
+	rm -rf reference/*ebwt reference/*fai logs .snakemake
