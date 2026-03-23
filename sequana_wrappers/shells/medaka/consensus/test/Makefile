@@ -2,4 +2,4 @@ all:
 	snakemake -s Snakefile -c4 --use-singularity --forceall
 
 clean:
-	rm -rf polished logs .snakemake
+	rm -rf polished logs .snakemake .keras .medaka
