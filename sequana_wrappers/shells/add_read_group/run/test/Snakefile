@@ -23,4 +23,4 @@ rule add_read_group:
     container:
         CONTAINER
     shell:
-        get_shell("add_read_group/run", "v2")
+        get_shell("add_read_group/run", "v1")
