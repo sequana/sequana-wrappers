@@ -1,16 +1,16 @@
 from sequana_wrappers import get_shell
 
-CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+CONTAINER = "https://zenodo.org/record/13732628/files/polypolish_0.6.0.img"
 
 rule all:
-    input: ["polished/assembly.fasta"]
+    input: ["filtered/assembly.fasta"]
 
 rule polypolish:
     input:
         assembly="assembly.fasta",
         alignments="alignments.sam"
     output:
-        fasta="polished/assembly.fasta"
+        fasta="filtered/assembly.fasta"
     log:
         "logs/polypolish.log"
     params:
@@ -19,4 +19,4 @@ rule polypolish:
     container:
         CONTAINER
     shell:
-        get_shell("polypolish/run", "v1")
+        get_shell("polypolish/polish", "v1")
