@@ -1,0 +1,26 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7848524/files/blast_2.12.0.img"
+
+rule all:
+    input: ["results/blast.txt"]
+
+rule blast_search:
+    input:
+        query="data/query.fasta",
+        blastdb="blastdb/blastdb.nhr"
+    output:
+        "results/blast.txt"
+    log:
+        "logs/blast.log"
+    params:
+        options="",
+        blast_type="blastn",
+        db="blastdb/blastdb",
+        outfmt=6,
+        evalue=0.001
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("blast/blast", "v1")

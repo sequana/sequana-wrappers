@@ -1,0 +1,16 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7928262/files/graphviz_7.0.5.img"
+
+rule all:
+    input: ["output/graph.svg"]
+
+rule dot2svg:
+    input:
+        "input/graph.dot"
+    output:
+        "output/graph.svg"
+    container:
+        CONTAINER
+    shell:
+        get_shell("graphviz/dot2svg", "v1")
