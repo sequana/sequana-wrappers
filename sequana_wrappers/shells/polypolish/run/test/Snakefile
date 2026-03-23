@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["polished/assembly.fasta"]
+
+rule polypolish:
+    input:
+        assembly="assembly.fasta",
+        alignments="alignments.sam"
+    output:
+        fasta="polished/assembly.fasta"
+    log:
+        "logs/polypolish.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("polypolish/run", "v1")
