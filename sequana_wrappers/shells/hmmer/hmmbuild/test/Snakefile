@@ -1,6 +1,6 @@
 from sequana_wrappers import get_shell
 
-CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+CONTAINER = "https://zenodo.org/record/13717178/files/hmmer_3.3.2.img"
 
 rule all:
     input: ["test-profile.hmm"]
