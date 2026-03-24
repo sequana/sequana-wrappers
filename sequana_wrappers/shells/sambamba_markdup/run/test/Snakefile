@@ -1,0 +1,23 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/8037162/files/sequana_minimal_23.6.13.img"
+
+rule all:
+    input: ["test.markdup.bam"]
+
+rule sambamba_markdup:
+    input:
+        bam="test.bam"
+    output:
+        bam="test.markdup.bam"
+    log:
+        "logs/sambamba_markdup.log"
+    params:
+        options="",
+        remove_duplicates=False,
+        tmp_directory="tmp"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("sambamba_markdup/run", "v1")

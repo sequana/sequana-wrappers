@@ -1,0 +1,24 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/13304101/files/bcl2fastq_2.20.0.img"
+
+rule all:
+    input: ["Stats/Stats.json"]
+
+rule bcl2fastq:
+    input:
+        samplesheet="SampleSheet.csv"
+    output:
+        json="Stats/Stats.json"
+    log:
+        "logs/bcl2fastq.log"
+    params:
+        options="--ignore-missing-bcls --no-bgzf-compression --no-lane-splitting",
+        barcode_mismatch=0,
+        indir="bcl",
+        outdir="."
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("bcl2fastq/run", "v1")
