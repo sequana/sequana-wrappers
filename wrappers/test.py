@@ -204,6 +204,10 @@ def test_shell_multiqc_run():
 def test_shell_bz2_to_gz_run():
     run_shell("bz2_to_gz/run", ["snakemake", "--cores", "2", "-F"])
 
+@skip_if_not_modified
+def test_shell_medaka_consensus():
+    run_shell("medaka/consensus", ["snakemake", "--cores", "4", "-F"])
+
 
 # ======================================================================
 # Wrapper tests
