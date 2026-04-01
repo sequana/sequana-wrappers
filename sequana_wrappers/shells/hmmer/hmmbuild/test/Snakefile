@@ -1,0 +1,21 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/13717178/files/hmmer_3.3.2.img"
+
+rule all:
+    input: ["test-profile.hmm"]
+
+rule hmmbuild:
+    input:
+        "test-profile.sto"
+    output:
+        "test-profile.hmm"
+    log:
+        "logs/hmmbuild.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("hmmer/hmmbuild", "v1")

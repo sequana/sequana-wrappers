@@ -1,0 +1,24 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7794877/files/busco_5.4.6.img"
+
+rule all:
+    input: ["txome_busco"]
+
+rule busco:
+    input:
+        "transcripts.fasta"
+    output:
+        directory("txome_busco")
+    log:
+        "logs/busco.log"
+    params:
+        mode="transcriptome",
+        lineage="stramenopiles_odb10",
+        downloads_path="resources/busco_downloads",
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("busco/run", "v1")

@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["salmon_index/done"]
+
+rule salmon_index:
+    input:
+        fasta="data/genome.fa",
+        gff="data/genome.gff3"
+    output:
+        done="salmon_index/done"
+    log:
+        "logs/salmon_index.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("salmon/index", "v1")

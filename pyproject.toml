@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=61"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "sequana_wrappers"
@@ -10,6 +10,14 @@ readme = "README.md"
 license = { text = "BSD-3-Clause" }
 requires-python = ">=3.8"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["sequana_wrappers*"]
+[tool.poetry]
+packages = [{ include = "sequana_wrappers" }]
+exclude = [
+    "sequana_wrappers/shells/**/test",
+    "sequana_wrappers/shells/**/test/**",
+    "sequana_wrappers/shells/**/README.md",
+]
+
+[tool.pytest.ini_options]
+norecursedirs = ["sequana_wrappers/shells", "dist", "build", ".git"]
+

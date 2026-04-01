@@ -1,0 +1,21 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/19187268/files/deeptools_3.5.6.img"
+
+rule all:
+    input: ["test.bw"]
+
+rule bam_coverage:
+    input:
+        bam="test.bam"
+    output:
+        "test.bw"
+    log:
+        "logs/bam_coverage.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("deeptools/bam_coverage", "v1")

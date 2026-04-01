@@ -1,0 +1,25 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["assembly/ctg.fa"]
+
+rule spades:
+    input:
+        fastq=["raw_R1.fastq.gz"]
+    output:
+        contigs="assembly/ctg.fa",
+        scaffolds="assembly/scf.fa"
+    log:
+        "logs/spades.log"
+    params:
+        k=21,
+        preset="isolate",
+        options="--only-assembler",
+        memory=4
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("spades/run", "v1")

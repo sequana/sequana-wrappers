@@ -1,0 +1,24 @@
+##sequence-region K01711.1 1 15894
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11234
+K01711.1	Genbank	region	1	15894	.	+	.	ID=K01711.1:1..15894;Dbxref=taxon:11234;gbkey=Src;mol_type=genomic RNA;old-name=Measles virus;strain=Edmonston
+K01711.1	Genbank	mRNA	57	1745	.	+	.	ID=rna-K01711.1:57..1745;gbkey=mRNA;product=N mRNA
+K01711.1	Genbank	exon	57	1745	.	+	.	ID=exon-K01711.1:57..1745-1;Parent=rna-K01711.1:57..1745;gbkey=mRNA;product=N mRNA
+K01711.1	Genbank	CDS	109	1686	.	+	0	ID=cds-AAA75494.1;Parent=rna-K01711.1:57..1745;Dbxref=NCBI_GP:AAA75494.1;Name=AAA75494.1;gbkey=CDS;product=nucleocapsid protein;protein_id=AAA75494.1
+K01711.1	Genbank	mRNA	1746	3402	.	+	.	ID=rna-K01711.1:1746..3402;gbkey=mRNA;product=P/C/V mRNA
+K01711.1	Genbank	exon	1746	3402	.	+	.	ID=exon-K01711.1:1746..3402-1;Parent=rna-K01711.1:1746..3402;gbkey=mRNA;product=P/C/V mRNA
+K01711.1	Genbank	CDS	1808	3331	.	+	0	ID=cds-AAA75495.1;Parent=rna-K01711.1:1746..3402;Dbxref=NCBI_GP:AAA75495.1;Name=AAA75495.1;gbkey=CDS;product=phosphoprotein;protein_id=AAA75495.1
+K01711.1	Genbank	CDS	1830	2390	.	+	0	ID=cds-AAA75496.1;Parent=rna-K01711.1:1746..3402;Dbxref=NCBI_GP:AAA75496.1;Name=AAA75496.1;gbkey=CDS;product=AAA75496.1;protein_id=AAA75496.1
+K01711.1	Genbank	mRNA	3403	4871	.	+	.	ID=rna-K01711.1:3403..4871;gbkey=mRNA;product=M mRNA
+K01711.1	Genbank	exon	3403	4871	.	+	.	ID=exon-K01711.1:3403..4871-1;Parent=rna-K01711.1:3403..4871;gbkey=mRNA;product=M mRNA
+K01711.1	Genbank	CDS	3438	4445	.	+	0	ID=cds-AAA75497.1;Parent=rna-K01711.1:3403..4871;Dbxref=NCBI_GP:AAA75497.1;Name=AAA75497.1;gbkey=CDS;product=matrix protein;protein_id=AAA75497.1
+K01711.1	Genbank	mRNA	4872	7247	.	+	.	ID=rna-K01711.1:4872..7247;gbkey=mRNA;product=F mRNA
+K01711.1	Genbank	exon	4872	7247	.	+	.	ID=exon-K01711.1:4872..7247-1;Parent=rna-K01711.1:4872..7247;gbkey=mRNA;product=F mRNA
+K01711.1	Genbank	CDS	5449	7110	.	+	0	ID=cds-AAA75498.1;Parent=rna-K01711.1:4872..7247;Dbxref=NCBI_GP:AAA75498.1;Name=AAA75498.1;Note=alternative;gbkey=CDS;product=fusion protein;protein_id=AAA75498.1
+K01711.1	Genbank	CDS	5458	7110	.	+	0	ID=cds-AAA75499.1;Parent=rna-K01711.1:4872..7247;Dbxref=NCBI_GP:AAA75499.1;Name=AAA75499.1;Note=alternative;gbkey=CDS;product=fusion protein;protein_id=AAA75499.1
+K01711.1	Genbank	mRNA	7248	9208	.	+	.	ID=rna-K01711.1:7248..9208;gbkey=mRNA;product=H mRNA
+K01711.1	Genbank	exon	7248	9208	.	+	.	ID=exon-K01711.1:7248..9208-1;Parent=rna-K01711.1:7248..9208;gbkey=mRNA;product=H mRNA
+K01711.1	Genbank	CDS	7271	9124	.	+	0	ID=cds-AAA75500.1;Parent=rna-K01711.1:7248..9208;Dbxref=NCBI_GP:AAA75500.1;Name=AAA75500.1;gbkey=CDS;product=hemagglutinin;protein_id=AAA75500.1
+K01711.1	Genbank	mRNA	9209	15854	.	+	.	ID=rna-K01711.1:9209..15854;gbkey=mRNA;product=L mRNA
+K01711.1	Genbank	exon	9209	15854	.	+	.	ID=exon-K01711.1:9209..15854-1;Parent=rna-K01711.1:9209..15854;gbkey=mRNA;product=L mRNA
+K01711.1	Genbank	CDS	9234	15785	.	+	0	ID=cds-AAA75501.1;Parent=rna-K01711.1:9209..15854;Dbxref=NCBI_GP:AAA75501.1;Name=AAA75501.1;Note=large polymerase;gbkey=CDS;product=polymerase;protein_id=AAA75501.1
+

@@ -1,0 +1,23 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/13717178/files/hmmer_3.3.2.img"
+
+rule all:
+    input: ["test-prot-tbl.txt", "test-prot-domtbl.txt"]
+
+rule hmmscan:
+    input:
+        fasta="test-protein.fa",
+        profile="test-profile.hmm.h3f"
+    output:
+        tblout="test-prot-tbl.txt",
+        domtblout="test-prot-domtbl.txt"
+    log:
+        "logs/hmmscan.log"
+    params:
+        options=""
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("hmmer/hmmscan", "v1")

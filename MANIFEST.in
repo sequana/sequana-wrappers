@@ -1,0 +1,6 @@
+recursive-exclude * test *
+recursive-exclude * tests *
+exclude Makefile
+exclude Snakefile
+global-exclude Snakefile
+global-exclude Makefile

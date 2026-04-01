@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/14223782/files/quast_5.3.0.img"
+
+rule all:
+    input: ["quast/quast.done"]
+
+rule quast:
+    input:
+        assembly="ctg.fa",
+        fastq=["raw_R1.fastq.gz"]
+    output:
+        "quast/quast.done"
+    log:
+        "logs/quast.log"
+    params:
+        options="--min-contig 50"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("quast/run", "v1")

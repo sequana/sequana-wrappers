@@ -196,6 +196,14 @@ def test_shell_bowtie2_align():
 def test_shell_bamtools_stats():
     run_shell("bamtools/stats", ["snakemake", "--cores", "2", "-F"])
 
+@skip_if_not_modified
+def test_shell_multiqc_run():
+    run_shell("multiqc/run", ["snakemake", "--cores", "2", "-F"])
+
+@skip_if_not_modified
+def test_shell_bz2_to_gz_run():
+    run_shell("bz2_to_gz/run", ["snakemake", "--cores", "2", "-F"])
+
 
 # ======================================================================
 # Wrapper tests
@@ -452,6 +460,8 @@ def test_bwa_align():
         "freebayes_vcf_filter",
         "freebayes-parallel",
         "gz_to_bz2",
+        "infernal/cmpress",
+        "infernal/cmscan",
         "mark_duplicates",
         "medaka/consensus",
         "minimap2",

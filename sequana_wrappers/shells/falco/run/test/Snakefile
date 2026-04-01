@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7014954/files/falco_1.0.0.img"
+
+rule all:
+    input: ["qc/fastqc_report.html"]
+
+rule falco:
+    input:
+        fastq="reads/sample.fastq.gz"
+    output:
+        html="qc/fastqc_report.html"
+    log:
+        "logs/falco.log"
+    params:
+        options="",
+        working_directory="qc"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("falco/run", "v1")

@@ -1,0 +1,23 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+
+rule all:
+    input: ["test.vcf"]
+
+rule freebayes:
+    input:
+        bam="test.sorted.bam",
+        ref="measles.fa"
+    output:
+        vcf="test.vcf"
+    log:
+        "logs/freebayes.log"
+    params:
+        ploidy=1,
+        options=""
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("freebayes/run", "v1")

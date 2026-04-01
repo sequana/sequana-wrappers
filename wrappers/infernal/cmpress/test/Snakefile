@@ -11,4 +11,4 @@ rule infernal_cmpress:
     params:
         extra="",
     wrapper:
-        "master/bio/infernal/cmpress"
+        "main/wrappers/infernal/cmpress"

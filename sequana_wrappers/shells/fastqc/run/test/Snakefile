@@ -1,0 +1,22 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7923780/files/fastqc_0.12.1.img"
+
+rule all:
+    input: ["qc/fastqc.done"]
+
+rule fastqc:
+    input:
+        "reads/sample.fastq.gz"
+    output:
+        done="qc/fastqc.done"
+    log:
+        "logs/fastqc.log"
+    params:
+        options="",
+        working_directory="qc"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("fastqc/run", "v1")

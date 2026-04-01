@@ -1,0 +1,23 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/7846295/files/medaka_1.7.3.img"
+
+rule all:
+    input: ["polished/test.fasta"]
+
+rule medaka_consensus:
+    input:
+        fastq="reads.fq.gz",
+        assembly="ctg.fa"
+    output:
+        fasta="polished/test.fasta"
+    log:
+        "logs/medaka.log"
+    params:
+        options="",
+        model="r941_min_high_g360"
+    threads: 4
+    container:
+        CONTAINER
+    shell:
+        get_shell("medaka/consensus", "v1")
