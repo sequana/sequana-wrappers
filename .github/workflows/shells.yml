@@ -137,10 +137,15 @@ jobs:
             --singularity-prefix ${{ github.workspace }}/apptainer_cache \
             --forceall
 
+      - name: Sanitize shell name for artifact
+        if: failure()
+        id: artifact
+        run: echo "name=logs-$(echo '${{ matrix.shell }}' | tr '/' '-')-${{ github.run_id }}" >> $GITHUB_OUTPUT
+
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: logs-${{ replace(matrix.shell, '/', '-') }}-${{ github.run_id }}
+          name: ${{ steps.artifact.outputs.name }}
           path: sequana_wrappers/shells/${{ matrix.shell }}/test/**/*.log
           if-no-files-found: ignore
