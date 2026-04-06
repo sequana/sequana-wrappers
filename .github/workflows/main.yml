@@ -58,6 +58,10 @@ jobs:
         pip install --upgrade snakemake
         conda install -c conda-forge mamba
 
+    - name: Install sequana_wrappers
+      shell: micromamba-shell {0}
+      run: pip install -e .
+
 
 
     - name: Fetch main
