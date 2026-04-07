@@ -16,18 +16,18 @@ from snakemake import shell
 
 outdir = snakemake.output.html.split("/",1)[0]
 
-cmd = "sequana_taxonomy --input-file1 {snakemake.input[0]} "
+cmd = f"sequana_taxonomy --input-file1 {snakemake.input[0]} "
 if snakemake.params.paired:
-    cmd += " --input-file2 {snakemake.input[1]} "
+    cmd += f" --input-file2 {snakemake.input[1]} "
 
 confidence = snakemake.params.get('confidence', 0)
 level = snakemake.params.get('level', "INFO")
 
 if confidence != 0:
-    cmd += " --confidence {confidence} "
+    cmd += f" --confidence {confidence} "
 
 # threading
-cmd += " --thread {snakemake.threads} --databases"
+cmd += f" --thread {snakemake.threads} --databases"
 
 # handle databases
 for this in snakemake.params['databases']:
@@ -35,8 +35,8 @@ for this in snakemake.params['databases']:
         assert os.path.exists(this), f"databases {this} does not exits"
     cmd += f" {this} "
 
-cmd += " --output-directory {outdir} "
-cmd += " --level {level} "
+cmd += f" --output-directory {outdir} "
+cmd += f" --level {level} "
 
 # we will save the unclassified files whatsover
 if snakemake.params.store_unclassified:
