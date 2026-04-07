@@ -30,7 +30,7 @@ class Skipped(Exception):
 
 skip_if_not_modified = pytest.mark.xfail(raises=Skipped)
 
-command = ["snakemake", "--cores", "1", "-F", "--use-conda"]
+command = ["snakemake", "--cores", "1", "-F", "--use-conda", "--conda-frontend", "conda"]
 
 
 # a copy wrapper function

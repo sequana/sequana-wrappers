@@ -1,4 +1,5 @@
 CMD = """\
+export HOME=$(mktemp -d)
 fastq_files=({input.fastq})
 if [ ${{#fastq_files[@]}} -eq 2 ]; then
     input_opt="--input-file1 ${{fastq_files[0]}} --input-file2 ${{fastq_files[1]}}"
