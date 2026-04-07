@@ -24,17 +24,17 @@ output_file = snakemake.output[0]
 
 
 # check integrity
-cmd = "pbunzip2 -p{snakemake.threads} --test {input_file}"
+cmd = f"pbunzip2 -p{snakemake.threads} --test {input_file}"
 shell(cmd)
 
 # conversion
-cmd = "pbunzip2  -p{snakemake.threads} {input_file} | pigz -p {snakemake.threads} > {output_file}"
+cmd = f"pbunzip2  -p{snakemake.threads} {input_file} | pigz -p {snakemake.threads} > {output_file}"
 shell(cmd)
 
 # integrity output
-cmd = "pigz -p {snakemake.threads} --test {output_file}"
+cmd = f"pigz -p {snakemake.threads} --test {output_file}"
 shell(cmd)
 
 # remove original file
-cmd = "rm -f {input_file}"
+cmd = f"rm -f {input_file}"
 shell(cmd)
