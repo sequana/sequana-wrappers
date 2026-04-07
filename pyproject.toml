@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "sequana_wrappers"
-version = "26.7.1"
+version = "26.4.7"
 description = "Shell command library and Snakemake wrappers for Sequana pipelines"
 readme = "README.md"
 license = { text = "BSD-3-Clause" }
