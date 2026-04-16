@@ -1,13 +1,13 @@
 from sequana_wrappers import get_shell
 
-CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+CONTAINER = "https://zenodo.org/record/17097941/files/fastp_1.0.1.img"
 
 rule all:
     input: ["trimmed/a.1.fastq", "trimmed/a.2.fastq"]
 
 rule fastp:
     input:
-        fastq=["reads/a.1.fastq", "reads/a.2.fastq"]
+        fastq=["../data/reads/a.1.fastq", "../data/reads/a.2.fastq"]
     output:
         r1="trimmed/a.1.fastq",
         r2="trimmed/a.2.fastq",
