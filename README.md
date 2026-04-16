@@ -1,5 +1,6 @@
 # The Sequana Wrapper Repository
 
+[![PyPI version](https://badge.fury.io/py/sequana-wrappers.svg)](https://pypi.org/project/sequana-wrappers/)
 [![Tests wrappers](https://github.com/sequana/sequana-wrappers/actions/workflows/main.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/main.yml)
 [![Tests shells](https://github.com/sequana/sequana-wrappers/actions/workflows/shells.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/shells.yml)
 [![Tests snippets](https://github.com/sequana/sequana-wrappers/actions/workflows/snippets.yml/badge.svg)](https://github.com/sequana/sequana-wrappers/actions/workflows/snippets.yml)
