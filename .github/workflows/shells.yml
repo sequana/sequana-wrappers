@@ -41,38 +41,51 @@ jobs:
         run: |
           SHELLS_ROOT="sequana_wrappers/shells"
 
+          # Expand a given <tool>/<command> into one matrix entry per
+          # Snakefile found under its test/ directory. Supports both
+          # layouts:
+          #   test/Snakefile           (legacy, single version)
+          #   test/<version>/Snakefile (per-version layout, e.g. test/v1)
+          expand_shell() {
+            local shell="$1"
+            local testdir="${SHELLS_ROOT}/${shell}/test"
+            [ -d "${testdir}" ] || return 0
+            find "${testdir}" -mindepth 1 -maxdepth 2 -name Snakefile \
+              | sed "s|${SHELLS_ROOT}/||;s|/Snakefile$||"
+          }
+
           if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # Full run: all shells that have a test/ directory
-            CHANGED=$(find ${SHELLS_ROOT} -mindepth 3 -maxdepth 3 -type d -name test \
+            # Full run: every shell that has a test/ directory
+            SHELLS=$(find ${SHELLS_ROOT} -mindepth 3 -maxdepth 3 -type d -name test \
               | sed "s|${SHELLS_ROOT}/||;s|/test$||" \
               | sort -u)
           elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
             # Push to main: shells changed in the last commit
-            CHANGED=$(git diff HEAD^ --name-only 2>/dev/null \
+            SHELLS=$(git diff HEAD^ --name-only 2>/dev/null \
               | grep "^${SHELLS_ROOT}/" \
               | awk -F/ 'NF>=5{print $3"/"$4}' \
               | sort -u)
           else
             # PR: shells changed relative to main
-            CHANGED=$(git diff origin/main --name-only \
+            SHELLS=$(git diff origin/main --name-only \
               | grep "^${SHELLS_ROOT}/" \
               | awk -F/ 'NF>=5{print $3"/"$4}' \
               | sort -u)
           fi
 
-          # Keep only shells that actually have a test/ directory
-          # Exclude shells whose container download is too slow for CI
+          # Exclude shells whose container download is too slow for CI,
+          # then expand each shell into one entry per Snakefile found.
           EXCLUDED="medaka"
           TESTABLE=""
-          for shell in $CHANGED; do
+          for shell in $SHELLS; do
             tool=$(echo "$shell" | cut -d/ -f1)
             if echo "$EXCLUDED" | grep -qw "$tool"; then
               echo "Skipping excluded shell: $shell"
               continue
             fi
-            if [ -d "${SHELLS_ROOT}/${shell}/test" ]; then
-              TESTABLE="${TESTABLE} ${shell}"
-            fi
+            for entry in $(expand_shell "$shell"); do
+              TESTABLE="${TESTABLE} ${entry}"
+            done
           done
 
           if [ -z "$TESTABLE" ]; then
@@ -125,16 +138,21 @@ jobs:
         uses: actions/cache@v4
         with:
           path: apptainer_cache
-          key: apptainer-${{ matrix.shell }}-${{ hashFiles(format('sequana_wrappers/shells/{0}/test/Snakefile', matrix.shell)) }}
+          key: apptainer-${{ matrix.shell }}-${{ hashFiles(format('sequana_wrappers/shells/{0}/Snakefile', matrix.shell)) }}
 
       - name: Run shell test
         env:
           APPTAINER_CACHEDIR: ${{ github.workspace }}/apptainer_cache
         run: |
-          TESTDIR="sequana_wrappers/shells/${{ matrix.shell }}/test"
+          TESTDIR="sequana_wrappers/shells/${{ matrix.shell }}"
           cd ${TESTDIR}
+          # Bind the parent dir so per-version layouts (test/v1, test/v2)
+          # can reach shared fixtures under test/data/. Harmless for the
+          # legacy test/Snakefile layout.
+          PARENT=$(realpath ..)
           snakemake -s Snakefile -c4 --use-singularity \
             --singularity-prefix ${{ github.workspace }}/apptainer_cache \
+            --singularity-args "-B ${PARENT}" \
             --forceall
 
       - name: Sanitize shell name for artifact
@@ -147,5 +165,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.artifact.outputs.name }}
-          path: sequana_wrappers/shells/${{ matrix.shell }}/test/**/*.log
+          path: sequana_wrappers/shells/${{ matrix.shell }}/**/*.log
           if-no-files-found: ignore
