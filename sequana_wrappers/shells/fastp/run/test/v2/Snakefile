@@ -1,0 +1,48 @@
+from sequana_wrappers import get_shell
+
+CONTAINER = "https://zenodo.org/record/17097941/files/fastp_1.0.1.img"
+
+rule all:
+    input:
+        "trimmed_pe/a.1.fastq",
+        "trimmed_pe/a.2.fastq",
+        "trimmed_se/a.1.fastq",
+
+rule fastp_pe:
+    input:
+        fastq=["../data/reads/a.1.fastq", "../data/reads/a.2.fastq"]
+    output:
+        r1="trimmed_pe/a.1.fastq",
+        r2="trimmed_pe/a.2.fastq",
+        html="report_pe/a.html",
+        json="report_pe/a.json",
+    log:
+        "logs/fastp_pe.log"
+    params:
+        options="",
+        adapters="",
+        out2=lambda wc, output: output.r2,
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("fastp/run", "v2")
+
+rule fastp_se:
+    input:
+        fastq=["../data/reads/a.1.fastq"]
+    output:
+        r1="trimmed_se/a.1.fastq",
+        html="report_se/a.html",
+        json="report_se/a.json",
+    log:
+        "logs/fastp_se.log"
+    params:
+        options="",
+        adapters="",
+        out2="",
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("fastp/run", "v2")
