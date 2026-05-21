@@ -8,13 +8,13 @@ fi
 preset_opt=""
 if [ -n "{params.preset}" ]; then preset_opt="--{params.preset}"; fi
 outdir=$(dirname {output.contigs})
-spades.py $preset_opt \
+spades.py ${{preset_opt}} \
     -k {params.k} \
     --memory {params.memory} \
     --threads {threads} \
-    $input_opt \
-    -o $outdir \
+    ${{input_opt}} \
+    -o ${{outdir}} \
     {params.options} > {log} 2>&1
-cp $outdir/contigs.fasta {output.contigs}
-cp $outdir/scaffolds.fasta {output.scaffolds}
+cp ${{outdir}}/contigs.fasta {output.contigs}
+cp ${{outdir}}/scaffolds.fasta {output.scaffolds}
 """
