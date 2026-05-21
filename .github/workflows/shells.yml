@@ -128,8 +128,11 @@ jobs:
       - name: Install sequana_wrappers
         run: pip install -e .
 
-      - name: Install snakemake
-        run: pip install snakemake
+      - name: Install Python dependencies
+        run: |
+          pip install -e .
+          pip install snakemake
+          pip install sequana
 
       # Cache containers keyed on the test Snakefile content.
       # If the container URL changes (new Snakefile), the key changes
