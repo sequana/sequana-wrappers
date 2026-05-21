@@ -6,10 +6,13 @@ else
     input_opt="--input-file1 ${{fastq_files[0]}}"
 fi
 outdir=$(dirname {output.html})
-sequana_taxonomy $input_opt \
+cmd="sequana_taxonomy $input_opt \
     --databases {params.databases} \
     --output-directory $outdir \
     --thread {threads} \
-    {params.options} > {log} 2>&1
-touch {output.unclassified}
+    {params.options}"
+eval "$cmd" > {log} 2>&1
+if [ "{params.store_unclassified}" = "True" ]; then
+    touch $outdir/unclassified.fastq
+fi
 """

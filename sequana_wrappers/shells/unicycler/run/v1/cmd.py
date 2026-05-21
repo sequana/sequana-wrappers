@@ -10,8 +10,8 @@ fi
 outdir=$(dirname {output.fasta})
 unicycler --mode {params.mode} \
     --threads {threads} \
-    $input_opt \
-    -o $outdir \
+    ${{input_opt}} \
+    -o ${{outdir}} \
     {params.options} > {log} 2>&1
-cp $outdir/assembly.fasta {output.fasta}
+cp ${{outdir}}/assembly.fasta {output.fasta}
 """
