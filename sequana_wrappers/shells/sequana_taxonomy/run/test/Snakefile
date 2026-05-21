@@ -16,7 +16,8 @@ rule sequana_taxonomy:
         "logs/sequana_taxonomy.log"
     params:
         databases="toydb",
-        options=""
+        options="",
+        store_unclassified="True"
     threads: 2
     container:
         CONTAINER

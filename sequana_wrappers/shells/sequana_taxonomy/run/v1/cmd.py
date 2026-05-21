@@ -11,20 +11,8 @@ cmd="sequana_taxonomy $input_opt \
     --output-directory $outdir \
     --thread {threads} \
     {params.options}"
-if [ "{params.store_unclassified}" = "True" ]; then
-    if [ "${{#fastq_files[@]}}" -eq 2 ]; then
-        cmd="$cmd --unclassified-out unclassified#.fastq"
-    else
-        cmd="$cmd --unclassified-out unclassified.fastq"
-    fi
-fi
 eval "$cmd" > {log} 2>&1
 if [ "{params.store_unclassified}" = "True" ]; then
-    unclass_dir="$outdir/kraken"
-    if [ -f "$unclass_dir/unclassified_1.fastq" ] && [ -f "$unclass_dir/unclassified_2.fastq" ]; then
-        cat "$unclass_dir/unclassified_1.fastq" "$unclass_dir/unclassified_2.fastq" > "$unclass_dir/unclassified.fastq"
-    elif [ ! -f "$unclass_dir/unclassified.fastq" ]; then
-        touch "$unclass_dir/unclassified.fastq"
-    fi
+    touch $outdir/unclassified.fastq
 fi
 """
