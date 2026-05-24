@@ -11,7 +11,7 @@ rule sequana_taxonomy:
     output:
         html="test/summary.html",
         summary="test/kraken/kraken.out.summary",
-        unclassified="test/unclassified.fastq"
+        unclassified="test/kraken/unclassified.fastq"
     log:
         "logs/sequana_taxonomy.log"
     params:
