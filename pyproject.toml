@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "sequana_wrappers"
-version = "26.4.16"
+version = "26.5.28"
 description = "Shell command library and Snakemake wrappers for Sequana pipelines"
 readme = "README.md"
 license = { text = "BSD-3-Clause" }
@@ -17,6 +17,10 @@ exclude = [
     "sequana_wrappers/shells/**/test/**",
     "sequana_wrappers/shells/**/README.md",
 ]
+
+[project.scripts]
+sequana_wrappers = "sequana_wrappers.cli:main"
+sequana-wrappers = "sequana_wrappers.cli:main"
 
 [tool.pytest.ini_options]
 norecursedirs = ["sequana_wrappers/shells", "dist", "build", ".git"]
