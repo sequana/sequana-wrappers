@@ -1,21 +1,135 @@
+import os
+from pathlib import Path
+
 from sequana_wrappers import get_shell
 
-CONTAINER = "https://zenodo.org/record/18257162/files/sequana_tools_26.1.14.img"
+CONTAINER = "https://zenodo.org/record/20467327/files/sequana_0.22.0.img"
 
+
+# sequana resolves its config dir (where the NCBI taxonomy DB lives) via appdirs:
+# $XDG_CONFIG_HOME/sequana, falling back to $HOME/.config/sequana. Inside the
+# container that path is unpredictable and host-dependent: GitHub runners export
+# XDG_CONFIG_HOME=/home/runner/.config (bind-mounted in), which wins over HOME.
+#
+# If left unpinned, every sequana_taxonomy job looks there, finds no DB, and the
+# 4 parallel jobs (-c4) all download to the same file at once, corrupting it
+# (zlib.error: Error -3 while decompressing data).
+#
+# Pin the config dir to <workdir>/.config for EVERY container rule (download +
+# the get_shell taxonomy CMD) so they all agree on one location. Then stage the
+# DB there once, up-front, and make every taxonomy rule depend on it so the
+# download happens at most once and never concurrently.
+shell.prefix("set -euo pipefail; export XDG_CONFIG_HOME=$(pwd)/.config HOME=$(pwd); ")
+
+os.makedirs(".config/sequana", exist_ok=True)
+TAXONOMY = ".config/sequana/taxonomy.csv.gz"
+
+# rule all must be the FIRST rule so it stays the default target. The conditional
+# download_taxonomy rule below is defined AFTER it: defining it first would make
+# it the default target, so a run with no host cache would only download the DB
+# and silently skip the actual tests.
 rule all:
-    input: ["test/summary.html"]
-
-rule sequana_taxonomy:
     input:
-        fastq="test_R1_.fastq.gz"
+        "test_single_1db/summary.html",
+        "test_single_2db/summary.html",
+        "test_paired_1db/summary.html",
+        "test_paired_2db/summary.html",
+        "test_single_1db/kraken/unclassified.fastq",
+        "test_single_2db/kraken/unclassified.fastq",
+        "test_paired_1db/kraken/unclassified.fastq",
+        "test_paired_2db/kraken/unclassified.fastq",
+
+# Stage the taxonomy DB once, up-front, into <workdir>/.config/sequana (the dir
+# pinned by shell.prefix). Every taxonomy rule depends on TAXONOMY, so the
+# download happens at most once and never concurrently.
+_host_taxonomy = Path.home() / ".config/sequana/taxonomy.csv.gz"
+if _host_taxonomy.exists():
+    shell("cp {_host_taxonomy} .config/sequana/")
+else:
+    # --update-taxonomy has no output-path option; it writes to the config dir
+    # resolved above. The shell.prefix already pins that to <workdir>/.config, so
+    # the file lands exactly at the declared output. Run inside the container
+    # (not a localrule) so it never executes on the host with the host's config.
+    rule download_taxonomy:
+        output:
+            TAXONOMY
+        container:
+            CONTAINER
+        shell:
+            "sequana_taxonomy --update-taxonomy"
+
+rule sequana_taxonomy_single_1db:
+    input:
+        fastq="test_R1_.fastq.gz",
+        taxonomy=TAXONOMY
     output:
-        html="test/summary.html",
-        summary="test/kraken/kraken.out.summary",
-        unclassified="test/unclassified.fastq"
+        html="test_single_1db/summary.html",
+        summary="test_single_1db/kraken/kraken.out.summary",
+        unclassified="test_single_1db/kraken/unclassified.fastq"
     log:
-        "logs/sequana_taxonomy.log"
+        "logs/sequana_taxonomy_single_1db.log"
     params:
         databases="toydb",
+        options="",
+        store_unclassified="True"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("sequana_taxonomy/run", "v1")
+
+rule sequana_taxonomy_single_2db:
+    input:
+        fastq="test_R1_.fastq.gz",
+        taxonomy=TAXONOMY
+    output:
+        html="test_single_2db/summary.html",
+        summary="test_single_2db/kraken/kraken.out.summary",
+        unclassified="test_single_2db/kraken/unclassified.fastq"
+    log:
+        "logs/sequana_taxonomy_single_2db.log"
+    params:
+        databases="toydb toydb2",
+        options="",
+        store_unclassified="True"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("sequana_taxonomy/run", "v1")
+
+rule sequana_taxonomy_paired_1db:
+    input:
+        fastq=["test_R1_.fastq.gz", "test_R2_.fastq.gz"],
+        taxonomy=TAXONOMY
+    output:
+        html="test_paired_1db/summary.html",
+        summary="test_paired_1db/kraken/kraken.out.summary",
+        unclassified="test_paired_1db/kraken/unclassified.fastq"
+    log:
+        "logs/sequana_taxonomy_paired_1db.log"
+    params:
+        databases="toydb",
+        options="",
+        store_unclassified="True"
+    threads: 2
+    container:
+        CONTAINER
+    shell:
+        get_shell("sequana_taxonomy/run", "v1")
+
+rule sequana_taxonomy_paired_2db:
+    input:
+        fastq=["test_R1_.fastq.gz", "test_R2_.fastq.gz"],
+        taxonomy=TAXONOMY
+    output:
+        html="test_paired_2db/summary.html",
+        summary="test_paired_2db/kraken/kraken.out.summary",
+        unclassified="test_paired_2db/kraken/unclassified.fastq"
+    log:
+        "logs/sequana_taxonomy_paired_2db.log"
+    params:
+        databases="toydb toydb2",
         options="",
         store_unclassified="True"
     threads: 2
