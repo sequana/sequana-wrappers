@@ -143,6 +143,13 @@ jobs:
           path: apptainer_cache
           key: apptainer-${{ matrix.shell }}-${{ hashFiles(format('sequana_wrappers/shells/{0}/Snakefile', matrix.shell)) }}
 
+      - name: Setup sequana config directories
+        run: |
+          mkdir -p /home/runner/.config/sequana
+          mkdir -p /home/runner/.config/bioservices
+          chmod 777 /home/runner/.config/sequana
+          chmod 777 /home/runner/.config/bioservices
+
       - name: Run shell test
         env:
           APPTAINER_CACHEDIR: ${{ github.workspace }}/apptainer_cache
@@ -155,7 +162,7 @@ jobs:
           PARENT=$(realpath ..)
           snakemake -s Snakefile -c4 --use-singularity \
             --singularity-prefix ${{ github.workspace }}/apptainer_cache \
-            --singularity-args "-B ${PARENT}" \
+            --singularity-args "-B ${PARENT} -B /home/runner:/home/runner" \
             --forceall
 
       - name: Sanitize shell name for artifact
